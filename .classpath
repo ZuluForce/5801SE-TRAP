@@ -3,6 +3,10 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="lib"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/TRAP_interfaces.jar"/>
+	<classpathentry kind="lib" path="lib/TRAP_interfaces.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/planeman/classes/5801/repo/docs/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

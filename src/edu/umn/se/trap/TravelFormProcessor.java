@@ -2,6 +2,10 @@ package edu.umn.se.trap;
 
 import java.util.Map;
 
+/**
+ * @author planeman
+ * 
+ */
 public class TravelFormProcessor implements TravelFormProcessorIntf
 {
 
