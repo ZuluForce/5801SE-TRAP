@@ -1,5 +1,6 @@
 package edu.umn.se.trap;
 
-public class MockDriver {
+public class MockDriver
+{
 
 }
