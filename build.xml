@@ -1,0 +1,22 @@
+<project>
+
+  <target name="clean">
+    <delete dir="bin/classes" />
+    <delete dir="bin/jar" />
+  </target>
+
+  <target name="compile">
+    <mkdir dir="bin/classes" />
+    <javac srcdir="src" destdir="bin/classes"/>
+  </target>
+
+  <target name="jar">
+    <mkdir dir="bin/jar" />
+    <jar destfile="bin/jar/TRAP.jar" basedir="bin/classes">
+      <manifest>
+        <attribute name="Main-Class" value="edu.umn.se.trap.TravelFormProcessor" />
+      </manifest>
+    </jar>
+  </target>
+
+</project>
