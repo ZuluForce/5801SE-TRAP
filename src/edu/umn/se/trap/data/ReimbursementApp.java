@@ -86,7 +86,7 @@ public class ReimbursementApp
         return outputFields;
     }
 
-    public void addOutputField(String key, String value)
+    public void setOutputField(String key, String value)
     {
         outputFields.put(key, value);
     }
