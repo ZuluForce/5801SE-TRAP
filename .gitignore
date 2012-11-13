@@ -5,4 +5,6 @@
 *.war
 *.ear
 
+!lib/*.jar
+
 bin
