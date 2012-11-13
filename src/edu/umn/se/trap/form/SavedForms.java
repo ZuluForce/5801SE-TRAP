@@ -5,6 +5,8 @@ package edu.umn.se.trap.form;
 
 import java.util.Map;
 
+import edu.umn.se.trap.TravelFormProcessorIntf;
+
 /**
  * @author planeman
  * 
@@ -16,6 +18,8 @@ public class SavedForms
     public FormContainer getFormContainer(int id)
     {
         // TODO: Write
+
+        return null;
     }
 
     public void saveForm(Map<String, String> formData, int id)
@@ -28,7 +32,7 @@ public class SavedForms
         // TODO: Write
     }
 
-    public void saveForm(Map<String, String> formData, FormStatusEnum status)
+    public void saveForm(Map<String, String> formData, TravelFormProcessorIntf.FORM_STATUS status)
     {
         // TODO: Write
     }
@@ -41,5 +45,7 @@ public class SavedForms
     private Integer getNewFormId()
     {
         // TODO: Write
+
+        return 0;
     }
 }
