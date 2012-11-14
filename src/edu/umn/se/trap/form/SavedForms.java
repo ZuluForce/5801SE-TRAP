@@ -37,9 +37,10 @@ public class SavedForms
         // TODO: Write
     }
 
-    public void saveForm(Map<String, String> formData, String desc)
+    public int saveForm(Map<String, String> formData, String desc)
     {
         // TODO: Write
+        return 0;
     }
 
     public void saveForm(Map<String, String> formData, TravelFormProcessorIntf.FORM_STATUS status)

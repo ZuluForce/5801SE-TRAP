@@ -23,35 +23,86 @@ import edu.umn.se.trap.TravelFormMetadata;
  */
 public class AllUserForms
 {
+    /**
+     * Holds a user's saved forms
+     */
     private Map<String, SavedForms> usersForms;
 
+    /**
+     * 
+     * @param user
+     *            - String of the user id
+     * @return Returns a user's saved forms in a SavedForms object, otherwise null.
+     */
     public SavedForms getUserSavedForms(String user)
     {
         // TODO: Write
+        if (usersForms.containsKey(user))
+        {
+            return usersForms.get(user);
+        }
 
         return null;
     }
 
-    public void insertUser(String user)
+    /**
+     * Adds a user to the map (usersForms) to save forms
+     * 
+     * @param user
+     *            - String id of the user
+     */
+    public void addUser(String user)
     {
         // TODO: Write. Also consider renaming this to addUser
+        if (usersForms.containsKey(user))
+        {
+            return;
+        }
+        usersForms.put(user, new SavedForms());
+        return;
     }
 
     public void saveFormData(String user, Map<String, String> formData, int id)
     {
         // TODO: Write
+        if (!usersForms.containsKey(user))
+        {
+            return;
+        }
+        SavedForms tempUserForm = usersForms.get(user);
+
+        tempUserForm.saveForm(formData, id);
+        return;
     }
 
     public int saveFormData(String user, Map<String, String> formData, String desc)
     {
         // TODO : Write
+        if (!usersForms.containsKey(user))
+        {
+            // For now, -1 shall be an invalid form id
+            return -1;
+        }
+        SavedForms tempUserForm = usersForms.get(user);
 
-        return 0;
+        return tempUserForm.saveForm(formData, desc);
     }
 
     public Map<String, String> getCompletedForm(String user, int id)
     {
         // TODO: Write
+        if (!usersForms.containsKey(user))
+        {
+            return null;
+        }
+        SavedForms tempUserForm = usersForms.get(user);
+        FormContainer tempFormContainer = tempUserForm.getFormContainer(id);
+
+        // Need to add the FormStatusEnum
+        if (tempFormContainer.getStatus() == FormStatusEnum.SUBMITTED)
+        {
+            return tempFormContainer.getForm();
+        }
 
         return null;
     }
