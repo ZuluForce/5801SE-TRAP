@@ -19,23 +19,22 @@ package edu.umn.se.trap.data;
  */
 public class ConferenceInfo
 {
-
-    private String justificationForTravel;
     private String justificationConferenceTitle;
     private boolean justificationPresented;
+    private String justificationPresentationTitle;
     private String justificationPresentationAbstract;
     private String justificationPresentationAcknowledge;
     private String justificationNonSponsored;
     private String justificationSponsored;
 
-    public String getJustificationForTravel()
+    public String getJustificationPresentationTitle()
     {
-        return justificationForTravel;
+        return justificationPresentationTitle;
     }
 
-    public void setJustificationForTravel(String justificationForTravel)
+    public void setJustificationPresentationTitle(String justificationPresentationTitle)
     {
-        this.justificationForTravel = justificationForTravel;
+        this.justificationPresentationTitle = justificationPresentationTitle;
     }
 
     public String getJustificationConferenceTitle()
@@ -53,9 +52,17 @@ public class ConferenceInfo
         return justificationPresented;
     }
 
-    public void setJustificationPresented(boolean justificationPresented)
+    public void setJustificationPresented(String presented)
     {
-        this.justificationPresented = justificationPresented;
+        if (presented.compareTo("yes") == 0 || presented.compareTo("y") == 0
+                || presented.compareTo("true") == 0)
+        {
+            justificationPresented = true;
+        }
+        else
+        {
+            justificationPresented = false;
+        }
     }
 
     public String getJustificationPresentationAbstract()

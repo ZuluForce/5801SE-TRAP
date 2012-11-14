@@ -19,6 +19,9 @@ public class InputFieldKeys
     public final static String EMERGENCY_NAME = "EMERGENCY_CONTACT_NAME";
     public final static String EMERGENCY_PHONE = "EMERGENCY_CONTACT_PHONE";
 
+    // User Information
+    public final static String USER_NAME = "USER_NAME";
+
     // Conference Information Fields
     public final static String JUSTIFICATION_CONFERENCE_TITLE = "JUSTIFICATION_CONFERENCE_TITLE";
     public final static String JUSTIFICATION_PRESENTED = "JUSTIFICATION_PRESENTED";

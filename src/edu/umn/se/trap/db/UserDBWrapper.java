@@ -21,12 +21,7 @@ import java.util.List;
  */
 public class UserDBWrapper
 {
-    private final UserDB userDB;
-
-    public UserDBWrapper()
-    {
-        userDB = new UserDB();
-    }
+    private static final UserDB userDB = new UserDB();
 
     @Override
     public boolean equals(Object obj)
@@ -34,7 +29,7 @@ public class UserDBWrapper
         return userDB.equals(obj);
     }
 
-    public List<String> getUserInfo(String userName) throws KeyNotFoundException
+    public static List<String> getUserInfo(String userName) throws KeyNotFoundException
     {
         return userDB.getUserInfo(userName);
     }
