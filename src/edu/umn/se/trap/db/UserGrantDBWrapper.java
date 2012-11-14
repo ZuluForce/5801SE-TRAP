@@ -19,25 +19,19 @@ import java.util.List;
  * @author planeman
  * 
  */
-public class UserGrantDBWrapper extends UserGrantDB
+public class UserGrantDBWrapper
 {
-    private final UserGrantDB userGrantDB;
+    private static final UserGrantDB userGrantDB = new UserGrantDB();
 
-    public UserGrantDBWrapper()
+    public static List<String> getUserGrantInfo(String arg0) throws KeyNotFoundException
     {
-        userGrantDB = new UserGrantDB();
+        return userGrantDB.getUserGrantInfo(arg0);
     }
 
     @Override
     public boolean equals(Object obj)
     {
         return userGrantDB.equals(obj);
-    }
-
-    @Override
-    public List<String> getUserGrantInfo(String arg0) throws KeyNotFoundException
-    {
-        return userGrantDB.getUserGrantInfo(arg0);
     }
 
     @Override
