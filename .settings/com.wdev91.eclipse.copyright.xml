@@ -19,9 +19,9 @@ limitations under the License.]]></copyright>
 	<header contentId="org.eclipse.pde.pluginProperties" excluded="true" />
 	<header contentId="org.eclipse.pde.productFile" excluded="true" />
 	<header contentId="org.eclipse.ant.core.antBuildFile" excluded="true" />
-	<header contentId="org.eclipse.pde.simpleCheatSheet" excluded="true" />
-	<header contentId="org.eclipse.core.runtime.xml" excluded="true" />
 	<header contentId="org.eclipse.wst.xml.core.xmlsource" excluded="true" />
+	<header contentId="org.eclipse.core.runtime.xml" excluded="true" />
+	<header contentId="org.eclipse.pde.simpleCheatSheet" excluded="true" />
 	<header contentId="org.eclipse.ltk.core.refactoring.refactoringIndex" excluded="true" />
 	<header contentId="org.eclipse.pde.compositeCheatSheet" excluded="true" />
 	<header contentId="org.eclipse.pde.schema" excluded="true" />
