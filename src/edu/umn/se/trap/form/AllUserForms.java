@@ -81,6 +81,11 @@ public class AllUserForms
         }
         SavedForms tempUserForm = usersForms.get(user);
 
+        if (tempUserForm == null)
+        {
+            return;
+        }
+
         tempUserForm.saveForm(formData, id);
         return;
     }
@@ -126,15 +131,24 @@ public class AllUserForms
             return null;
         }
         SavedForms tempUserForm = usersForms.get(user);
+
+        if (tempUserForm == null)
+        {
+            return null;
+        }
+
         FormContainer tempFormContainer = tempUserForm.getFormContainer(id);
 
-        if (tempFormContainer)
+        if (tempFormContainer == null)
+        {
+            return null;
+        }
 
-            // Need to add the FormStatusEnum
-            if (tempFormContainer.getStatus() == FormStatusEnum.SUBMITTED)
-            {
-                return tempFormContainer.getForm();
-            }
+        // Need to add the FormStatusEnum
+        if (tempFormContainer.getStatus() == FormStatusEnum.SUBMITTED)
+        {
+            return tempFormContainer.getForm();
+        }
 
         return null;
     }
@@ -159,7 +173,20 @@ public class AllUserForms
 
         SavedForms tempUserForm = usersForms.get(user);
 
-        return null;
+        if (tempUserForm == null)
+        {
+            return null;
+        }
+
+        FormContainer tempFormContainer = tempUserForm.getFormContainer(id);
+
+        if (tempFormContainer == null)
+        {
+            return null;
+        }
+
+        return tempFormContainer.getForm();
+
     }
 
     /**
@@ -172,6 +199,20 @@ public class AllUserForms
     public Map<Integer, TravelFormMetadata> getSavedForms(String user)
     {
         // TODO: Write
+
+        if (usersForms.containsKey(user))
+        {
+            return null;
+        }
+
+        SavedForms tempUserForm = usersForms.get(user);
+
+        if (tempUserForm == null)
+        {
+            return null;
+        }
+
+        // TODO: Need to add the TravelFormMetadata class
 
         return null;
     }
