@@ -13,7 +13,9 @@
  ****************************************************************************************/
 package edu.umn.se.trap.data;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,14 +27,19 @@ public class ReimbursementApp
 {
     private Date departureDatetime;
     private Date arrivalDatetime;
+    private int numDays;
 
-    private Map<String, String> outputFields;
+    private String travelTypeCSESponsored;
+    private String travelTypeDTCSponsored;
+    private String travelTypeNonSponsored;
 
-    private List<LodgingExpense> lodgingExpenseList;
-    private List<OtherExpense> otherExpenseList;
-    private List<IncidentalExpense> incidentalExpenseList;
-    private List<MealExpense> mealExpenseList;
-    private List<TransportationExpense> trasportationExpenseList;
+    private final Map<String, String> outputFields;
+
+    private final List<LodgingExpense> lodgingExpenseList;
+    private final List<OtherExpense> otherExpenseList;
+    private final List<IncidentalExpense> incidentalExpenseList;
+    private final List<MealExpense> mealExpenseList;
+    private final List<TransportationExpense> trasportationExpenseList;
 
     private ConferenceInfo conferenceInfo;
     private UserInfo userInfo;
@@ -40,6 +47,46 @@ public class ReimbursementApp
     private List<Grant> grantList;
 
     private float reimbursementTotal;
+
+    public ReimbursementApp()
+    {
+        outputFields = new HashMap<String, String>();
+        lodgingExpenseList = new ArrayList<LodgingExpense>();
+        otherExpenseList = new ArrayList<OtherExpense>();
+        incidentalExpenseList = new ArrayList<IncidentalExpense>();
+        mealExpenseList = new ArrayList<MealExpense>();
+        trasportationExpenseList = new ArrayList<TransportationExpense>();
+    }
+
+    public String getTravelTypeCSESponsored()
+    {
+        return travelTypeCSESponsored;
+    }
+
+    public void setTravelTypeCSESponsored(String travelTypeCSESponsored)
+    {
+        this.travelTypeCSESponsored = travelTypeCSESponsored;
+    }
+
+    public String getTravelTypeDTCSponsored()
+    {
+        return travelTypeDTCSponsored;
+    }
+
+    public void setTravelTypeDTCSponsored(String travelTypeDTCSponsored)
+    {
+        this.travelTypeDTCSponsored = travelTypeDTCSponsored;
+    }
+
+    public String getTravelTypeNonSponsored()
+    {
+        return travelTypeNonSponsored;
+    }
+
+    public void setTravelTypeNonSponsored(String travelTypeNonSponsored)
+    {
+        this.travelTypeNonSponsored = travelTypeNonSponsored;
+    }
 
     public Date getDepartureDatetime()
     {
@@ -59,6 +106,16 @@ public class ReimbursementApp
     public void setArrivalDatetime(Date arrivalDatetime)
     {
         this.arrivalDatetime = arrivalDatetime;
+    }
+
+    public int getNumDays()
+    {
+        return numDays;
+    }
+
+    public void setNumDays(int numDays)
+    {
+        this.numDays = numDays;
     }
 
     public ConferenceInfo getConferenceInfo()

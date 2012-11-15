@@ -15,14 +15,14 @@ public class TestDataGenerator
         SAMPLE1, RANDOM
     }
 
-    public Map<String, String> getSampleForm(SampleDataEnum source)
+    public static Map<String, String> getSampleForm(SampleDataEnum source)
     {
         Map<String, String> formData = new HashMap<String, String>();
 
         switch (source)
         {
         case SAMPLE1:
-            formData = new LoadedSampleForm("data/sample_form1.properties");
+            formData = new LoadedSampleForm("data/sample1.properties");
             break;
         case RANDOM:
             // TODO: Actually implement random form generation

@@ -19,5 +19,5 @@ package edu.umn.se.trap.data;
  */
 public enum MealTypeEnum
 {
-    BREAKFAST, LUNCH, DINNER
+    BREAKFAST, LUNCH, DINNER, UNSET
 }

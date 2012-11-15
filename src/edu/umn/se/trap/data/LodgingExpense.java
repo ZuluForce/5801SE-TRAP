@@ -13,17 +13,50 @@
  ****************************************************************************************/
 package edu.umn.se.trap.data;
 
+import java.util.Date;
+
 /**
  * @author planeman
  * 
  */
 public class LodgingExpense
 {
+    private Date expenseDate;
     private String city;
     private String state;
     private String country;
     private float expenseAmount;
     private String expenseCurrency;
+
+    public LodgingExpense()
+    {
+        expenseDate = null;
+        city = state = country = expenseCurrency = null;
+        expenseAmount = -1;
+    }
+
+    public boolean isEmpty()
+    {
+        boolean empty = true;
+        empty &= expenseDate == null;
+        empty &= city == null;
+        empty &= state == null;
+        empty &= country == null;
+        empty &= expenseCurrency == null;
+        empty &= expenseAmount == -1;
+
+        return empty;
+    }
+
+    public Date getExpenseDate()
+    {
+        return expenseDate;
+    }
+
+    public void setExpenseDate(Date expenseDate)
+    {
+        this.expenseDate = expenseDate;
+    }
 
     public String getCity()
     {

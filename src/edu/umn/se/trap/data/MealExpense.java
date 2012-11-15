@@ -13,16 +13,49 @@
  ****************************************************************************************/
 package edu.umn.se.trap.data;
 
+import java.util.Date;
+
 /**
  * @author planeman
  * 
  */
 public class MealExpense
 {
+    private Date expenseDate;
     private MealTypeEnum type;
     private String city;
     private String state;
     private String country;
+
+    public MealExpense()
+    {
+        expenseDate = null;
+        type = MealTypeEnum.UNSET;
+        city = state = country = null;
+    }
+
+    public boolean isEmpty()
+    {
+        boolean empty = true;
+
+        empty &= expenseDate == null;
+        empty &= city == null;
+        empty &= state == null;
+        empty &= country == null;
+        empty &= type == MealTypeEnum.UNSET;
+
+        return empty;
+    }
+
+    public Date getExpenseDate()
+    {
+        return expenseDate;
+    }
+
+    public void setExpenseDate(Date expenseDate)
+    {
+        this.expenseDate = expenseDate;
+    }
 
     public MealTypeEnum getType()
     {

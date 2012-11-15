@@ -29,6 +29,17 @@ public class TransportationExpense
     private String transportationCurrency;
     private TransportationTypeEnum transportationType;
 
+    public TransportationExpense()
+    {
+        transportationDate = null;
+        transportationCarrier = transportationRental = transportationCurrency = null;
+
+        transportationMilesTraveled = -1;
+        transportationAmount = -1;
+
+        transportationType = TransportationTypeEnum.NOT_SET;
+    }
+
     public Date getTransportationDate()
     {
         return transportationDate;

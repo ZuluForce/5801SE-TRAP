@@ -3,6 +3,7 @@ package edu.umn.se.trap.rules;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import edu.umn.se.trap.data.ReimbursementApp;
@@ -50,6 +51,24 @@ public class DateValidator extends InputValidationRule
         {
             throw new InputValidationException("Invalid datetime format", pe);
         }
+    }
+
+    public static Date advanceDateInDays(Date baseDate, int numDays)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(baseDate);
+        cal.add(Calendar.DATE, numDays);
+        return cal.getTime();
+    }
+
+    public static String dateToString(Date date)
+    {
+        return dateFormat.format(date);
+    }
+
+    public static String datetimeToString(Date date)
+    {
+        return datetimeFormat.format(date);
     }
 
 }
