@@ -62,6 +62,16 @@ public class AllUserForms
         return;
     }
 
+    /**
+     * Saves a form by id. This will overwrite a form if the id already exists
+     * 
+     * @param user
+     *            - String of the user id
+     * @param formData
+     *            - Map of the form data
+     * @param id
+     *            - Desired form id, as an integer
+     */
     public void saveFormData(String user, Map<String, String> formData, int id)
     {
         // TODO: Write
@@ -75,6 +85,17 @@ public class AllUserForms
         return;
     }
 
+    /**
+     * Save a form with a description. Returns the form id created when the form is inserted.
+     * 
+     * @param user
+     *            - String of the user id
+     * @param formData
+     *            - Map of the form data
+     * @param desc
+     *            - String description of the form
+     * @return - The new form id (as an integer)
+     */
     public int saveFormData(String user, Map<String, String> formData, String desc)
     {
         // TODO : Write
@@ -88,6 +109,15 @@ public class AllUserForms
         return tempUserForm.saveForm(formData, desc);
     }
 
+    /**
+     * Returns a completed form referenced by id.
+     * 
+     * @param user
+     *            - String id of the user
+     * @param id
+     *            - Desired id of the form to return
+     * @return - The form in a map
+     */
     public Map<String, String> getCompletedForm(String user, int id)
     {
         // TODO: Write
@@ -98,22 +128,47 @@ public class AllUserForms
         SavedForms tempUserForm = usersForms.get(user);
         FormContainer tempFormContainer = tempUserForm.getFormContainer(id);
 
-        // Need to add the FormStatusEnum
-        if (tempFormContainer.getStatus() == FormStatusEnum.SUBMITTED)
-        {
-            return tempFormContainer.getForm();
-        }
+        if (tempFormContainer)
+
+            // Need to add the FormStatusEnum
+            if (tempFormContainer.getStatus() == FormStatusEnum.SUBMITTED)
+            {
+                return tempFormContainer.getForm();
+            }
 
         return null;
     }
 
+    /**
+     * Return a saved form
+     * 
+     * @param user
+     *            - String id of the user
+     * @param id
+     *            - Form id
+     * @return - The form in a map
+     */
     public Map<String, String> getSavedFormData(String user, int id)
     {
         // TODO: Write
 
+        if (!usersForms.containsKey(user))
+        {
+            return null;
+        }
+
+        SavedForms tempUserForm = usersForms.get(user);
+
         return null;
     }
 
+    /**
+     * Returns a map of all the forms and form metadata a user has
+     * 
+     * @param user
+     *            - String id of the user
+     * @return - A map of form ids and TravelFormMetadatas
+     */
     public Map<Integer, TravelFormMetadata> getSavedForms(String user)
     {
         // TODO: Write
@@ -121,11 +176,27 @@ public class AllUserForms
         return null;
     }
 
+    /**
+     * Saves a form once it has been audited
+     * 
+     * @param user
+     *            - String id of the user
+     * @param data
+     *            - A map of the form
+     * @param id
+     *            - A form id to save the completed form under
+     */
     public void saveCompletedForm(String user, Map<String, String> data, int id)
     {
         // TODO: Write
     }
 
+    /**
+     * Deletes all the forms a user has saved.
+     * 
+     * @param user
+     *            - String id of the user
+     */
     public void clearSavedForms(String user)
     {
         // TODO: Write
