@@ -39,12 +39,12 @@ public class ReimbursementApp
     private final List<OtherExpense> otherExpenseList;
     private final List<IncidentalExpense> incidentalExpenseList;
     private final List<MealExpense> mealExpenseList;
-    private final List<TransportationExpense> trasportationExpenseList;
+    private final List<TransportationExpense> transportationExpenseList;
 
     private ConferenceInfo conferenceInfo;
     private UserInfo userInfo;
 
-    private List<Grant> grantList;
+    private final List<Grant> grantList;
 
     private float reimbursementTotal;
 
@@ -55,7 +55,9 @@ public class ReimbursementApp
         otherExpenseList = new ArrayList<OtherExpense>();
         incidentalExpenseList = new ArrayList<IncidentalExpense>();
         mealExpenseList = new ArrayList<MealExpense>();
-        trasportationExpenseList = new ArrayList<TransportationExpense>();
+        transportationExpenseList = new ArrayList<TransportationExpense>();
+
+        grantList = new ArrayList<Grant>();
     }
 
     public String getTravelTypeCSESponsored()
@@ -200,12 +202,12 @@ public class ReimbursementApp
 
     public List<TransportationExpense> getTrasportationExpenseList()
     {
-        return trasportationExpenseList;
+        return transportationExpenseList;
     }
 
     public void addTransportationExpense(TransportationExpense expense)
     {
-        trasportationExpenseList.add(expense);
+        transportationExpenseList.add(expense);
     }
 
     public List<Grant> getGrantList()
@@ -216,5 +218,35 @@ public class ReimbursementApp
     public void addGrant(Grant grant)
     {
         grantList.add(grant);
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n--------------- Reimbursement Application ---------------\n");
+        sb.append(String.format("Departure Datetime: %s\n", departureDatetime));
+        sb.append(String.format("Arrival Datetime: %s\n", arrivalDatetime));
+        sb.append(String.format("CSE sponsored: %s\n", travelTypeCSESponsored));
+        sb.append(String.format("DTC sponsored: %s\n", travelTypeDTCSponsored));
+        sb.append(String.format("NonSponsored: %s\n", travelTypeNonSponsored));
+
+        sb.append(String.format("Number of Days: %s\n", numDays));
+        sb.append("\n-- Expenses --\n");
+        appendListItems(sb, mealExpenseList);
+        appendListItems(sb, transportationExpenseList);
+        appendListItems(sb, lodgingExpenseList);
+        appendListItems(sb, otherExpenseList);
+        appendListItems(sb, incidentalExpenseList);
+
+        return sb.toString();
+    }
+
+    private void appendListItems(StringBuilder sb, List<? extends Object> items)
+    {
+        for (Object item : items)
+        {
+            sb.append(item);
+        }
     }
 }

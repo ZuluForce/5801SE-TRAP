@@ -66,4 +66,16 @@ public class OtherExpense
         this.expenseCurrency = expenseCurrency;
     }
 
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Other Expense:\n");
+        sb.append(String.format("\tDate: %s\n", expenseDate));
+        sb.append(String.format("\tAmount: $%f\n", expenseAmount));
+        sb.append(String.format("\tCurrency: %s\n", expenseCurrency));
+        sb.append(String.format("\tJustification: %s\n", expenseJustification));
+
+        return sb.toString();
+    }
 }

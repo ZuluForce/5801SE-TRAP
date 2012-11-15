@@ -108,4 +108,19 @@ public class LodgingExpense
         this.expenseCurrency = expenseCurrency;
     }
 
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Lodging Expense:\n");
+        sb.append(String.format("\tDate: %s\n", expenseDate));
+        sb.append(String.format("\tCountry: %s\n", city));
+        sb.append(String.format("\tState: %s\n", state));
+        sb.append(String.format("\tCountry: %s\n", country));
+        sb.append(String.format("\tAmount: $%f\n", expenseAmount));
+        sb.append(String.format("\tCurrency: %s\n", expenseCurrency));
+
+        return sb.toString();
+    }
+
 }

@@ -110,4 +110,22 @@ public class TransportationExpense
         this.transportationType = transportationType;
     }
 
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Transportation Expense:\n");
+        sb.append(String.format("\tDate: %s\n", transportationDate));
+        sb.append(String.format("\tAmount: $%f\n", transportationAmount));
+        sb.append(String.format("\tCurrency: %s\n", transportationCurrency));
+        sb.append(String.format("\tCarrier: %s\n", transportationCarrier));
+        sb.append(String.format("\tRental: %s\n", transportationRental));
+        if (transportationType == TransportationTypeEnum.PERSONAL_CAR)
+        {
+            sb.append(String.format("\tMiles: %d\n", transportationMilesTraveled));
+        }
+        sb.append(String.format("\tType: %s\n", transportationType));
+
+        return sb.toString();
+    }
 }

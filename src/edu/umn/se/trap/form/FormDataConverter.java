@@ -28,7 +28,6 @@ import edu.umn.se.trap.data.MealExpense;
 import edu.umn.se.trap.data.MealTypeEnum;
 import edu.umn.se.trap.data.OtherExpense;
 import edu.umn.se.trap.data.ReimbursementApp;
-import edu.umn.se.trap.data.TRAPConstants;
 import edu.umn.se.trap.data.TransportationExpense;
 import edu.umn.se.trap.data.TransportationTypeEnum;
 import edu.umn.se.trap.data.UserInfo;
@@ -408,10 +407,9 @@ public class FormDataConverter
         String filledKey, value;
 
         LodgingExpense lodgingExpense;
-        for (int i = 1; i >= app.getNumDays(); ++i)
+        for (int i = 1; i <= app.getNumDays(); ++i)
         {
             lodgingExpense = new LodgingExpense();
-            app.addLodgingExpense(lodgingExpense);
 
             try
             {
@@ -442,6 +440,11 @@ public class FormDataConverter
                 filledKey = String.format(InputFieldKeys.LODGING_CURRENCY_FMT, i);
                 value = getFormValue(data, filledKey);
                 lodgingExpense.setExpenseCurrency(value);
+
+                Date expenseDate = app.getDepartureDatetime();
+                lodgingExpense.setExpenseDate(DateValidator.advanceDateInDays(expenseDate, i - 1));
+
+                app.addLodgingExpense(lodgingExpense);
             }
             catch (MissingFieldException mfe)
             {
@@ -464,7 +467,7 @@ public class FormDataConverter
 
         int numTransportExpenses = Integer.parseInt(value);
         TransportationExpense transportExpense;
-        for (int i = 1; i >= numTransportExpenses; ++i)
+        for (int i = 1; i <= numTransportExpenses; ++i)
         {
             transportExpense = new TransportationExpense();
 
@@ -504,14 +507,14 @@ public class FormDataConverter
             transportExpense.setTransportationType(type);
 
             // Transportation Rental
-            filledKey = String.format(InputFieldKeys.TRANSPORTATION_RENTAL_FMT, i);
-            value = getFormValue(data, filledKey);
-            if (!(value.compareTo(TRAPConstants.BINARY_YES) == 0 || value
-                    .compareTo(TRAPConstants.BINARY_NO) == 0))
-            {
-                throw new InputValidationException("TRANSPORTATION_RENTAL field should be yes/no");
-            }
-            transportExpense.setTransportationRental(value);
+            // filledKey = String.format(InputFieldKeys.TRANSPORTATION_RENTAL_FMT, i);
+            // value = getFormValue(data, filledKey);
+            // if (!(value.compareTo(TRAPConstants.BINARY_YES) == 0 || value
+            // .compareTo(TRAPConstants.BINARY_NO) == 0))
+            // {
+            // throw new InputValidationException("TRANSPORTATION_RENTAL field should be yes/no");
+            // }
+            // transportExpense.setTransportationRental(value);
 
             switch (type)
             {
@@ -564,7 +567,7 @@ public class FormDataConverter
 
         int numOtherExpenses = Integer.parseInt(value);
         OtherExpense otherExpense;
-        for (int i = 1; i >= numOtherExpenses; ++i)
+        for (int i = 1; i <= numOtherExpenses; ++i)
         {
             otherExpense = new OtherExpense();
 
@@ -601,7 +604,7 @@ public class FormDataConverter
         String filledKey, value;
 
         IncidentalExpense incidental;
-        for (int i = 1; i >= app.getNumDays(); ++i)
+        for (int i = 1; i <= app.getNumDays(); ++i)
         {
             incidental = new IncidentalExpense();
 
@@ -631,6 +634,9 @@ public class FormDataConverter
                 value = getFormValue(data, filledKey);
                 incidental.setExpenseJustification(value);
 
+                Date expenseDate = app.getDepartureDatetime();
+                incidental.setExpenseDate(DateValidator.advanceDateInDays(expenseDate, i - 1));
+
                 app.addIncidentalExpense(incidental);
             }
             catch (MissingFieldException mfe)
@@ -652,7 +658,7 @@ public class FormDataConverter
         app.setOutputField(OutputFieldKeys.NUM_GRANTS, value);
 
         String filledKey;
-        for (int i = 0; i < numGrants; ++i)
+        for (int i = 1; i <= numGrants; ++i)
         {
             // Create new grant
             Grant newGrant = new Grant();

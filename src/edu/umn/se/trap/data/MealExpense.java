@@ -97,4 +97,17 @@ public class MealExpense
         this.country = country;
     }
 
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Meal Expense:\n");
+        sb.append(String.format("\tDate:%s\n", expenseDate));
+        sb.append(String.format("\tCity:%s\n", city));
+        sb.append(String.format("\tState:%s\n", state));
+        sb.append(String.format("\tCountry:%s\n", country));
+        sb.append(String.format("\tType:%s\n", type));
+
+        return sb.toString();
+    }
 }
