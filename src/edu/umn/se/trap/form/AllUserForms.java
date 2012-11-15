@@ -16,6 +16,7 @@ package edu.umn.se.trap.form;
 import java.util.Map;
 
 import edu.umn.se.trap.TravelFormMetadata;
+import edu.umn.se.trap.TravelFormProcessorIntf;
 
 /**
  * @author planeman
@@ -53,7 +54,6 @@ public class AllUserForms
      */
     public void addUser(String user)
     {
-        // TODO: Write. Also consider renaming this to addUser
         if (usersForms.containsKey(user))
         {
             return;
@@ -71,10 +71,10 @@ public class AllUserForms
      *            - Map of the form data
      * @param id
      *            - Desired form id, as an integer
+     * @return - The new form id (as an integer)
      */
-    public void saveFormData(String user, Map<String, String> formData, int id)
+    public int saveFormData(String user, Map<String, String> formData, int id)
     {
-        // TODO: Write
         if (!usersForms.containsKey(user))
         {
             return;
@@ -144,8 +144,7 @@ public class AllUserForms
             return null;
         }
 
-        // Need to add the FormStatusEnum
-        if (tempFormContainer.getStatus() == FormStatusEnum.SUBMITTED)
+        if (tempFormContainer.getStatus() == TravelFormProcessorIntf.FORM_STATUS.SUBMITTED)
         {
             return tempFormContainer.getForm();
         }

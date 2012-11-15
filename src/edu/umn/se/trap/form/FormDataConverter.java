@@ -652,7 +652,7 @@ public class FormDataConverter
 
     }
 
-    public static void addGrants(ReimbursementApp app, Map<String, String> data)
+    private static void addGrants(ReimbursementApp app, Map<String, String> data)
             throws MissingFieldException
     {
         String value = getFormValue(data, InputFieldKeys.NUM_GRANTS);

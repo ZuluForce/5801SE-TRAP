@@ -64,4 +64,18 @@ public class UserInfo
         this.emergencycontactPhone = emergencycontactPhone;
     }
 
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("User Info:\n");
+        sb.append(String.format("\tUsername: %s\n", username));
+        sb.append(String.format("\tEmail: %s\n", emailAddress));
+        sb.append(String.format("\tEmergency Name: %s\n", emergencyContactName));
+        sb.append(String.format("\tEmergency Phone: %s\n", emergencycontactPhone));
+
+        return sb.toString();
+    }
+
 }
