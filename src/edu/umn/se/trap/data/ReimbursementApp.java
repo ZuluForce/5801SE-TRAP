@@ -230,8 +230,18 @@ public class ReimbursementApp
         sb.append(String.format("CSE sponsored: %s\n", travelTypeCSESponsored));
         sb.append(String.format("DTC sponsored: %s\n", travelTypeDTCSponsored));
         sb.append(String.format("NonSponsored: %s\n", travelTypeNonSponsored));
+        sb.append(String.format("Reimbursement Total: $%f\n", reimbursementTotal));
 
-        sb.append(String.format("Number of Days: %s\n", numDays));
+        sb.append("\n\n-- Conference Info --\n");
+        sb.append(conferenceInfo);
+
+        sb.append("\n\n-- User Info --\n");
+        sb.append(userInfo);
+
+        sb.append("\n\n-- Grant Info --\n");
+        appendListItems(sb, grantList);
+
+        sb.append(String.format("\nNumber of Days: %s\n", numDays));
         sb.append("\n-- Expenses --\n");
         appendListItems(sb, mealExpenseList);
         appendListItems(sb, transportationExpenseList);

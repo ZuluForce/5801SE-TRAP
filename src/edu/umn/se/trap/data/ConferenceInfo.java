@@ -105,4 +105,25 @@ public class ConferenceInfo
         this.justificationSponsored = justificationSponsored;
     }
 
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Conference Information:\n");
+        sb.append(String.format("\tTitle: %s\n", justificationConferenceTitle));
+        sb.append(String.format("\tJustification Sponsored: %s\n", justificationSponsored));
+        sb.append(String.format("\tJustification NonSponsored: %s\n", justificationNonSponsored));
+        sb.append(String.format("\tPresented: %s\n", justificationPresented));
+        if (justificationPresented)
+        {
+            sb.append(String.format("\tPresentation Title: %s\n", justificationPresentationTitle));
+            sb.append(String.format("\tPresentation Abstract: %s\n",
+                    justificationPresentationAbstract));
+            sb.append(String.format("\tPresentation Acknowledgement: %s\n",
+                    justificationPresentationAcknowledge));
+        }
+
+        return sb.toString();
+    }
+
 }

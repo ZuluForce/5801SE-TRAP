@@ -53,4 +53,17 @@ public class Grant
         this.grantCharge += grantCharge;
     }
 
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Grant:\n");
+        sb.append(String.format("\tAccount: %s\n", grantAccount));
+        sb.append(String.format("\tPercent: %f%%\n", grantPercentage));
+        sb.append(String.format("\tCharge: $%f", grantCharge));
+
+        return sb.toString();
+    }
+
 }

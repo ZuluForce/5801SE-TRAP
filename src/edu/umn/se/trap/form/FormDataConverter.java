@@ -126,6 +126,7 @@ public class FormDataConverter
         userInfo.setEmergencycontactPhone(value);
         app.setOutputField(OutputFieldKeys.EMERGENCY_PHONE, value);
 
+        // This is information which is obtained from the db using the input username
         List<String> extraUserInfo = null;
         try
         {
@@ -141,9 +142,10 @@ public class FormDataConverter
         userInfo.setEmailAddress(value);
         app.setOutputField(OutputFieldKeys.EMAIL, value);
 
-        // Add UserInfo objec to RApp
+        // Add UserInfo object to RApp
         app.setUserInfo(userInfo);
 
+        log.info("Extracting user information");
         // (Output) Full Name
         value = extraUserInfo.get(UserDB.USER_FIELDS.FULL_NAME.ordinal());
         app.setOutputField(OutputFieldKeys.FULL_NAME, value);

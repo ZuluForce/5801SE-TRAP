@@ -18,8 +18,9 @@ public class DateValidator extends InputValidationRule
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     private final static SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyyMMdd HHmmss");
 
-    /*
-     * (non-Javadoc)
+    /**
+     * 
+     * 
      * @see edu.umn.se.trap.rules.TRAPRule#checkRule(edu.umn.se.trap.data.ReimbursementApp)
      */
     @Override
