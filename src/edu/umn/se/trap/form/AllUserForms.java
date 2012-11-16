@@ -18,6 +18,7 @@ import java.util.Map;
 
 import edu.umn.se.trap.TravelFormMetadata;
 import edu.umn.se.trap.TravelFormProcessorIntf;
+import edu.umn.se.trap.exception.FormStorageException;
 
 /**
  * @author planeman
@@ -40,8 +41,9 @@ public class AllUserForms
      * @param user
      *            - String of the user id
      * @return Returns a user's saved forms in a SavedForms object, otherwise null.
+     * @throws FormStorageException
      */
-    public SavedForms getUserSavedForms(String user)
+    public SavedForms getUserSavedForms(String user) throws FormStorageException
     {
         // TODO: Write
         if (usersForms.containsKey(user))
@@ -49,7 +51,7 @@ public class AllUserForms
             return usersForms.get(user);
         }
 
-        return null;
+        throw new FormStorageException("User not found in storage");
     }
 
     /**
