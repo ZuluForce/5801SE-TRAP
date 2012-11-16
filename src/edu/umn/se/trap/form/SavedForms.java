@@ -13,8 +13,10 @@
  ****************************************************************************************/
 package edu.umn.se.trap.form;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import edu.umn.se.trap.TravelFormMetadata;
 import edu.umn.se.trap.TravelFormProcessorIntf;
 
 /**
@@ -23,12 +25,32 @@ import edu.umn.se.trap.TravelFormProcessorIntf;
  */
 public class SavedForms
 {
-    private Map<Integer, FormContainer> savedForms;
+    /**
+     * Holds all of a user's forms
+     */
+    private final Map<Integer, FormContainer> savedForms;
+
+    /**
+     * A counter to generate form id's from. A user is allowed forms up to the max integer and int
+     * can hold.
+     */
+    private final int formId;
+
+    public SavedForms()
+    {
+        savedForms = new HashMap<Integer, FormContainer>();
+        formId = 0;
+    }
 
     public FormContainer getFormContainer(int id)
     {
         // TODO: Write
 
+        return null;
+    }
+
+    public Map<Integer, TravelFormMetadata> getSavedForms()
+    {
         return null;
     }
 

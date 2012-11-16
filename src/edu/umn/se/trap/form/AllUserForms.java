@@ -29,6 +29,11 @@ public class AllUserForms
      */
     private Map<String, SavedForms> usersForms;
 
+    public AllUserForms()
+    {
+
+    }
+
     /**
      * 
      * @param user
@@ -77,17 +82,17 @@ public class AllUserForms
     {
         if (!usersForms.containsKey(user))
         {
-            return;
+            return 0;
         }
         SavedForms tempUserForm = usersForms.get(user);
 
         if (tempUserForm == null)
         {
-            return;
+            return 0;
         }
 
         tempUserForm.saveForm(formData, id);
-        return;
+        return id;
     }
 
     /**
@@ -199,7 +204,7 @@ public class AllUserForms
     {
         // TODO: Write
 
-        if (usersForms.containsKey(user))
+        if (!usersForms.containsKey(user))
         {
             return null;
         }
@@ -211,13 +216,11 @@ public class AllUserForms
             return null;
         }
 
-        // TODO: Need to add the TravelFormMetadata class
-
-        return null;
+        return tempUserForm.getSavedForms();
     }
 
     /**
-     * Saves a form once it has been audited
+     * Saves a form once it has been audited.
      * 
      * @param user
      *            - String id of the user
@@ -229,6 +232,16 @@ public class AllUserForms
     public void saveCompletedForm(String user, Map<String, String> data, int id)
     {
         // TODO: Write
+        if (!usersForms.containsKey(user))
+        {
+            return;
+        }
+
+        SavedForms tempUserForm = usersForms.get(user);
+
+        tempUserForm.saveForm(data, TravelFormProcessorIntf.FORM_STATUS.SUBMITTED);
+
+        return;
     }
 
     /**
@@ -240,5 +253,16 @@ public class AllUserForms
     public void clearSavedForms(String user)
     {
         // TODO: Write
+
+        if (!usersForms.containsKey(user))
+        {
+            return;
+        }
+
+        SavedForms tempUserForm = usersForms.get(user);
+
+        tempUserForm.clearForms();
+
+        return;
     }
 }
