@@ -27,6 +27,14 @@ public class FormContainer
     private Map<String, String> formData;
     private String formDescription;
 
+    /**
+     * Constructor for a form container.
+     * 
+     * @param _formData
+     *            - The form (in a map)
+     * @param _desc
+     *            - A description of the form
+     */
     public FormContainer(Map<String, String> _formData, String _desc)
     {
         status = TravelFormProcessorIntf.FORM_STATUS.DRAFT;
@@ -34,38 +42,79 @@ public class FormContainer
         formDescription = _desc;
     }
 
+    /**
+     * Gets a form's description
+     * 
+     * @return - the description of a form
+     */
     public String getDescription()
     {
         return formDescription;
     }
 
+    /**
+     * Set a form's description
+     * 
+     * @param desc
+     *            - sets the form's description
+     */
     public void setDescription(String desc)
     {
         formDescription = desc;
     }
 
+    /**
+     * Gets the form map
+     * 
+     * @return - the form map
+     */
     public Map<String, String> getForm()
     {
         // TODO: Consider renaming to getFormData
         return formData;
     }
 
+    /**
+     * Saves a form
+     * 
+     * @param formData
+     *            - the form to save
+     */
     public void saveForm(Map<String, String> formData)
     {
         this.formData = formData;
     }
 
+    /**
+     * Saves a form with a description
+     * 
+     * @param formData
+     *            - the form map
+     * @param desc
+     *            - the form description
+     */
     public void saveForm(Map<String, String> formData, String desc)
     {
         this.formData = formData;
         formDescription = desc;
     }
 
+    /**
+     * Grabs the status of a form
+     * 
+     * @return - The form status
+     */
     public TravelFormProcessorIntf.FORM_STATUS getStatus()
     {
         return status;
     }
 
+    /**
+     * Set the status of the form
+     * 
+     * @param status
+     *            - the desired status of a form
+     */
     public void setStauts(TravelFormProcessorIntf.FORM_STATUS status)
     {
         this.status = status;
