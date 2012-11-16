@@ -13,6 +13,7 @@
  ****************************************************************************************/
 package edu.umn.se.trap.form;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import edu.umn.se.trap.TravelFormMetadata;
@@ -27,11 +28,11 @@ public class AllUserForms
     /**
      * Holds a user's saved forms
      */
-    private Map<String, SavedForms> usersForms;
+    private final Map<String, SavedForms> usersForms;
 
     public AllUserForms()
     {
-
+        usersForms = new HashMap<String, SavedForms>();
     }
 
     /**
@@ -239,7 +240,7 @@ public class AllUserForms
 
         SavedForms tempUserForm = usersForms.get(user);
 
-        tempUserForm.saveForm(data, TravelFormProcessorIntf.FORM_STATUS.SUBMITTED);
+        tempUserForm.saveForm(data, id, TravelFormProcessorIntf.FORM_STATUS.SUBMITTED);
 
         return;
     }

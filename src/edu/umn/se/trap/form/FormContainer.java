@@ -27,6 +27,13 @@ public class FormContainer
     private Map<String, String> formData;
     private String formDescription;
 
+    public FormContainer(Map<String, String> _formData, String _desc)
+    {
+        status = TravelFormProcessorIntf.FORM_STATUS.DRAFT;
+        formData = _formData;
+        formDescription = _desc;
+    }
+
     public String getDescription()
     {
         return formDescription;
