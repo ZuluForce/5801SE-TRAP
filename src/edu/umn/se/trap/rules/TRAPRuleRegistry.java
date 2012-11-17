@@ -32,6 +32,11 @@ public class TRAPRuleRegistry
     public TRAPRuleRegistry(FinalizeRule finalRule)
     {
         finalizeRule = finalRule;
+
+        // Add InputValidationRules
+        addInputValidationRule(new DateValidator());
+
+        // Add BusinessLogicRules
     }
 
     public void addInputValidationRule(InputValidationRule rule)

@@ -14,6 +14,7 @@
 package edu.umn.se.trap.rules;
 
 import edu.umn.se.trap.data.ReimbursementApp;
+import edu.umn.se.trap.exception.TRAPException;
 
 /**
  * @author planeman
@@ -21,5 +22,5 @@ import edu.umn.se.trap.data.ReimbursementApp;
  */
 public interface TRAPRule
 {
-    public void checkRule(ReimbursementApp app);
+    public void checkRule(ReimbursementApp app) throws TRAPException;
 }

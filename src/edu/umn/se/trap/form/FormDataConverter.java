@@ -35,19 +35,37 @@ import edu.umn.se.trap.db.KeyNotFoundException;
 import edu.umn.se.trap.db.UserDB;
 import edu.umn.se.trap.db.UserDBWrapper;
 import edu.umn.se.trap.exception.InputValidationException;
-import edu.umn.se.trap.exception.InvalidUsernameException;
 import edu.umn.se.trap.exception.MissingFieldException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.rules.DateValidator;
 
 /**
+ * The FormDataConverter converts raw input data maps into a easier to use ReimbursementApp object
+ * for further processing within TRAP.
+ * 
  * @author planeman
  * 
  */
 public class FormDataConverter
 {
+    /**
+     * A logger instance for the FormDataConverter
+     */
     private static Logger log = LoggerFactory.getLogger(FormDataConverter.class);
 
+    /**
+     * Takes an map of raw form data and converts it to a ReimbursementApp object that can be used
+     * within TRAP for processing. The purpose of this conversion is not to check rules but to some
+     * extent it is necessary since we must know whether we can construct a complete object
+     * hierarchy.
+     * 
+     * @param data - The input data map. This is the saved form data that has been requested for
+     *            submission.
+     * @return - A ReimbursementApp object that is a representation of the raw input data. This
+     *         object can be used by the TRAPRuleRegistry for processing.
+     * @throws TRAPException - For several reasons including missing fields, invalid usernames, or
+     *             invalid number formats.
+     */
     public static ReimbursementApp formToReimbursementApp(Map<String, String> data)
             throws TRAPException
     {
@@ -105,8 +123,17 @@ public class FormDataConverter
         return app;
     }
 
+    /**
+     * Add all information related to the user as a UserInfo object.
+     * 
+     * @param app - The ReimbursementApp that is being constructed.
+     * @param data - The input data for the form that is being submitted.
+     * @throws MissingFieldException - When a required field related to conference information is
+     *             not present.
+     * @throws InputValidationException - When the user isn't found in the database.
+     */
     private static void addUserInfo(ReimbursementApp app, Map<String, String> data)
-            throws TRAPException
+            throws MissingFieldException, InputValidationException
     {
         String username, value;
 
@@ -134,7 +161,7 @@ public class FormDataConverter
         }
         catch (KeyNotFoundException e)
         {
-            throw new InvalidUsernameException("Invalid username");
+            throw new InputValidationException("Invalid username");
         }
 
         // (Input) Email Address
@@ -163,8 +190,16 @@ public class FormDataConverter
         app.setOutputField(OutputFieldKeys.VISA_STATUS, value);
     }
 
+    /**
+     * Add all information related to the conference attended as a ConferenceInfo object.
+     * 
+     * @param app - The ReimbursementApp that is being constructed.
+     * @param data - The input data for the form that is being submitted.
+     * @throws MissingFieldException - When a required field related to conference information is
+     *             not present.
+     */
     private static void addConferenceInfo(ReimbursementApp app, Map<String, String> data)
-            throws TRAPException
+            throws MissingFieldException
     {
         ConferenceInfo conferenceInfo = new ConferenceInfo();
         String value;
@@ -283,6 +318,13 @@ public class FormDataConverter
         app.setConferenceInfo(conferenceInfo);
     }
 
+    /**
+     * Add all meal expenses from the input map as MealExpense objects.
+     * 
+     * @param app - The ReimbursementApp that is being constructed.
+     * @param data - The input data for the form that is being submitted.
+     * @throws MissingFieldException - When a required meal expense related field is missing.
+     */
     private static void addMealExpenses(ReimbursementApp app, Map<String, String> data)
             throws MissingFieldException
     {
@@ -403,6 +445,14 @@ public class FormDataConverter
         // All meal expenses have been added
     }
 
+    /**
+     * Add all lodging expenses from the input map as LodgingExpense objects.
+     * 
+     * @param app - The ReimbursementApp that is being constructed.
+     * @param data - The input data for the form that is being submitted.
+     * @throws MissingFieldException - When a required lodging expense related field is missing.
+     * @throws InputValidationException - When a numerical input value is not formatted correctly.
+     */
     private static void addLodgingExpenses(ReimbursementApp app, Map<String, String> data)
             throws MissingFieldException, InputValidationException
     {
@@ -458,6 +508,15 @@ public class FormDataConverter
         }
     }
 
+    /**
+     * Add all transportation expenses from the input map as TransportationExpense objects.
+     * 
+     * @param app - The ReimbursementApp that is being constructed.
+     * @param data - The input data for the form that is being submitted.
+     * @throws MissingFieldException - When a required transportation expense related field is
+     *             missing.
+     * @throws InputValidationException - When a numerical input value is not formatted correctly.
+     */
     private static void addTransportationExpenses(ReimbursementApp app, Map<String, String> data)
             throws MissingFieldException, InputValidationException
     {
@@ -480,7 +539,7 @@ public class FormDataConverter
             value = getFormValue(data, filledKey);
             try
             {
-                transportExpense.setTransportationAmount(Float.parseFloat(value));
+                transportExpense.setExpenseAmount(Double.parseDouble(value));
             }
             catch (NumberFormatException nfe)
             {
@@ -509,18 +568,24 @@ public class FormDataConverter
             transportExpense.setTransportationType(type);
 
             // Transportation Rental
-            // filledKey = String.format(InputFieldKeys.TRANSPORTATION_RENTAL_FMT, i);
-            // value = getFormValue(data, filledKey);
-            // if (!(value.compareTo(TRAPConstants.BINARY_YES) == 0 || value
-            // .compareTo(TRAPConstants.BINARY_NO) == 0))
-            // {
-            // throw new InputValidationException("TRANSPORTATION_RENTAL field should be yes/no");
-            // }
-            // transportExpense.setTransportationRental(value);
+            filledKey = String.format(InputFieldKeys.TRANSPORTATION_RENTAL_FMT, i);
+            try
+            {
+                value = getFormValue(data, filledKey);
+            }
+            catch (MissingFieldException mfe)
+            {
+                value = "no";
+            }
+            if (checkYesNo(value))
+            {
+                throw new InputValidationException("TRANSPORTATION_RENTAL field should be yes/no");
+            }
+            transportExpense.setTransportationRental(value);
 
             switch (type)
             {
-            case PERSONAL_CAR:
+            case CAR:
                 // Miles Traveled
                 filledKey = String.format(InputFieldKeys.TRANSPORTATION_MILES_FMT, i);
                 value = getFormValue(data, filledKey);
@@ -534,7 +599,6 @@ public class FormDataConverter
                             "Transportation miles traveled field is not an integer for expense "
                                     + i);
                 }
-            case RENTAL_CAR:
             case AIR:
             case BUS:
             case TRAIN:
@@ -558,6 +622,14 @@ public class FormDataConverter
         }
     }
 
+    /**
+     * Add all other expenses from the input map as OtherExpense objects.
+     * 
+     * @param app - The ReimbursementApp that is being constructed.
+     * @param data - The input data for the form that is being submitted.
+     * @throws MissingFieldException - When a required other expense related field is missing.
+     * @throws InputValidationException - When a numerical input value is not formatted correctly.
+     */
     private static void addOtherExpenses(ReimbursementApp app, Map<String, String> data)
             throws MissingFieldException, InputValidationException
     {
@@ -578,7 +650,15 @@ public class FormDataConverter
             // Amount
             filledKey = String.format(InputFieldKeys.OTHER_AMOUNT_FMT, i);
             value = getFormValue(data, filledKey);
-            otherExpense.setExpenseAmount(Float.parseFloat(value));
+            try
+            {
+                otherExpense.setExpenseAmount(Double.parseDouble(value));
+            }
+            catch (NumberFormatException nfe)
+            {
+                throw new InputValidationException(String.format(
+                        "Other expense %d amount not formatted correctly", i));
+            }
 
             // Currency
             filledKey = String.format(InputFieldKeys.OTHER_CURRENTCY_FMT, i);
@@ -600,8 +680,16 @@ public class FormDataConverter
         }
     }
 
+    /**
+     * Add all incidental expenses from the input map as IncidentalExpense objects.
+     * 
+     * @param app - The ReimbursementApp that is being constructed.
+     * @param data - The input data for the form that is being submitted.
+     * @throws MissingFieldException - When a required incidental expense related field is missing.
+     * @throws InputValidationException - When a numerical input value is not formatted correctly.
+     */
     private static void addIncidentalExpenses(ReimbursementApp app, Map<String, String> data)
-            throws MissingFieldException
+            throws MissingFieldException, InputValidationException
     {
         String filledKey, value;
 
@@ -626,7 +714,15 @@ public class FormDataConverter
 
                 filledKey = String.format(InputFieldKeys.INCIDENTAL_AMOUNT_FMT, i);
                 value = getFormValue(data, filledKey);
-                incidental.setExpenseAmount(Float.parseFloat(value));
+                try
+                {
+                    incidental.setExpenseAmount(Float.parseFloat(value));
+                }
+                catch (NumberFormatException nfe)
+                {
+                    throw new InputValidationException(String.format(
+                            "Incidental expense %d amount not formatted correctly", i));
+                }
 
                 filledKey = String.format(InputFieldKeys.INCIDENTAL_CURRENCY_FMT, i);
                 value = getFormValue(data, filledKey);
@@ -652,9 +748,20 @@ public class FormDataConverter
 
     }
 
+    /**
+     * Add all grants and their information to the app as Grant objects.
+     * 
+     * @param app - The ReimbursementApp being constructed.
+     * @param data - The input data map.
+     * @throws MissingFieldException - When a required field related to a grant is not present in
+     *             the input data map.
+     * @throws InputValidationException - When the number format for a grant's percentage field is
+     *             not in a proper format.
+     */
     private static void addGrants(ReimbursementApp app, Map<String, String> data)
-            throws MissingFieldException
+            throws MissingFieldException, InputValidationException
     {
+        // Find number of grants and set output field
         String value = getFormValue(data, InputFieldKeys.NUM_GRANTS);
         int numGrants = Integer.parseInt(value);
         app.setOutputField(OutputFieldKeys.NUM_GRANTS, value);
@@ -676,8 +783,16 @@ public class FormDataConverter
             // Get grant percentage
             filledKey = String.format(InputFieldKeys.GRANT_PERCENT_FMT, i);
             value = getFormValue(data, filledKey);
-            float grantPercent = Float.parseFloat(value);
-            newGrant.setGrantPercentage(grantPercent);
+            try
+            {
+                Integer grantPercent = Integer.parseInt(value);
+                newGrant.setGrantPercentage(grantPercent);
+            }
+            catch (NumberFormatException nfe)
+            {
+                throw new InputValidationException(String.format(
+                        "Percentage for grant %d not an integer", i));
+            }
 
             // Set grant percentage in output
             app.setOutputField(filledKey, value);
@@ -689,6 +804,26 @@ public class FormDataConverter
         }
     }
 
+    /**
+     * Check if the given string represents a valid yes/no value. This simply checks that value is
+     * either "yes" or "no" but it could be expanded in the future.
+     * 
+     * @param value - string to check for yes/no
+     * @return - true if it is yes/no, otherwise false
+     */
+    private static boolean checkYesNo(String value)
+    {
+        return (value.compareTo("yes") == 0 || value.compareTo("yes") == 0);
+    }
+
+    /**
+     * Gets a given key from the data map. If the key isn't found it generates an exception.
+     * 
+     * @param data - The data map to extract the key/value from
+     * @param key - The key whose value you want to get
+     * @return - The value stored in the data map under the given key
+     * @throws MissingFieldException - When the key is not present in the data map.
+     */
     private static String getFormValue(Map<String, String> data, String key)
             throws MissingFieldException
     {

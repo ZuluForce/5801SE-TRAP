@@ -23,9 +23,16 @@ public class UserGrantDBWrapper
 {
     private static final UserGrantDB userGrantDB = new UserGrantDB();
 
-    public static List<String> getUserGrantInfo(String arg0) throws KeyNotFoundException
+    public static List<String> getUserGrantInfo(String accountName) throws KeyNotFoundException
     {
-        return userGrantDB.getUserGrantInfo(arg0);
+        return userGrantDB.getUserGrantInfo(accountName);
+    }
+
+    public static String getGrantAdmin(String accountName) throws KeyNotFoundException
+    {
+        List<String> grantInfo = userGrantDB.getUserGrantInfo(accountName);
+
+        return grantInfo.get(UserGrantDB.USER_GRANT_FIELDS.GRANT_ADMIN.ordinal());
     }
 
     @Override

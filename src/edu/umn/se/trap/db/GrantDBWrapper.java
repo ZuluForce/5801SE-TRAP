@@ -34,6 +34,13 @@ public class GrantDBWrapper
         return grantDB.getGrantInfo(accountName);
     }
 
+    public static Double getGrantBalance(String accountName) throws KeyNotFoundException
+    {
+        List<Object> grantInfo = getGrantInfo(accountName);
+
+        return (Double) grantInfo.get(GrantDB.GRANT_FIELDS.ACCOUNT_BALANCE.ordinal());
+    }
+
     @Override
     public int hashCode()
     {

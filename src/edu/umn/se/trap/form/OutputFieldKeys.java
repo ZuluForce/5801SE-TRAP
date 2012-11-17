@@ -35,7 +35,10 @@ public class OutputFieldKeys
     public final static String JUSTIFICATION_NONSPONSORED = "JUSTIFICATION_NONSPONSORED";
     public final static String JUSTIFICATION_SPONSORED = "JUSTIFICATION_SPONSORED";
 
+    // Per Day Fields
     public static final String NUM_DAYS = "NUM_DAYS";
+    public static final String DAY_DATE = "DAY_DATE";
+    public static final String DAY_TOTAL = "DAY_TOTAL";
 
     // Transportation expenses
     public final static String NUM_TRANSPORTATION_EXPENSES = "NUM_TRANSPORTATION";
@@ -52,4 +55,9 @@ public class OutputFieldKeys
     public final static String NUM_GRANTS = "NUM_GRANTS";
     public final static String GRANT_ACCOUNT_FMT = "GRANT%d_ACCOUNT";
     public final static String GRANT_PERCENT_FMT = "GRANT%d_PERCENT";
+    public final static String GRANT_CHARGE_FMT = "GRANT%d_PERCENT";
+    public final static String GRANT_APPROVER_FMT = "GRANT%d_PERCENT";
+
+    // Total reimbursement
+    public final static String TOTAL_REIMBURSEMENT = "TOTAL_REIMBURSEMENT";
 }

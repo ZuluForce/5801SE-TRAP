@@ -23,8 +23,10 @@ public class OtherExpense
 {
     private Date expenseDate;
     private String expenseJustification;
-    private float expenseAmount;
     private String expenseCurrency;
+
+    private Double expenseAmount;
+    private Double reimbursementAmount;
 
     public Date getExpenseDate()
     {
@@ -46,14 +48,24 @@ public class OtherExpense
         this.expenseJustification = expenseJustification;
     }
 
-    public float getExpenseAmount()
+    public Double getExpenseAmount()
     {
         return expenseAmount;
     }
 
-    public void setExpenseAmount(float expenseAmount)
+    public void setExpenseAmount(Double expenseAmount)
     {
         this.expenseAmount = expenseAmount;
+    }
+
+    public Double getReimbursementAmount()
+    {
+        return reimbursementAmount;
+    }
+
+    public void setReimbursementAmount(Double amount)
+    {
+        reimbursementAmount = amount;
     }
 
     public String getExpenseCurrency()
