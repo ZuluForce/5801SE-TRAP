@@ -18,32 +18,48 @@ import java.util.Map;
 import edu.umn.se.trap.TravelFormProcessorIntf;
 
 /**
- * @author planeman
+ * This class holds the actual form and related information.
+ * 
+ * @author nagell2008
  * 
  */
 public class FormContainer
 {
+    /*
+     * Holds the current status of a form.
+     */
     private TravelFormProcessorIntf.FORM_STATUS status;
+
+    /*
+     * Map of the form.
+     */
     private Map<String, String> formData;
+
+    /*
+     * The description of a form.
+     */
     private String formDescription;
 
     /**
      * Constructor for a form container.
      * 
-     * @param _formData
-     *            - The form (in a map)
-     * @param _desc
-     *            - A description of the form
+     * @param _formData - The form (in a map)
+     * @param _desc - A description of the form
      */
     public FormContainer(Map<String, String> _formData, String _desc)
     {
+        // The status for a form is set to DRAFT by default.
         status = TravelFormProcessorIntf.FORM_STATUS.DRAFT;
+
+        // The form data.
         formData = _formData;
+
+        // A description of the form.
         formDescription = _desc;
     }
 
     /**
-     * Gets a form's description
+     * Gets a form's description.
      * 
      * @return - the description of a form
      */
@@ -53,10 +69,9 @@ public class FormContainer
     }
 
     /**
-     * Set a form's description
+     * Set a form's description.
      * 
-     * @param desc
-     *            - sets the form's description
+     * @param desc - sets the form's description
      */
     public void setDescription(String desc)
     {
@@ -64,21 +79,19 @@ public class FormContainer
     }
 
     /**
-     * Gets the form map
+     * Gets the form map.
      * 
      * @return - the form map
      */
     public Map<String, String> getForm()
     {
-        // TODO: Consider renaming to getFormData
         return formData;
     }
 
     /**
-     * Saves a form
+     * Saves a form.
      * 
-     * @param formData
-     *            - the form to save
+     * @param formData - the form to save
      */
     public void saveForm(Map<String, String> formData)
     {
@@ -86,12 +99,10 @@ public class FormContainer
     }
 
     /**
-     * Saves a form with a description
+     * Saves a form with a description.
      * 
-     * @param formData
-     *            - the form map
-     * @param desc
-     *            - the form description
+     * @param formData - the form map
+     * @param desc - the form description
      */
     public void saveForm(Map<String, String> formData, String desc)
     {
@@ -100,7 +111,7 @@ public class FormContainer
     }
 
     /**
-     * Grabs the status of a form
+     * Grabs the status of a form.
      * 
      * @return - The form status
      */
@@ -110,10 +121,9 @@ public class FormContainer
     }
 
     /**
-     * Set the status of the form
+     * Set the status of the form.
      * 
-     * @param status
-     *            - the desired status of a form
+     * @param status - the desired status of a form
      */
     public void setStauts(TravelFormProcessorIntf.FORM_STATUS status)
     {
