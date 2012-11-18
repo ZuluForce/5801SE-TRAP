@@ -469,7 +469,7 @@ public class FormDataConverter
                 value = getFormValue(data, filledKey);
                 try
                 {
-                    lodgingExpense.setExpenseAmount(Float.parseFloat(value));
+                    lodgingExpense.setExpenseAmount(Double.parseDouble(value));
                 }
                 catch (NumberFormatException nfe)
                 {
@@ -720,7 +720,7 @@ public class FormDataConverter
                 value = getFormValue(data, filledKey);
                 try
                 {
-                    incidental.setExpenseAmount(Float.parseFloat(value));
+                    incidental.setExpenseAmount(Double.parseDouble(value));
                 }
                 catch (NumberFormatException nfe)
                 {

@@ -17,10 +17,20 @@ import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
+ * The interface that all rules in the TRAP system must implement in-order for the rule registry to
+ * communicate with them.
+ * 
  * @author planeman
  * 
  */
 public interface TRAPRule
 {
+    /**
+     * Check the logic associated with this rule.
+     * 
+     * @param app - The ReimbursementApp object that has all information required to process an
+     *            application.
+     * @throws TRAPException - When a problem occurs during the checking/processing of the rule.
+     */
     public void checkRule(ReimbursementApp app) throws TRAPException;
 }

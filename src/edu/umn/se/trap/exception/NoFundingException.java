@@ -22,6 +22,7 @@ package edu.umn.se.trap.exception;
  */
 public class NoFundingException extends TRAPException
 {
+    @SuppressWarnings("javadoc")
     private static final long serialVersionUID = 3181387055854507844L;
 
     /**

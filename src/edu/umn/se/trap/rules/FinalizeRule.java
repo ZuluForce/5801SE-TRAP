@@ -53,7 +53,7 @@ public class FinalizeRule implements TRAPRule
         // Go through each grant and find how much we need from each
         for (Grant grant : app.getGrantList())
         {
-            double grantCharge = grant.getGrantPercentage() * total;
+            Double grantCharge = grant.getGrantPercentage() * total;
 
             // Check that the grant has the required funds
             try
@@ -69,7 +69,7 @@ public class FinalizeRule implements TRAPRule
                 }
 
                 // Mark how much we need to charge so we can do it later
-                grant.addGrantCharge(grantCharge);
+                grant.setGrantCharge(grantCharge);
                 grant.setFinalBalance(grantFunds - grantCharge);
             }
             catch (KeyNotFoundException e)

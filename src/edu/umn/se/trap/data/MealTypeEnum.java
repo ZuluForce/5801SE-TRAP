@@ -24,8 +24,18 @@ package edu.umn.se.trap.data;
  */
 public enum MealTypeEnum
 {
+    /** Meal of champions */
     BREAKFAST,
+
+    /** aka luncheon */
     LUNCH,
+
+    /** The one where I eat a lot and fall asleep */
     DINNER,
+
+    /**
+     * sentinel value meaning the enum isn't set...Or I'm a hobbit and one of my 6 meals isn't
+     * listed here. Just checking to see if you are reading my comments of obvious things.
+     */
     UNSET
 }

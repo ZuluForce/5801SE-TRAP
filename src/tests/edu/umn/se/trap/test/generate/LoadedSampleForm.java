@@ -20,6 +20,9 @@ import java.util.Set;
 import edu.umn.se.trap.util.FormDataLoader;
 
 /**
+ * A wrapper class to emulate a regular saved form map. This class is filled with form data by
+ * loading a standard Java properties file.
+ * 
  * @author planeman
  * 
  */
