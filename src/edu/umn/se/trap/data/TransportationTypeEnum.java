@@ -14,10 +14,21 @@
 package edu.umn.se.trap.data;
 
 /**
+ * An enumeration of all possible transportation types as they would show up in a form.
+ * 
  * @author planeman
  * 
  */
 public enum TransportationTypeEnum
 {
-    AIR, CAR, PUBLIC_TRANSPORTATION, GAS, PARKING, LUGGAGE, TRAIN, BUS, TOLL, NOT_SET
+    AIR,
+    CAR,
+    PUBLIC_TRANSPORTATION,
+    GAS,
+    PARKING,
+    LUGGAGE,
+    TRAIN,
+    BUS,
+    TOLL,
+    NOT_SET
 }

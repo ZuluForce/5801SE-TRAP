@@ -14,6 +14,9 @@
 package edu.umn.se.trap.exception;
 
 /**
+ * TODO: Do we need this in addition to the InsufficientFundsException? Is there a potential
+ * difference of when we would use one or the other?
+ * 
  * @author planeman
  * 
  */
@@ -22,19 +25,31 @@ public class NoFundingException extends TRAPException
     private static final long serialVersionUID = 3181387055854507844L;
 
     /**
-     * @param msg
+     * Construct the exception with a message.
+     * 
+     * @param msg - Message to go with the exception.
      */
     public NoFundingException(String msg)
     {
         super(msg);
-        // TODO Auto-generated constructor stub
     }
 
+    /**
+     * Construct the exception with a message and a Throwable to encapsulate.
+     * 
+     * @param msg - Message for the exception.
+     * @param t - Throwable exception to encapsulate.
+     */
     public NoFundingException(String msg, Throwable t)
     {
         super(msg, t);
     }
 
+    /**
+     * Construct the exception with another Throwable exception.
+     * 
+     * @param t - The Throwable exception
+     */
     public NoFundingException(Throwable t)
     {
         super(t);

@@ -700,18 +700,22 @@ public class FormDataConverter
 
             try
             {
+                // City
                 filledKey = String.format(InputFieldKeys.INCIDENTAL_CITY_FMT, i);
                 value = getFormValue(data, filledKey);
                 incidental.setCity(value);
 
+                // State
                 filledKey = String.format(InputFieldKeys.INCIDENTAL_STATE_FMT, i);
                 value = getFormValue(data, filledKey);
                 incidental.setState(value);
 
+                // Country
                 filledKey = String.format(InputFieldKeys.INCIDENTAL_COUNTRY_FMT, i);
                 value = getFormValue(data, filledKey);
                 incidental.setCountry(value);
 
+                // Expense amount
                 filledKey = String.format(InputFieldKeys.INCIDENTAL_AMOUNT_FMT, i);
                 value = getFormValue(data, filledKey);
                 try
@@ -724,14 +728,17 @@ public class FormDataConverter
                             "Incidental expense %d amount not formatted correctly", i));
                 }
 
+                // Currency
                 filledKey = String.format(InputFieldKeys.INCIDENTAL_CURRENCY_FMT, i);
                 value = getFormValue(data, filledKey);
                 incidental.setExpenseCurrency(value);
 
+                // Justification
                 filledKey = String.format(InputFieldKeys.INCIDENTAL_JUSTIFICATION_FMT, i);
                 value = getFormValue(data, filledKey);
                 incidental.setExpenseJustification(value);
 
+                // Date
                 Date expenseDate = app.getDepartureDatetime();
                 incidental.setExpenseDate(DateValidator.advanceDateInDays(expenseDate, i - 1));
 
@@ -739,9 +746,12 @@ public class FormDataConverter
             }
             catch (MissingFieldException mfe)
             {
+                // This means that the first field missed and there just is not incidental for this
+                // day.
                 if (incidental.isEmpty())
                     continue;
 
+                // This means it is a partial expense which is an error
                 throw mfe;
             }
         }

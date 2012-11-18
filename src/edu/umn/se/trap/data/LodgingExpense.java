@@ -16,25 +16,51 @@ package edu.umn.se.trap.data;
 import java.util.Date;
 
 /**
+ * A data object containing all information pertaining to one lodging expense.
+ * 
  * @author planeman
  * 
  */
 public class LodgingExpense
 {
+    /** The date the expense occurred */
     private Date expenseDate;
+
+    /** The city the expense occurred in */
     private String city;
+
+    /** The state the expense occurred in */
     private String state;
+
+    /** The country the expense occurred in */
     private String country;
-    private float expenseAmount;
+
+    /** The claimed amount of the expense */
+    private Double expenseAmount;
+
+    /** The currency for this expense */
     private String expenseCurrency;
 
+    /**
+     * Construct the LodgingExpense object. This initializes all attributes to unset sentinel
+     * values.
+     */
     public LodgingExpense()
     {
         expenseDate = null;
         city = state = country = expenseCurrency = null;
-        expenseAmount = -1;
+        expenseAmount = -1.0;
     }
 
+    /**
+     * Checks if the lodging expense is empty. To do this it checks if all the attributes are set to
+     * the same values as they were set to in the constructor.
+     * 
+     * This is necessary for the FormDataConverter to determine if in the process of constructing
+     * the expense we have an empty expense or a partial expense.
+     * 
+     * @return - true if none of the fields in this expense have been set, false otherwise.
+     */
     public boolean isEmpty()
     {
         boolean empty = true;
@@ -43,71 +69,134 @@ public class LodgingExpense
         empty &= state == null;
         empty &= country == null;
         empty &= expenseCurrency == null;
-        empty &= expenseAmount == -1;
+        empty &= expenseAmount == -1.0;
 
         return empty;
     }
 
+    /**
+     * Get the date for this expense.
+     * 
+     * @return - The date for this expense
+     */
     public Date getExpenseDate()
     {
         return expenseDate;
     }
 
+    /**
+     * Set the date for this expense.
+     * 
+     * @param expenseDate - The date to set for this expense.
+     */
     public void setExpenseDate(Date expenseDate)
     {
         this.expenseDate = expenseDate;
     }
 
+    /**
+     * Get the city this expense occurred in.
+     * 
+     * @return - The city this expense occurred in
+     */
     public String getCity()
     {
         return city;
     }
 
+    /**
+     * Set the city this expense occurred in.
+     * 
+     * @param city - The city to set for this expense.
+     */
     public void setCity(String city)
     {
         this.city = city;
     }
 
+    /**
+     * Get the state this expense occurred in.
+     * 
+     * @return - The state this expense occurred in
+     */
     public String getState()
     {
         return state;
     }
 
+    /**
+     * Set the state this expense occurred in.
+     * 
+     * @param state - The state to set for this expense.
+     */
     public void setState(String state)
     {
         this.state = state;
     }
 
+    /**
+     * Get the country this expense occurred in.
+     * 
+     * @return - The country this expense occurred in
+     */
     public String getCountry()
     {
         return country;
     }
 
+    /**
+     * Set the country this expense occurred in.
+     * 
+     * @param country - The country to set for this expense.
+     */
     public void setCountry(String country)
     {
         this.country = country;
     }
 
-    public float getExpenseAmount()
+    /**
+     * Get the claimed expense amount.
+     * 
+     * @return - The claimed expense amount
+     */
+    public Double getExpenseAmount()
     {
         return expenseAmount;
     }
 
-    public void setExpenseAmount(float expenseAmount)
+    /**
+     * Set the claimed expense amount.
+     * 
+     * @param expenseAmount - The amount to set as the claimed expense amount.
+     */
+    public void setExpenseAmount(Double expenseAmount)
     {
         this.expenseAmount = expenseAmount;
     }
 
+    /**
+     * Get the currency for this expense.
+     * 
+     * @return - the currency for this expense
+     */
     public String getExpenseCurrency()
     {
         return expenseCurrency;
     }
 
+    /**
+     * Set the currency for this expense
+     * 
+     * @param expenseCurrency - The currency to set for this expense
+     */
     public void setExpenseCurrency(String expenseCurrency)
     {
         this.expenseCurrency = expenseCurrency;
     }
 
+    /**
+     * Create a string representation of this expense.
+     */
     @Override
     public String toString()
     {

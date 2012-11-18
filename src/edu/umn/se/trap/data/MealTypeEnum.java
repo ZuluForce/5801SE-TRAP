@@ -14,10 +14,18 @@
 package edu.umn.se.trap.data;
 
 /**
+ * An enumeration of the various meal types. The unset value is used to help when distinguishing
+ * between an empty expense and a partially created one:
+ * 
+ * {@link MealExpense#isEmpty()}
+ * 
  * @author planeman
  * 
  */
 public enum MealTypeEnum
 {
-    BREAKFAST, LUNCH, DINNER, UNSET
+    BREAKFAST,
+    LUNCH,
+    DINNER,
+    UNSET
 }

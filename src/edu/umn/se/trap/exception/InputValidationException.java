@@ -21,12 +21,13 @@ package edu.umn.se.trap.exception;
  */
 public class InputValidationException extends TRAPException
 {
+    @SuppressWarnings("javadoc")
     private static final long serialVersionUID = -1191812454892764622L;
 
     /**
-     * Construct an InputValidationException with a given exception msg.
+     * Construct the exception with a message.
      * 
-     * @param msg
+     * @param msg - Message to go with the exception.
      */
     public InputValidationException(final String msg)
     {
@@ -34,12 +35,10 @@ public class InputValidationException extends TRAPException
     }
 
     /**
-     * Construct an InputValidationException with the given msg and exception type of t.
+     * Construct the exception with a message and a Throwable to encapsulate.
      * 
-     * @param msg
-     *            Message for the constructed exception
-     * @param t
-     *            Exception being wrapped
+     * @param msg - Message for the exception.
+     * @param t - Throwable exception to encapsulate.
      */
     public InputValidationException(final String msg, final Throwable t)
     {
@@ -49,8 +48,7 @@ public class InputValidationException extends TRAPException
     /**
      * Construct an InputValidationException wrapping the given exception t.
      * 
-     * @param t
-     *            Exception being wrapped
+     * @param t Exception being wrapped
      */
     public InputValidationException(final Throwable t)
     {

@@ -19,18 +19,35 @@ package edu.umn.se.trap.exception;
  */
 public abstract class TRAPException extends Exception
 {
+    @SuppressWarnings("javadoc")
     private static final long serialVersionUID = -1124664119379547664L;
 
+    /**
+     * Construct the exception with a message.
+     * 
+     * @param msg - Message to go with the exception.
+     */
     protected TRAPException(String msg)
     {
         super(msg);
     }
 
+    /**
+     * Construct the exception with a message and a Throwable to encapsulate.
+     * 
+     * @param msg - Message for the exception.
+     * @param t - Throwable exception to encapsulate.
+     */
     protected TRAPException(String msg, Throwable t)
     {
         super(msg, t);
     }
 
+    /**
+     * Construct the exception with another Throwable exception.
+     * 
+     * @param t - The Throwable exception
+     */
     protected TRAPException(Throwable t)
     {
         super(t);

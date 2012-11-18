@@ -24,14 +24,28 @@ import java.util.Date;
  */
 public class TransportationExpense
 {
+    /** Date this expense occurred on */
     private Date transportationDate;
+
+    /** Carrier for this expense */
     private String transportationCarrier;
+
+    /** miles traveled. Only relevant to car expense */
     private Integer transportationMilesTraveled;
+
+    /** yes/no value representing whether this expense is for a rental car */
     private String transportationRental;
+
+    /** The currency used to pay for this expense */
     private String transportationCurrency;
+
+    /** The specific transportation expense type */
     private TransportationTypeEnum transportationType;
 
+    /** The claimed amount for this expense */
     private Double expenseAmount;
+
+    /** The amount being reimbursed for this expense */
     private Double reimbursementAmount;
 
     /**

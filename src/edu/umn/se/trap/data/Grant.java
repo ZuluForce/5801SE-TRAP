@@ -21,9 +21,16 @@ package edu.umn.se.trap.data;
  */
 public class Grant
 {
+    /** Name of the grant account */
     private String grantAccount;
+
+    /** Percentage of the reimbursement total this grant is responsible for */
     private Integer grantPercentage;
+
+    /** The amount this grant is to be charged for this reimbursement */
     private Double grantCharge;
+
+    /** The final balance of the grant after the app is finished processing */
     private Double finalBalance;
 
     /**

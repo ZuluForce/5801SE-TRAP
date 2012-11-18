@@ -14,39 +14,45 @@
 package edu.umn.se.trap.exception;
 
 /**
+ * An exception representing a problem found while processing a business logic rule.
+ * 
  * @author planeman
  * 
  */
 public class BusinessLogicException extends TRAPException
 {
+    @SuppressWarnings("javadoc")
     private static final long serialVersionUID = -2550132764104621605L;
 
     /**
-     * @param msg
-     * @param t
+     * Construct the exception with a message and a Throwable to encapsulate.
+     * 
+     * @param msg - Message for the exception.
+     * @param t - Throwable exception to encapsulate.
      */
     public BusinessLogicException(String msg, Throwable t)
     {
         super(msg, t);
-        // TODO Auto-generated constructor stub
     }
 
     /**
-     * @param msg
+     * Construct the exception with a message.
+     * 
+     * @param msg - Message to go with the exception.
      */
     public BusinessLogicException(String msg)
     {
         super(msg);
-        // TODO Auto-generated constructor stub
     }
 
     /**
-     * @param t
+     * Construct the exception with another Throwable exception.
+     * 
+     * @param t - The Throwable exception
      */
     public BusinessLogicException(Throwable t)
     {
         super(t);
-        // TODO Auto-generated constructor stub
     }
 
 }

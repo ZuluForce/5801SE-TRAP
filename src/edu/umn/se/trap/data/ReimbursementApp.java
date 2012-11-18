@@ -32,28 +32,55 @@ import edu.umn.se.trap.exception.TRAPRuntimeException;
  */
 public class ReimbursementApp
 {
+    /** Departure datetime for the trip */
     private Date departureDatetime;
+
+    /** Arrival datetime for the trip */
     private Date arrivalDatetime;
+
+    /** Number of days the trip spans */
     private Integer numDays;
 
+    /** yes/no if the travel is using a sponsored CSE managed grant */
     private String travelTypeCSESponsored;
+
+    /** yes/no if the travel is using a sponsored DTC managed grant */
     private String travelTypeDTCSponsored;
+
+    /** yes/no if the travel is using a non-sponsored grant */
     private String travelTypeNonSponsored;
 
+    /** The map to hold the output of the application processing */
     private final Map<String, String> outputFields;
 
+    /** All lodging expenses for this application */
     private final List<LodgingExpense> lodgingExpenseList;
+
+    /** All other expenses for this application */
     private final List<OtherExpense> otherExpenseList;
+
+    /** All incidental expenses for this application */
     private final List<IncidentalExpense> incidentalExpenseList;
+
+    /** All meal expenses for this application */
     private final List<MealExpense> mealExpenseList;
+
+    /** All transportation expenses for this application */
     private final List<TransportationExpense> transportationExpenseList;
 
+    /** The conference info for the submitted form */
     private ConferenceInfo conferenceInfo;
+
+    /** Information on the submitting user */
     private UserInfo userInfo;
 
+    /** All grants being used in this reimbursement */
     private final List<Grant> grantList;
 
+    /** The total reimbursement amount for this app */
     private Double reimbursementTotal;
+
+    /** Per day reimbursement totals. These are used for filling in the output map */
     private final List<Double> perDayTotals;
 
     /**
@@ -73,81 +100,163 @@ public class ReimbursementApp
         perDayTotals = new ArrayList<Double>();
     }
 
+    /**
+     * Get the yes/no flag for the CSE managed sponsored travel type.
+     * 
+     * @return - The flag for CSE managed sponsored travel type.
+     */
     public String getTravelTypeCSESponsored()
     {
         return travelTypeCSESponsored;
     }
 
+    /**
+     * Set the yes/no flag for CSE managed sponsored travel type.
+     * 
+     * @param travelTypeCSESponsored - The value to set for the CSE managed sponsored travel type
+     *            flag.
+     */
     public void setTravelTypeCSESponsored(String travelTypeCSESponsored)
     {
         this.travelTypeCSESponsored = travelTypeCSESponsored;
     }
 
+    /**
+     * Get the yes/no flag for the DTC managed sponsored travel type.
+     * 
+     * @return - The flag for DTC managed sponsored travel type.
+     */
     public String getTravelTypeDTCSponsored()
     {
         return travelTypeDTCSponsored;
     }
 
+    /**
+     * Set the yes/no flag for DTC managed sponsored travel type.
+     * 
+     * @param travelTypeDTCSponsored - The value to set for the DTC managed sponsored travel type
+     *            flag.
+     */
     public void setTravelTypeDTCSponsored(String travelTypeDTCSponsored)
     {
         this.travelTypeDTCSponsored = travelTypeDTCSponsored;
     }
 
+    /**
+     * Get the yes/no flag for the non-sponsored travel type.
+     * 
+     * @return - The flag for non-sponsored travel type.
+     */
     public String getTravelTypeNonSponsored()
     {
         return travelTypeNonSponsored;
     }
 
+    /**
+     * Set the yes/no flag for non-sponsored travel type.
+     * 
+     * @param travelTypeNonSponsored - The value to set for the non-sponsored travel type flag.
+     */
     public void setTravelTypeNonSponsored(String travelTypeNonSponsored)
     {
         this.travelTypeNonSponsored = travelTypeNonSponsored;
     }
 
+    /**
+     * Get the departure datetime for this trip.
+     * 
+     * @return - The departure datetime for this trip
+     */
     public Date getDepartureDatetime()
     {
         return departureDatetime;
     }
 
+    /**
+     * Set the departure datetime for this trip.
+     * 
+     * @param departureDatetime - The departure datetime to set for this trip
+     */
     public void setDepartureDatetime(Date departureDatetime)
     {
         this.departureDatetime = departureDatetime;
     }
 
+    /**
+     * Get the arrival datetime for this trip
+     * 
+     * @return - The arrival datetime for this trip.
+     */
     public Date getArrivalDatetime()
     {
         return arrivalDatetime;
     }
 
+    /**
+     * Set the arrival datetime for the trip.
+     * 
+     * @param arrivalDatetime - The arrival datetime to set for this trip.
+     */
     public void setArrivalDatetime(Date arrivalDatetime)
     {
         this.arrivalDatetime = arrivalDatetime;
     }
 
+    /**
+     * Get the number of days for the trip.
+     * 
+     * @return - The length of the trip in days
+     */
     public Integer getNumDays()
     {
         return numDays;
     }
 
+    /**
+     * Set the number of days for the trip.
+     * 
+     * @param numDays - Length of the trip in days
+     */
     public void setNumDays(int numDays)
     {
         this.numDays = numDays;
     }
 
+    /**
+     * Get this app's conference information
+     * 
+     * @return - The conference information for this app
+     */
     public ConferenceInfo getConferenceInfo()
     {
         return conferenceInfo;
     }
 
+    /**
+     * Set the conferenceInfo for this application
+     * 
+     * @param conferenceInfo - The value to set for this app's conferenceInfo
+     */
     public void setConferenceInfo(ConferenceInfo conferenceInfo)
     {
         this.conferenceInfo = conferenceInfo;
     }
 
+    /**
+     * Get the user information
+     * 
+     * @return - The submitting user's information
+     */
     public UserInfo getUserInfo()
     {
         return userInfo;
     }
 
+    /**
+     * Set the userInfo attribute
+     * 
+     * @param userInfo - Value to set for the userInfo attribute.
+     */
     public void setUserInfo(UserInfo userInfo)
     {
         this.userInfo = userInfo;
