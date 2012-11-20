@@ -25,23 +25,4 @@ public class CurrencyDBWrapper
     {
         return currencyDB.getConversion(currency, date);
     }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        return currencyDB.equals(obj);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return currencyDB.hashCode();
-    }
-
-    @Override
-    public String toString()
-    {
-        return currencyDB.toString();
-    }
-
 }

@@ -23,12 +23,6 @@ public class UserDBWrapper
 {
     private static final UserDB userDB = new UserDB();
 
-    @Override
-    public boolean equals(Object obj)
-    {
-        return userDB.equals(obj);
-    }
-
     public static List<String> getUserInfo(String userName) throws KeyNotFoundException
     {
         return userDB.getUserInfo(userName);
@@ -46,17 +40,4 @@ public class UserDBWrapper
             return false;
         }
     }
-
-    @Override
-    public int hashCode()
-    {
-        return userDB.hashCode();
-    }
-
-    @Override
-    public String toString()
-    {
-        return userDB.toString();
-    }
-
 }

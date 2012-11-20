@@ -13,7 +13,6 @@
  ****************************************************************************************/
 package edu.umn.se.trap.data;
 
-import java.util.Date;
 
 /**
  * A data object containing all information pertaining to one meal expense.
@@ -21,22 +20,10 @@ import java.util.Date;
  * @author planeman
  * 
  */
-public class MealExpense
+public class MealExpense extends PerDiemExpense
 {
-    /** The date the expense occurred */
-    private Date expenseDate;
-
     /** The type for this meal expense (ie breakfast, lunch, dinner) */
     private MealTypeEnum type;
-
-    /** The city the expense occurred in */
-    private String city;
-
-    /** The state the expense occurred in */
-    private String state;
-
-    /** The country the expense occurred in */
-    private String country;
 
     /**
      * Construct the MealExpense object. Sets all attributes to unset sentinels.
@@ -57,37 +44,14 @@ public class MealExpense
      * 
      * @return - true if none of the fields in this expense have been set, false otherwise.
      */
+    @Override
     public boolean isEmpty()
     {
         boolean empty = true;
 
-        empty &= expenseDate == null;
-        empty &= city == null;
-        empty &= state == null;
-        empty &= country == null;
-        empty &= type == MealTypeEnum.NOT_SET;
+        empty &= empty &= type == MealTypeEnum.NOT_SET;
 
         return empty;
-    }
-
-    /**
-     * Get the date for this expense.
-     * 
-     * @return - The date for this expense.
-     */
-    public Date getExpenseDate()
-    {
-        return expenseDate;
-    }
-
-    /**
-     * Set the date for this expense.
-     * 
-     * @param expenseDate - The date for this expense.
-     */
-    public void setExpenseDate(Date expenseDate)
-    {
-        this.expenseDate = expenseDate;
     }
 
     /**
@@ -109,66 +73,6 @@ public class MealExpense
     public void setType(MealTypeEnum type)
     {
         this.type = type;
-    }
-
-    /**
-     * Get the city which this expense occurred in
-     * 
-     * @return - The city for this expense.
-     */
-    public String getCity()
-    {
-        return city;
-    }
-
-    /**
-     * Set the city which this expense occurred in.
-     * 
-     * @param city - The city to set for this expense
-     */
-    public void setCity(String city)
-    {
-        this.city = city;
-    }
-
-    /**
-     * Get the state which this expense occurred in
-     * 
-     * @return - The state for this expense.
-     */
-    public String getState()
-    {
-        return state;
-    }
-
-    /**
-     * Set the state which this expense occurred in.
-     * 
-     * @param state - The state to set for this expense
-     */
-    public void setState(String state)
-    {
-        this.state = state;
-    }
-
-    /**
-     * Get the country which this expense occurred in
-     * 
-     * @return - The ccountry for this expense.
-     */
-    public String getCountry()
-    {
-        return country;
-    }
-
-    /**
-     * Set the country which this expense occurred in.
-     * 
-     * @param country - The country to set for this expense
-     */
-    public void setCountry(String country)
-    {
-        this.country = country;
     }
 
     /**

@@ -21,20 +21,8 @@ import java.util.Date;
  * @author planeman
  * 
  */
-public class IncidentalExpense
+public class IncidentalExpense extends PerDiemExpense
 {
-    /** Date the expense occurred */
-    private Date expenseDate;
-
-    /** city the expense occurred in */
-    private String city;
-
-    /** state the expense occurred in */
-    private String state;
-
-    /** country the expense occurred in */
-    private String country;
-
     /** The claimed amount for this expense */
     private Double expenseAmount;
 
@@ -63,6 +51,7 @@ public class IncidentalExpense
      * 
      * @return - true if none of the fields in this expense have been set, false otherwise.
      */
+    @Override
     public boolean isEmpty()
     {
         boolean empty = true;
@@ -83,6 +72,7 @@ public class IncidentalExpense
      * 
      * @return - The date for this expense
      */
+    @Override
     public Date getExpenseDate()
     {
         return expenseDate;
@@ -93,6 +83,7 @@ public class IncidentalExpense
      * 
      * @param expenseDate - The date of the expense
      */
+    @Override
     public void setExpenseDate(Date expenseDate)
     {
         this.expenseDate = expenseDate;
@@ -103,6 +94,7 @@ public class IncidentalExpense
      * 
      * @return - The city the expense occurred in.
      */
+    @Override
     public String getCity()
     {
         return city;
@@ -113,6 +105,7 @@ public class IncidentalExpense
      * 
      * @param city - The city the expense occurred in.
      */
+    @Override
     public void setCity(String city)
     {
         this.city = city;
@@ -123,6 +116,7 @@ public class IncidentalExpense
      * 
      * @return - The state the expense occurred in.
      */
+    @Override
     public String getState()
     {
         return state;
@@ -133,6 +127,7 @@ public class IncidentalExpense
      * 
      * @param state - The state the expense occurred in.
      */
+    @Override
     public void setState(String state)
     {
         this.state = state;
@@ -143,6 +138,7 @@ public class IncidentalExpense
      * 
      * @return - The country the expense occurred in.
      */
+    @Override
     public String getCountry()
     {
         return country;
@@ -153,6 +149,7 @@ public class IncidentalExpense
      * 
      * @param country - The country the expense occurred in.
      */
+    @Override
     public void setCountry(String country)
     {
         this.country = country;

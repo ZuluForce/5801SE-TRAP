@@ -45,22 +45,4 @@ public class PerDiemDBWrapper
         return perDiemDB.getInternationalPerDiem(country);
     }
 
-    @Override
-    public boolean equals(Object obj)
-    {
-        return perDiemDB.equals(obj);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return perDiemDB.hashCode();
-    }
-
-    @Override
-    public String toString()
-    {
-        return perDiemDB.toString();
-    }
-
 }

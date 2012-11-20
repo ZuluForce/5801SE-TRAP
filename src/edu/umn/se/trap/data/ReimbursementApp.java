@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.exception.TRAPRuntimeException;
 import edu.umn.se.trap.form.OutputFieldKeys;
 
@@ -82,7 +83,7 @@ public class ReimbursementApp
     private Double reimbursementTotal;
 
     /** Per day reimbursement totals. These are used for filling in the output map */
-    private final List<Double> perDayTotals;
+    private final List<TripDay> tripDays;
 
     /**
      * Construct the ReimbursementApp object. This initializes all attributes.
@@ -98,7 +99,7 @@ public class ReimbursementApp
 
         grantList = new ArrayList<Grant>();
 
-        perDayTotals = new ArrayList<Double>();
+        tripDays = new ArrayList<TripDay>();
 
         numDays = 0;
         reimbursementTotal = 0.0;
@@ -225,10 +226,10 @@ public class ReimbursementApp
     {
         this.numDays = numDays;
 
-        // Make sure we have a corresponding number of day total entries
-        while (numDays > perDayTotals.size())
+        // Make sure we have a corresponding number of TripDay's
+        while (numDays > tripDays.size())
         {
-            perDayTotals.add(0.0);
+            tripDays.add(new TripDay(tripDays.size() + 1));
         }
     }
 
@@ -295,46 +296,30 @@ public class ReimbursementApp
     }
 
     /**
-     * Add an expense amount under a certain day. This amount added should be the final
-     * reimbursement amount for the given expense. This method will also add the amount to the
-     * reimbursement total.
+     * Get the TripDay object for a particular day in the trip. If you request a day outside the
+     * range of known trip days then a trap runtime exception will be thrown.
      * 
-     * OtherExpense amounts do not go under a day total but they do need to be added to the
-     * reimbursement total.
-     * 
-     * @see #getDayTotal(Integer)
-     * @param day - The day to add the amount to
-     * @param amount - The amount to add under the given day and the reimbursement total
+     * @param dayNumber - The day to get the TripDay object for.
+     * @return - The TripDay object for the given dayNumber
      */
-    public void addToDayTotal(Integer day, Double amount)
+    public TripDay getTripDay(Integer dayNumber)
     {
-        // This just ensures that we have the correct size to fit all days
-        while (day >= perDayTotals.size())
+        if (dayNumber > tripDays.size())
         {
-            perDayTotals.add(0.0);
+            throw new TRAPRuntimeException("ReimbursementApp has no TripDay for day " + dayNumber);
         }
 
-        Double newAmount = perDayTotals.get(day - 1);
-        newAmount += amount;
-
-        perDayTotals.set(day, newAmount);
+        return tripDays.get(dayNumber - 1);
     }
 
     /**
-     * Get the reimbursement amount for a given day.
+     * Get all TripDays.
      * 
-     * @see #addToDayTotal(Integer, Double)
-     * @param day - The day to retrieve the total for
-     * @return - The reimbursement amount for the given day
+     * @return - The list of TripDays, one for each day of the trip.
      */
-    public Double getDayTotal(Integer day)
+    public List<TripDay> getAllTripDays()
     {
-        if (day > perDayTotals.size())
-        {
-            throw new TRAPRuntimeException("There is no day " + day);
-        }
-
-        return perDayTotals.get(day - 1);
+        return tripDays;
     }
 
     /**
@@ -364,7 +349,7 @@ public class ReimbursementApp
     /**
      * Get the list of lodging expenses.
      * 
-     * @see #addLodgingExpense(LodgingExpense)
+     * @see #addLodgingExpense(LodgingExpense,Integer)
      * @return - A list of LodgingExpenses contained in this app.
      */
     public List<LodgingExpense> getLodgingExpenseList()
@@ -377,10 +362,17 @@ public class ReimbursementApp
      * 
      * @see #getLodgingExpenseList()
      * @param expense - The LodgingExpense object to add to the app's list.
+     * @param dayNumber - The day of the trip to add the expense to
+     * @throws InputValidationException - If this is the second loding expense to be added for a
+     *             particular day
      */
-    public void addLodgingExpense(LodgingExpense expense)
+    public void addLodgingExpense(LodgingExpense expense, Integer dayNumber)
+            throws InputValidationException
     {
         lodgingExpenseList.add(expense);
+
+        TripDay day = getTripDay(dayNumber);
+        day.setLodgingExpense(expense);
     }
 
     /**
@@ -410,7 +402,7 @@ public class ReimbursementApp
     /**
      * Get the list of incidental expenses.
      * 
-     * @see #addIncidentalExpense(IncidentalExpense)
+     * @see #addIncidentalExpense(IncidentalExpense,Integer)
      * @see IncidentalExpense
      * @return - A list of IncidentalExpenses contained in this app.
      */
@@ -425,16 +417,23 @@ public class ReimbursementApp
      * @see #getIncidentalExpenseList()
      * @see IncidentalExpense
      * @param expense - The LodgingExpense object to add to the app's list.
+     * @param dayNumber - The day to add the incidental expense under.
+     * @throws InputValidationException - If this is the second incidental expense to be added for
+     *             the given day.
      */
-    public void addIncidentalExpense(IncidentalExpense expense)
+    public void addIncidentalExpense(IncidentalExpense expense, Integer dayNumber)
+            throws InputValidationException
     {
         incidentalExpenseList.add(expense);
+
+        TripDay day = getTripDay(dayNumber);
+        day.setIncidentalExpense(expense);
     }
 
     /**
      * Get the list of meal expenses.
      * 
-     * @see #addMealExpense(MealExpense)
+     * @see #addMealExpense(MealExpense,Integer)
      * @see MealExpense
      * @return - A list of MealExpenses contained in this app.
      */
@@ -449,10 +448,17 @@ public class ReimbursementApp
      * @see #getMealExpenseList()
      * @see MealExpense
      * @param expense - The MealExpense object to add to the app's list.
+     * @param dayNumber - The day to add the expense under.
+     * @throws InputValidationException - If this expense is 4th meal expense to be added under this
+     *             day.
      */
-    public void addMealExpense(MealExpense expense)
+    public void addMealExpense(MealExpense expense, Integer dayNumber)
+            throws InputValidationException
     {
         mealExpenseList.add(expense);
+
+        TripDay day = getTripDay(dayNumber);
+        day.addMealExpenses(expense);
     }
 
     /**

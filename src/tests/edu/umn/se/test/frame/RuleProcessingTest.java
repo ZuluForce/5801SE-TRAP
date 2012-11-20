@@ -8,6 +8,8 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.exception.TRAPException;
 
@@ -17,6 +19,7 @@ import edu.umn.se.trap.exception.TRAPException;
  */
 public class RuleProcessingTest extends TrapTestFramework
 {
+    private static Logger log = LoggerFactory.getLogger(RuleProcessingTest.class);
 
     /**
      * This is a simple black box test of the form processing. A sample form is generated, it is
@@ -34,6 +37,7 @@ public class RuleProcessingTest extends TrapTestFramework
 
             Map<String, String> expected = getExpectedOutput(id);
             Map<String, String> output = getCompletedForm(id);
+            log.info("Output map: {}", output);
             Assert.assertTrue("Output map is not equal to the expected", expected.equals(output));
         }
         catch (TRAPException e)

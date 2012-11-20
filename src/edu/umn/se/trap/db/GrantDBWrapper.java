@@ -23,12 +23,6 @@ public class GrantDBWrapper
 {
     private static final GrantDB grantDB = new GrantDB();
 
-    @Override
-    public boolean equals(Object obj)
-    {
-        return grantDB.equals(obj);
-    }
-
     public static List<Object> getGrantInfo(String accountName) throws KeyNotFoundException
     {
         return grantDB.getGrantInfo(accountName);
@@ -39,18 +33,6 @@ public class GrantDBWrapper
         List<Object> grantInfo = getGrantInfo(accountName);
 
         return (Double) grantInfo.get(GrantDB.GRANT_FIELDS.ACCOUNT_BALANCE.ordinal());
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return grantDB.hashCode();
-    }
-
-    @Override
-    public String toString()
-    {
-        return grantDB.toString();
     }
 
     public static void updateAccountBalance(String accountName, Double newBalance)

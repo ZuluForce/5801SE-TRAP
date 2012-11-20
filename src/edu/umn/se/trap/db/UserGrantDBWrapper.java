@@ -34,23 +34,4 @@ public class UserGrantDBWrapper
 
         return grantInfo.get(UserGrantDB.USER_GRANT_FIELDS.GRANT_ADMIN.ordinal());
     }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        return userGrantDB.equals(obj);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return userGrantDB.hashCode();
-    }
-
-    @Override
-    public String toString()
-    {
-        return userGrantDB.toString();
-    }
-
 }
