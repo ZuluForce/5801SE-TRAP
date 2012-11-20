@@ -48,7 +48,7 @@ public class AllUserForms
      * Returns the container holding all of a specific user's forms.
      * 
      * @param user - String of the user id
-     * @return Returns a user's saved forms in a SavedForms object, otherwise null.
+     * @return Returns a user's saved forms in a SavedForms object.
      * @throws FormStorageException - Error only when a user is not found in the map.
      */
     private SavedForms getUserSavedForms(String user) throws FormStorageException

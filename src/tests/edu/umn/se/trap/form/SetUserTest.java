@@ -1,12 +1,14 @@
 // SetUserTest.java
-package edu.umn.se.test.frame;
+package edu.umn.se.trap.form;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 
+import edu.umn.se.test.frame.TrapTestFramework;
 import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.TRAPException;
 
@@ -109,8 +111,37 @@ public class SetUserTest extends TrapTestFramework
             e.printStackTrace();
             Assert.fail("Unexpected exception: " + e.getMessage());
         }
-        
-        @Test
-        public void userSetWorking()
+    }
+
+    @Test
+    public void userSetWorking()
+    {
+        try
+        {
+            Assert.assertNull("getUser gave non-null name before anything was set", getUser());
+            setValidUser();
+            Assert.assertNotNull("getUser gave null after setting user", getUser());
+
+            // Save methods
+            Map<String, String> emptyMap = new HashMap<String, String>();
+            int id = this.saveFormData(emptyMap, "test");
+            this.saveFormData(emptyMap, id);
+
+            // Load methods
+            getSavedFormData(id);
+            getSavedForms();
+
+            // The following require forms that can be fully processed
+            // submitFormData(id);
+            // getCompletedForm(id);
+
+            // Clear the forms
+            clearSavedForms();
+        }
+        catch (TRAPException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected Exception: " + e.getMessage());
+        }
     }
 }

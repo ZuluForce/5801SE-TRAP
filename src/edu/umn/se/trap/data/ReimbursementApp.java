@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.umn.se.trap.exception.TRAPRuntimeException;
+import edu.umn.se.trap.form.OutputFieldKeys;
 
 /**
  * A large data object that holds the hierarchy of objects and attributes that represent an the
@@ -98,6 +99,9 @@ public class ReimbursementApp
         grantList = new ArrayList<Grant>();
 
         perDayTotals = new ArrayList<Double>();
+
+        numDays = 0;
+        reimbursementTotal = 0.0;
     }
 
     /**
@@ -220,6 +224,12 @@ public class ReimbursementApp
     public void setNumDays(int numDays)
     {
         this.numDays = numDays;
+
+        // Make sure we have a corresponding number of day total entries
+        while (numDays > perDayTotals.size())
+        {
+            perDayTotals.add(0.0);
+        }
     }
 
     /**
@@ -299,12 +309,12 @@ public class ReimbursementApp
     public void addToDayTotal(Integer day, Double amount)
     {
         // This just ensures that we have the correct size to fit all days
-        while (day > perDayTotals.size())
+        while (day >= perDayTotals.size())
         {
             perDayTotals.add(0.0);
         }
 
-        Double newAmount = perDayTotals.get(day);
+        Double newAmount = perDayTotals.get(day - 1);
         newAmount += amount;
 
         perDayTotals.set(day, newAmount);
@@ -324,7 +334,7 @@ public class ReimbursementApp
             throw new TRAPRuntimeException("There is no day " + day);
         }
 
-        return perDayTotals.get(day);
+        return perDayTotals.get(day - 1);
     }
 
     /**
@@ -491,6 +501,18 @@ public class ReimbursementApp
     public void addGrant(Grant grant)
     {
         grantList.add(grant);
+    }
+
+    /**
+     * Get the time the form was submitted. This is extracted from the output map so if it hasn't
+     * been set yet it will return null.
+     * 
+     * @return - The string representation of the datetime when the form was submitted. If not set
+     *         this will return null.
+     */
+    public String getSubmissionTime()
+    {
+        return outputFields.get(OutputFieldKeys.FORM_SUBMISSION_DATETIME);
     }
 
     /**

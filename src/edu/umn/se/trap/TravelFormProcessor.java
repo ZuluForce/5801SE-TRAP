@@ -15,6 +15,9 @@ package edu.umn.se.trap;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.db.UserDBWrapper;
 import edu.umn.se.trap.exception.FormProcessorException;
@@ -33,6 +36,9 @@ import edu.umn.se.trap.rules.TRAPRuleRegistry;
  */
 public class TravelFormProcessor implements TravelFormProcessorIntf
 {
+    /** Logger for the TravelFormProcessor class */
+    private static Logger log = LoggerFactory.getLogger(TravelFormProcessor.class);
+
     /** main object for the form storage sub-module */
     private final AllUserForms formStorage;
 
