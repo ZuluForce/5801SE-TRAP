@@ -34,14 +34,23 @@ public class AllUserForms
      * Holds a user's saved forms. See class SavedForms for more information regarding an individual
      * user's forms.
      */
-    private final Map<String, SavedForms> usersForms;
+    // private final Map<String, SavedForms> usersForms;
+    private final Map<String, Map<Integer, FormContainer>> usersForms;
+
+    /**
+     * A counter to generate form id's from. A user is allowed forms up to the max integer a long
+     * can hold.
+     */
+    private int formId;
 
     /**
      * Constructor for AllUserForms. Initializes the usersForms hash map; starts out empty.
      */
     public AllUserForms()
     {
-        usersForms = new HashMap<String, SavedForms>();
+        usersForms = new HashMap<String, Map<Integer, FormContainer>>();
+
+        formId = 0;
     }
 
     /**
@@ -51,10 +60,11 @@ public class AllUserForms
      * @return Returns a user's saved forms in a SavedForms object.
      * @throws FormStorageException - Error only when a user is not found in the map.
      */
-    private SavedForms getUserSavedForms(String user) throws FormStorageException
+    private Map<Integer, FormContainer> getUserSavedForms(String user) throws FormStorageException
     {
 
         // Check to see if a user already exists in the map.
+
         if (usersForms.containsKey(user))
         {
             return usersForms.get(user);
@@ -83,7 +93,7 @@ public class AllUserForms
         }
 
         // The user does not already exist, put them in the map and create a new container.
-        usersForms.put(user, new SavedForms());
+        usersForms.put(user, new HashMap<Integer>, FormContainer>());
 
         return;
     }
@@ -105,10 +115,21 @@ public class AllUserForms
         addUser(user);
 
         // Temporary variable to hold the container of a user's saved forms.
-        SavedForms tempUserForm = getUserSavedForms(user);
+        // SavedForms tempUserForm = getUserSavedForms(user);
 
         // Save the user's form
-        tempUserForm.saveForm(formData, id);
+        // tempUserForm.saveForm(formData, id);
+
+        Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
+
+        if (!tempUserForms.containsKey(id))
+        {
+            throw new FormStorageException("Id " + id + " not found for user " + user);
+        }
+
+        FormContainer tempForm = tempUserForms.get(id);
+
+        tempForm.saveForm(formData);
 
         return id;
     }
@@ -129,10 +150,17 @@ public class AllUserForms
         addUser(user);
 
         // Temporary variable to hold the container of a user's saved forms.
-        SavedForms tempUserForm = getUserSavedForms(user);
+        // SavedForms tempUserForm = getUserSavedForms(user);
 
         // Save the form and the new form id that is returned.
-        int newId = tempUserForm.saveForm(formData, desc);
+        // int newId = tempUserForm.saveForm(formData, desc);
+        int newId = generateNewId();
+
+        FormContainer newForm = new FormContainer(formData, desc);
+
+        Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
+
+        tempUserForms.put(newId, newForm);
 
         // Return the new form id for later reference.
         return newId;
@@ -153,10 +181,18 @@ public class AllUserForms
         addUser(user);
 
         // Temporary variable to hold the container of a user's saved forms.
-        SavedForms tempUserForm = usersForms.get(user);
+        // SavedForms tempUserForm = usersForms.get(user);
 
         // Grabs the specific form container which holds information related to a form.
-        FormContainer tempFormContainer = tempUserForm.getFormContainer(id);
+        // FormContainer tempFormContainer = tempUserForm.getFormContainer(id);
+        Map<Integer, FormContainer> tempUsersForms = usersForms.get(user);
+
+        if (tempUsersForms.containsKey(id))
+        {
+            throw new FormStorageException("Cannot find form " + id + " for user " + user);
+        }
+
+        FormContainer tempFormContainer = tempUsersForms.get(id);
 
         // Return the form if it has a SUBMITTED status.
         if (tempFormContainer.getStatus() == TravelFormProcessorIntf.FORM_STATUS.SUBMITTED)
@@ -185,10 +221,19 @@ public class AllUserForms
         addUser(user);
 
         // Temporary variable to hold the container of a user's saved forms.
-        SavedForms tempUserForm = getUserSavedForms(user);
+        // SavedForms tempUserForm = getUserSavedForms(user);
 
         // Grabs the specific form container which holds information related to a form.
-        FormContainer tempFormContainer = tempUserForm.getFormContainer(id);
+        // FormContainer tempFormContainer = tempUserForm.getFormContainer(id);
+
+        Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
+
+        if (!tempUserForms.containsKey(id))
+        {
+            throw new FormStorageException("Cannot find form " + id + " for user " + user);
+        }
+
+        FormContainer tempFormContainer = tempUserForms.get(id);
 
         // Return the form
         return tempFormContainer.getForm();
@@ -256,4 +301,17 @@ public class AllUserForms
 
         return;
     }
+
+    /**
+     * @return
+     */
+    private int generateNewId()
+    {
+        int returnId = formId;
+
+        formId++;
+
+        return returnId;
+    }
+
 }
