@@ -20,6 +20,7 @@ import edu.umn.se.trap.data.Grant;
 import edu.umn.se.trap.data.OtherExpense;
 import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.data.TransportationExpense;
+import edu.umn.se.trap.data.TripDay;
 import edu.umn.se.trap.db.GrantDBWrapper;
 import edu.umn.se.trap.db.KeyNotFoundException;
 import edu.umn.se.trap.db.UserGrantDBWrapper;
@@ -152,12 +153,13 @@ public class FinalizeRule implements TRAPRule
 
         // Add day totals
         app.setOutputField(OutputFieldKeys.NUM_DAYS, app.getNumDays().toString());
-        for (int i = 0; i < app.getNumDays(); ++i)
+        for (TripDay day : app.getAllTripDays())
         {
-            Date dayDate = DateValidator.advanceDateInDays(app.getDepartureDatetime(), i);
+            Date dayDate = DateValidator.advanceDateInDays(app.getDepartureDatetime(),
+                    day.getDayNumber() - 1);
             app.setOutputField(OutputFieldKeys.DAY_DATE, DateValidator.dateToString(dayDate));
 
-            app.setOutputField(OutputFieldKeys.DAY_TOTAL, app.getDayTotal(i + 1).toString());
+            app.setOutputField(OutputFieldKeys.DAY_TOTAL, day.getDayTotal().toString());
         }
 
         // TODO: Add Destinations

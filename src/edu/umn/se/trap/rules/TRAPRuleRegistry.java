@@ -95,6 +95,7 @@ public class TRAPRuleRegistry
         addInputValidationRule(new DateValidator());
 
         // Add BusinessLogicRules
+        addBusinessLogicRule(new FindDestinationsRule());
     }
 
     /**

@@ -27,6 +27,12 @@ public class OutputFieldKeys
     public static final String ARRIVAL_DATETIME = "ARRIVAL_DATETIME";
     public static final String DEPARTURE_DATETIME = "DEPARTURE_DATETIME";
 
+    // Destinations
+    public static final String NUM_DESTINATIONS = "NUM_DESTINATIONS";
+    public static final String DESTINATION_CITY_FMT = "DESTINATION%d_CITY";
+    public static final String DESTINATION_STATE_FMT = "DESTINATION%d_STATE";
+    public static final String DESTINATION_COUNTRY_FMT = "DESTINATION%d_COUNTRY";
+
     // Funding types
     public final static String TRAVEL_TYPE_CSE_SPONSORED = "TRAVEL_TYPE_CSE_SPONSORED";
     public final static String TRAVEL_TYPE_DTC_SPONSORED = "TRAVEL_TYPE_DTC_SPONSORED";

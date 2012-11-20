@@ -73,6 +73,8 @@ public class FormDataConverter
 
         String value;
 
+        log.info("Started form data conversion: {}", new Date());
+
         // The (Input) or (Output) preceeding comments means that the data being collected
         // is either coming from input into the RApp or going to the output map respectively.
 
@@ -139,6 +141,8 @@ public class FormDataConverter
 
         UserInfo userInfo = new UserInfo();
 
+        log.info("Collection user information");
+
         // (Input) Username
         username = getFormValue(data, InputFieldKeys.USER_NAME);
         userInfo.setUsername(username);
@@ -172,7 +176,6 @@ public class FormDataConverter
         // Add UserInfo object to RApp
         app.setUserInfo(userInfo);
 
-        log.info("Extracting user information");
         // (Output) Full Name
         value = extraUserInfo.get(UserDB.USER_FIELDS.FULL_NAME.ordinal());
         app.setOutputField(OutputFieldKeys.FULL_NAME, value);
@@ -203,6 +206,8 @@ public class FormDataConverter
     {
         ConferenceInfo conferenceInfo = new ConferenceInfo();
         String value;
+
+        log.info("Building conference information");
 
         // Get information on the travel type funding (sponsored/non-sponsored)
         boolean haveTravelType = false;
@@ -324,30 +329,31 @@ public class FormDataConverter
      * @param app - The ReimbursementApp that is being constructed.
      * @param data - The input data for the form that is being submitted.
      * @throws MissingFieldException - When a required meal expense related field is missing.
+     * @throws InputValidationException - When more than 3 meal expenses are claimed on a given day
      */
     private static void addMealExpenses(ReimbursementApp app, Map<String, String> data)
-            throws MissingFieldException
+            throws MissingFieldException, InputValidationException
     {
         String filledKey, value;
 
         MealExpense mealExpense;
 
         // First gather all breakfast expenses
-        for (int i = 1; i <= app.getNumDays(); ++i)
+        for (int day = 1; day <= app.getNumDays(); ++day)
         {
             mealExpense = new MealExpense();
 
             try
             {
-                filledKey = String.format(InputFieldKeys.BREAKFAST_CITY_FMT, i);
+                filledKey = String.format(InputFieldKeys.BREAKFAST_CITY_FMT, day);
                 value = getFormValue(data, filledKey);
                 mealExpense.setCity(value);
 
-                filledKey = String.format(InputFieldKeys.BREAKFAST_COUNTRY_FMT, i);
+                filledKey = String.format(InputFieldKeys.BREAKFAST_COUNTRY_FMT, day);
                 value = getFormValue(data, filledKey);
                 mealExpense.setCountry(value);
 
-                filledKey = String.format(InputFieldKeys.BREAKFAST_STATE_FMT, i);
+                filledKey = String.format(InputFieldKeys.BREAKFAST_STATE_FMT, day);
                 value = getFormValue(data, filledKey);
                 mealExpense.setState(value);
 
@@ -355,9 +361,9 @@ public class FormDataConverter
 
                 // Set the date for this expense relative to the departure date of the trip
                 mealExpense.setExpenseDate(DateValidator.advanceDateInDays(
-                        app.getDepartureDatetime(), i - 1));
+                        app.getDepartureDatetime(), day - 1));
 
-                app.addMealExpense(mealExpense);
+                app.addMealExpense(mealExpense, day);
             }
             catch (MissingFieldException mfe)
             {
@@ -371,29 +377,29 @@ public class FormDataConverter
         }
 
         // Gather all lunch expenses
-        for (int i = 1; i <= app.getNumDays(); ++i)
+        for (int day = 1; day <= app.getNumDays(); ++day)
         {
             mealExpense = new MealExpense();
 
             try
             {
-                filledKey = String.format(InputFieldKeys.LUNCH_CITY_FMT, i);
+                filledKey = String.format(InputFieldKeys.LUNCH_CITY_FMT, day);
                 value = getFormValue(data, filledKey);
                 mealExpense.setCity(value);
 
-                filledKey = String.format(InputFieldKeys.LUNCH_COUNTRY_FMT, i);
+                filledKey = String.format(InputFieldKeys.LUNCH_COUNTRY_FMT, day);
                 value = getFormValue(data, filledKey);
                 mealExpense.setCountry(value);
 
-                filledKey = String.format(InputFieldKeys.LUNCH_STATE_FMT, i);
+                filledKey = String.format(InputFieldKeys.LUNCH_STATE_FMT, day);
                 value = getFormValue(data, filledKey);
                 mealExpense.setState(value);
 
                 mealExpense.setType(MealTypeEnum.LUNCH);
                 mealExpense.setExpenseDate(DateValidator.advanceDateInDays(
-                        app.getDepartureDatetime(), i - 1));
+                        app.getDepartureDatetime(), day - 1));
 
-                app.addMealExpense(mealExpense);
+                app.addMealExpense(mealExpense, day);
             }
             catch (MissingFieldException mfe)
             {
@@ -407,29 +413,29 @@ public class FormDataConverter
         }
 
         // Gather all dinner expenses
-        for (int i = 1; i <= app.getNumDays(); ++i)
+        for (int day = 1; day <= app.getNumDays(); ++day)
         {
             mealExpense = new MealExpense();
 
             try
             {
-                filledKey = String.format(InputFieldKeys.DINNER_CITY_FMT, i);
+                filledKey = String.format(InputFieldKeys.DINNER_CITY_FMT, day);
                 value = getFormValue(data, filledKey);
                 mealExpense.setCity(value);
 
-                filledKey = String.format(InputFieldKeys.DINNER_COUNTRY_FMT, i);
+                filledKey = String.format(InputFieldKeys.DINNER_COUNTRY_FMT, day);
                 value = getFormValue(data, filledKey);
                 mealExpense.setCountry(value);
 
-                filledKey = String.format(InputFieldKeys.DINNER_STATE_FMT, i);
+                filledKey = String.format(InputFieldKeys.DINNER_STATE_FMT, day);
                 value = getFormValue(data, filledKey);
                 mealExpense.setState(value);
 
                 mealExpense.setType(MealTypeEnum.DINNER);
                 mealExpense.setExpenseDate(DateValidator.advanceDateInDays(
-                        app.getDepartureDatetime(), i - 1));
+                        app.getDepartureDatetime(), day - 1));
 
-                app.addMealExpense(mealExpense);
+                app.addMealExpense(mealExpense, day);
             }
             catch (MissingFieldException mfe)
             {
@@ -443,6 +449,7 @@ public class FormDataConverter
         }
 
         // All meal expenses have been added
+        log.info("Added {} meal expenses to app", app.getMealExpenseList().size());
     }
 
     /**
@@ -459,13 +466,13 @@ public class FormDataConverter
         String filledKey, value;
 
         LodgingExpense lodgingExpense;
-        for (int i = 1; i <= app.getNumDays(); ++i)
+        for (int day = 1; day <= app.getNumDays(); ++day)
         {
             lodgingExpense = new LodgingExpense();
 
             try
             {
-                filledKey = String.format(InputFieldKeys.LODGING_AMOUNT_FMT, i);
+                filledKey = String.format(InputFieldKeys.LODGING_AMOUNT_FMT, day);
                 value = getFormValue(data, filledKey);
                 try
                 {
@@ -474,29 +481,30 @@ public class FormDataConverter
                 catch (NumberFormatException nfe)
                 {
                     throw new InputValidationException(String.format(
-                            "Lodging%d amount is not a valid decimal digit number", i));
+                            "Lodging%d amount is not a valid decimal digit number", day));
                 }
 
-                filledKey = String.format(InputFieldKeys.LODGING_CITY_FMT, i);
+                filledKey = String.format(InputFieldKeys.LODGING_CITY_FMT, day);
                 value = getFormValue(data, filledKey);
                 lodgingExpense.setCity(value);
 
-                filledKey = String.format(InputFieldKeys.LODGING_STATE_FMT, i);
+                filledKey = String.format(InputFieldKeys.LODGING_STATE_FMT, day);
                 value = getFormValue(data, filledKey);
                 lodgingExpense.setState(value);
 
-                filledKey = String.format(InputFieldKeys.LODGING_COUNTRY_FMT, i);
+                filledKey = String.format(InputFieldKeys.LODGING_COUNTRY_FMT, day);
                 value = getFormValue(data, filledKey);
                 lodgingExpense.setCountry(value);
 
-                filledKey = String.format(InputFieldKeys.LODGING_CURRENCY_FMT, i);
+                filledKey = String.format(InputFieldKeys.LODGING_CURRENCY_FMT, day);
                 value = getFormValue(data, filledKey);
                 lodgingExpense.setExpenseCurrency(value);
 
                 Date expenseDate = app.getDepartureDatetime();
-                lodgingExpense.setExpenseDate(DateValidator.advanceDateInDays(expenseDate, i - 1));
+                lodgingExpense
+                        .setExpenseDate(DateValidator.advanceDateInDays(expenseDate, day - 1));
 
-                app.addLodgingExpense(lodgingExpense);
+                app.addLodgingExpense(lodgingExpense, day);
             }
             catch (MissingFieldException mfe)
             {
@@ -506,6 +514,8 @@ public class FormDataConverter
                 throw mfe;
             }
         }
+
+        log.info("Added {} lodging expenses to app", app.getLodgingExpenseList().size());
     }
 
     /**
@@ -619,6 +629,8 @@ public class FormDataConverter
             // Add it to the RApp
             app.addTransportationExpense(transportExpense);
         }
+
+        log.info("Added {} transportation expenses", app.getTransportationExpenseList().size());
     }
 
     /**
@@ -677,6 +689,8 @@ public class FormDataConverter
             // Add it to the RApp
             app.addOtherExpense(otherExpense);
         }
+
+        log.info("Added {} other expenses to the app", app.getOtherExpenseList().size());
     }
 
     /**
@@ -693,29 +707,29 @@ public class FormDataConverter
         String filledKey, value;
 
         IncidentalExpense incidental;
-        for (int i = 1; i <= app.getNumDays(); ++i)
+        for (int day = 1; day <= app.getNumDays(); ++day)
         {
             incidental = new IncidentalExpense();
 
             try
             {
                 // City
-                filledKey = String.format(InputFieldKeys.INCIDENTAL_CITY_FMT, i);
+                filledKey = String.format(InputFieldKeys.INCIDENTAL_CITY_FMT, day);
                 value = getFormValue(data, filledKey);
                 incidental.setCity(value);
 
                 // State
-                filledKey = String.format(InputFieldKeys.INCIDENTAL_STATE_FMT, i);
+                filledKey = String.format(InputFieldKeys.INCIDENTAL_STATE_FMT, day);
                 value = getFormValue(data, filledKey);
                 incidental.setState(value);
 
                 // Country
-                filledKey = String.format(InputFieldKeys.INCIDENTAL_COUNTRY_FMT, i);
+                filledKey = String.format(InputFieldKeys.INCIDENTAL_COUNTRY_FMT, day);
                 value = getFormValue(data, filledKey);
                 incidental.setCountry(value);
 
                 // Expense amount
-                filledKey = String.format(InputFieldKeys.INCIDENTAL_AMOUNT_FMT, i);
+                filledKey = String.format(InputFieldKeys.INCIDENTAL_AMOUNT_FMT, day);
                 value = getFormValue(data, filledKey);
                 try
                 {
@@ -724,24 +738,24 @@ public class FormDataConverter
                 catch (NumberFormatException nfe)
                 {
                     throw new InputValidationException(String.format(
-                            "Incidental expense %d amount not formatted correctly", i));
+                            "Incidental expense %d amount not formatted correctly", day));
                 }
 
                 // Currency
-                filledKey = String.format(InputFieldKeys.INCIDENTAL_CURRENCY_FMT, i);
+                filledKey = String.format(InputFieldKeys.INCIDENTAL_CURRENCY_FMT, day);
                 value = getFormValue(data, filledKey);
                 incidental.setExpenseCurrency(value);
 
                 // Justification
-                filledKey = String.format(InputFieldKeys.INCIDENTAL_JUSTIFICATION_FMT, i);
+                filledKey = String.format(InputFieldKeys.INCIDENTAL_JUSTIFICATION_FMT, day);
                 value = getFormValue(data, filledKey);
                 incidental.setExpenseJustification(value);
 
                 // Date
                 Date expenseDate = app.getDepartureDatetime();
-                incidental.setExpenseDate(DateValidator.advanceDateInDays(expenseDate, i - 1));
+                incidental.setExpenseDate(DateValidator.advanceDateInDays(expenseDate, day - 1));
 
-                app.addIncidentalExpense(incidental);
+                app.addIncidentalExpense(incidental, day);
             }
             catch (MissingFieldException mfe)
             {
@@ -755,6 +769,7 @@ public class FormDataConverter
             }
         }
 
+        log.info("Added {} incidental expenses to app", app.getIncidentalExpenseList().size());
     }
 
     /**
@@ -811,6 +826,8 @@ public class FormDataConverter
 
             // Grant charge and approver name will be set later by rules
         }
+
+        log.info("Added {} grants to the app", app.getGrantList().size());
     }
 
     /**
