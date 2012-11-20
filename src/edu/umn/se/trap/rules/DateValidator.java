@@ -5,8 +5,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.data.ReimbursementApp;
+import edu.umn.se.trap.data.TransportationExpense;
+import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.InputValidationException;
 
 /**
@@ -15,6 +21,9 @@ import edu.umn.se.trap.exception.InputValidationException;
  */
 public class DateValidator extends InputValidationRule
 {
+    /** Logger for the DateValidator class */
+    private static Logger log = LoggerFactory.getLogger(DateValidator.class);
+
     /** TRAP format for a date */
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
@@ -25,7 +34,8 @@ public class DateValidator extends InputValidationRule
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 
     @Override
-    public void checkRule(ReimbursementApp app) throws InputValidationException
+    public void checkRule(ReimbursementApp app) throws InputValidationException,
+            FormProcessorException
     {
         // TODO Auto-generated method stub
 
@@ -45,14 +55,48 @@ public class DateValidator extends InputValidationRule
         }
 
         // Check that the report number of days is in line with the arrival and departure datetimes
-        int num_days = getDaySpan(departure, arrival, true);
+        int num_days = getDaySpan(departure, arrival);
 
         if (num_days != app.getNumDays())
         {
             throw new InputValidationException(
                     String.format(
                             "Declared number of days (%d) doesn't match with departure and arrival dates (%d)",
-                            num_days, app.getNumDays()));
+                            app.getNumDays(), num_days));
+        }
+
+        // Check that the dates come before form submission
+        String submitTime = app.getSubmissionTime();
+        if (submitTime == null)
+        {
+            throw new FormProcessorException(
+                    "No form submission datetime present. Cannot complete form processing");
+        }
+        if (arrival.after(convertToDatetime(submitTime)))
+        {
+            throw new InputValidationException(
+                    "Trip arrival time comes after form submission time.");
+        }
+
+        // Check the date for all transportation expenses
+        List<TransportationExpense> transportExpenses = app.getTransportationExpenseList();
+
+        // The start of day for the two ends of the trip
+        Date departureStart, arrivalStart;
+        departureStart = getStartOfDay(departure);
+        arrivalStart = getStartOfDay(arrival);
+
+        for (int i = 0; i < transportExpenses.size(); ++i)
+        {
+            TransportationExpense expense = transportExpenses.get(i);
+            Date expenseDate = expense.getTransportationDate();
+
+            if (expenseDate.before(departureStart) || expenseDate.after(arrivalStart))
+            {
+                throw new InputValidationException(String.format(
+                        "Transportation expense %d outside departure->arrival trip range (%s).",
+                        i + 1, expenseDate));
+            }
         }
     }
 
@@ -136,21 +180,37 @@ public class DateValidator extends InputValidationRule
      * 
      * @param start - The start date for the range
      * @param end - The end date for the range
-     * @param roundUp - If the dates have granularity below a day (ie hourse/mins). This will round
-     *            up to the closes number of whole days
      * @return - The number of days between start and end. In the case that the start and end are
      *         equal, 0 will be returned
      */
-    public static Integer getDaySpan(Date start, Date end, boolean roundUp)
+    public static Integer getDaySpan(Date start, Date end)
     {
         if (start.equals(end))
             return 0;
 
-        float days = ((end.getTime() - start.getTime()) / DAY_IN_MILLIS);
+        Date _start = getStartOfDay(start);
+        Date _end = getStartOfDay(end);
 
-        if (roundUp)
-            return (int) Math.ceil(days);
+        log.debug("Computing number of days between {} and {}", _start, _end);
+        float days = ((_end.getTime() - _start.getTime()) / DAY_IN_MILLIS) + 1;
 
         return (int) days;
+    }
+
+    /**
+     * Given a date, return the very beginning of that day.
+     * 
+     * @param d - The date for which you want to get the start of day for.
+     * @return - A Date representing the start of the day for the given date.
+     */
+    private static Date getStartOfDay(Date d)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+
+        return cal.getTime();
     }
 }

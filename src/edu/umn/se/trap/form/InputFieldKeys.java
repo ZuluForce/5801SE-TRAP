@@ -9,9 +9,10 @@ package edu.umn.se.trap.form;
  * @author planeman
  * 
  */
+@SuppressWarnings("javadoc")
 public class InputFieldKeys
 {
-    // public final static String =
+    // Main trip times
     public final static String ARRIVAL_DATETIME = "ARRIVAL_DATETIME";
     public final static String DEPARTURE_DATETIME = "DEPARTURE_DATETIME";
 

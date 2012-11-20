@@ -7,19 +7,25 @@ package edu.umn.se.trap.form;
  * @author planeman
  * 
  */
+@SuppressWarnings("javadoc")
 public class OutputFieldKeys
 {
+    // User information
     public static final String FULL_NAME = "NAME";
     public static final String USER_NAME = "USER_NAME";
     public static final String EMAIL = "EMAIL";
     public static final String CITIZENSHIP = "CITIZENSHIP";
     public static final String VISA_STATUS = "VISA_STATUS";
-    public static final String FORM_SUBMISSION_DATETIME = "VISA_STATUS";
-    public static final String ARRIVAL_DATETIME = "ARRIVAL_DATETIME";
-    public static final String DEPARTURE_DATETIME = "DEPARTURE_DATETIME";
     public static final String PAID_BY_UNIVERSITY = "PAID_BY_UNIVERSITY";
     public static final String EMERGENCY_NAME = "EMERGENCY_CONTACT_NAME";
     public static final String EMERGENCY_PHONE = "EMERGENCY_CONTACT_PHONE";
+
+    // TRAP processing fields
+    public static final String FORM_SUBMISSION_DATETIME = "FORM_SUBMISSION_DATETIME";
+
+    // Trip time information
+    public static final String ARRIVAL_DATETIME = "ARRIVAL_DATETIME";
+    public static final String DEPARTURE_DATETIME = "DEPARTURE_DATETIME";
 
     // Funding types
     public final static String TRAVEL_TYPE_CSE_SPONSORED = "TRAVEL_TYPE_CSE_SPONSORED";
@@ -52,6 +58,7 @@ public class OutputFieldKeys
     public final static String OTHER_JUSTIFICATION_FMT = "OTHER%d_JUSTIFICATION";
     public final static String OTHER_TOTAL_FMT = "OTHER%d_TOTAL";
 
+    // Grants
     public final static String NUM_GRANTS = "NUM_GRANTS";
     public final static String GRANT_ACCOUNT_FMT = "GRANT%d_ACCOUNT";
     public final static String GRANT_PERCENT_FMT = "GRANT%d_PERCENT";
