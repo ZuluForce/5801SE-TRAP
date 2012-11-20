@@ -2,9 +2,14 @@
 package edu.umn.se.trap.form;
 
 import static org.junit.Assert.fail;
+
+import java.util.HashMap;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
+
+import edu.umn.se.trap.exception.FormStorageException;
 
 /**
  * @author nagell2008
@@ -40,7 +45,22 @@ public class AllUserFormsTests
     @Test
     public void testAddUser()
     {
-        fail("Not yet implemented");
+        AllUserForms allForms = new AllUserForms();
+
+        allForms.addUser("Ethan");
+
+        int id = -1;
+
+        try
+        {
+            allForms.saveFormData("Ethan", new HashMap<String, String>(), "This is a test");
+        }
+        catch (FormStorageException f)
+        {
+            f.printStackTrace();
+            Assert.fail(f.getMessage());
+        }
+
     }
 
     /**

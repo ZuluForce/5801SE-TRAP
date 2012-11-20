@@ -53,17 +53,14 @@ public class AllUserForms
      */
     private SavedForms getUserSavedForms(String user) throws FormStorageException
     {
-        /**
-         * Check to see if a user already exists in the map.
-         */
+
+        // Check to see if a user already exists in the map.
         if (usersForms.containsKey(user))
         {
             return usersForms.get(user);
         }
 
-        /**
-         * Throw an exception when a user is not in the map.
-         */
+        // Throw an exception when a user is not in the map.
         throw new FormStorageException("User not found in storage");
     }
 
@@ -134,14 +131,10 @@ public class AllUserForms
         // Temporary variable to hold the container of a user's saved forms.
         SavedForms tempUserForm = getUserSavedForms(user);
 
-        /**
-         * Save the form and the new form id that is returned.
-         */
+        // Save the form and the new form id that is returned.
         int newId = tempUserForm.saveForm(formData, desc);
 
-        /**
-         * Return the new form id for later reference.
-         */
+        // Return the new form id for later reference.
         return newId;
     }
 

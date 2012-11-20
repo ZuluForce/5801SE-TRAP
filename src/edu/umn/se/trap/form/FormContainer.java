@@ -48,19 +48,13 @@ public class FormContainer
      */
     public FormContainer(Map<String, String> _formData, String _desc)
     {
-        /**
-         * The status for a form is set to DRAFT by default.
-         */
+        // The status for a form is set to DRAFT by default.
         status = TravelFormProcessorIntf.FORM_STATUS.DRAFT;
 
-        /**
-         * The form data.
-         */
+        // The form data.
         formData = _formData;
 
-        /**
-         * A description of the form.
-         */
+        // A description of the form.
         formDescription = _desc;
     }
 
