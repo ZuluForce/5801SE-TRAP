@@ -37,5 +37,5 @@ public enum MealTypeEnum
      * sentinel value meaning the enum isn't set...Or I'm a hobbit and one of my 6 meals isn't
      * listed here. Just checking to see if you are reading my comments of obvious things.
      */
-    UNSET
+    NOT_SET
 }

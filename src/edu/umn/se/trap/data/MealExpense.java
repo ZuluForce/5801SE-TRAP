@@ -44,7 +44,7 @@ public class MealExpense
     public MealExpense()
     {
         expenseDate = null;
-        type = MealTypeEnum.UNSET;
+        type = MealTypeEnum.NOT_SET;
         city = state = country = null;
     }
 
@@ -65,7 +65,7 @@ public class MealExpense
         empty &= city == null;
         empty &= state == null;
         empty &= country == null;
-        empty &= type == MealTypeEnum.UNSET;
+        empty &= type == MealTypeEnum.NOT_SET;
 
         return empty;
     }

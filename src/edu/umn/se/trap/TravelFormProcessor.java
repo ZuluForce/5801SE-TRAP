@@ -16,11 +16,12 @@ package edu.umn.se.trap;
 import java.util.Map;
 
 import edu.umn.se.trap.data.ReimbursementApp;
+import edu.umn.se.trap.db.UserDBWrapper;
 import edu.umn.se.trap.exception.FormProcessorException;
+import edu.umn.se.trap.exception.InvalidUsernameException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.form.AllUserForms;
 import edu.umn.se.trap.form.FormDataConverter;
-import edu.umn.se.trap.rules.FinalizeRule;
 import edu.umn.se.trap.rules.TRAPRuleRegistry;
 
 /**
@@ -51,7 +52,7 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     public TravelFormProcessor()
     {
         formStorage = new AllUserForms();
-        ruleRegistry = new TRAPRuleRegistry(new FinalizeRule());
+        ruleRegistry = new TRAPRuleRegistry();
         user = null;
     }
 
@@ -164,8 +165,13 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     public void setUser(String user) throws TRAPException
     {
         // TODO: Check that this is a valid user
-        this.user = user;
+        if (!UserDBWrapper.isValidUser(user))
+        {
+            throw new InvalidUsernameException(String.format("username '%s' is invalid", user));
+        }
 
+        this.user = user;
+        formStorage.addUser(user);
     }
 
     /**
@@ -181,6 +187,8 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     @Override
     public void submitFormData(Integer id) throws TRAPException
     {
+        checkUserSet();
+
         Map<String, String> data = formStorage.getSavedFormData(user, id);
 
         ReimbursementApp app = FormDataConverter.formToReimbursementApp(data);
@@ -203,5 +211,4 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
         if (user == null)
             throw new FormProcessorException("No user set in the TravelFormProcessor");
     }
-
 }

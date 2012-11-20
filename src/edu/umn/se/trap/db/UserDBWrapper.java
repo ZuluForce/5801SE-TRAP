@@ -34,6 +34,19 @@ public class UserDBWrapper
         return userDB.getUserInfo(userName);
     }
 
+    public static boolean isValidUser(String userName)
+    {
+        try
+        {
+            userDB.getUserInfo(userName);
+            return true;
+        }
+        catch (KeyNotFoundException e)
+        {
+            return false;
+        }
+    }
+
     @Override
     public int hashCode()
     {

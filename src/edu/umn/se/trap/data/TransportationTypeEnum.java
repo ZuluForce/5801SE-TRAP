@@ -37,20 +37,20 @@ public enum TransportationTypeEnum
     PARKING,
 
     /** Luggage to haul your unnecessarily large amount of clothing */
-    LUGGAGE,
+    BAGGAGE,
 
     /** These things that ride on rails on the ground. Thats so old skool right?? */
-    TRAIN,
+    RAIL,
 
-    /** Like a really big car. */
-    BUS,
+    /** Expensive, often smelly car driven by someone else to your destination */
+    TAXI,
 
     /** Where you have to pay to use a road with the hopes that they actually maintain it */
     TOLL,
 
     /**
      * A sentinel value meaning the enum isn't set...Or I am using an unconventional means of
-     * transport like my jet pack or soon to come teleportation
+     * transport like my jet pack or soon to come teleportation device.
      */
     NOT_SET
 }

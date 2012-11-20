@@ -29,10 +29,12 @@ import edu.umn.se.trap.util.FormDataLoader;
 public class LoadedSampleForm implements Map<String, String>
 {
     private final Properties formProperties;
+    public final String inputFile;
 
     public LoadedSampleForm(String path)
     {
         formProperties = FormDataLoader.loadFormData(path);
+        inputFile = path;
     }
 
     @Override

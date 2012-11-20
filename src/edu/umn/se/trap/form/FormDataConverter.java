@@ -600,8 +600,7 @@ public class FormDataConverter
                                     + i);
                 }
             case AIR:
-            case BUS:
-            case TRAIN:
+            case RAIL:
                 // Carrier
                 filledKey = String.format(InputFieldKeys.TRANSPORTATION_CARRIER_FMT, i);
                 value = getFormValue(data, filledKey);
@@ -609,7 +608,7 @@ public class FormDataConverter
                 break;
             case TOLL:
             case GAS:
-            case LUGGAGE:
+            case BAGGAGE:
             case PARKING:
             case NOT_SET:
             case PUBLIC_TRANSPORTATION:

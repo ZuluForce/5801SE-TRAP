@@ -21,11 +21,39 @@ public class DateValidator extends InputValidationRule
     /** TRAP format for a datetime */
     private final static SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyyMMdd HHmmss");
 
+    /** Used in finding the number of days in a range using the Date object */
+    private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+
     @Override
-    public void checkRule(ReimbursementApp app)
+    public void checkRule(ReimbursementApp app) throws InputValidationException
     {
         // TODO Auto-generated method stub
 
+        // Make sure we have arrival and departure times
+        Date arrival = app.getArrivalDatetime();
+        Date departure = app.getDepartureDatetime();
+
+        if (arrival == null || departure == null)
+        {
+            throw new InputValidationException("Missing departure or arrival datetime");
+        }
+
+        // Check the order of the arrival and departure dates
+        if (arrival.before(departure))
+        {
+            throw new InputValidationException("Departure datetime after the arrival datetime");
+        }
+
+        // Check that the report number of days is in line with the arrival and departure datetimes
+        int num_days = getDaySpan(departure, arrival, true);
+
+        if (num_days != app.getNumDays())
+        {
+            throw new InputValidationException(
+                    String.format(
+                            "Declared number of days (%d) doesn't match with departure and arrival dates (%d)",
+                            num_days, app.getNumDays()));
+        }
     }
 
     /**
@@ -103,4 +131,26 @@ public class DateValidator extends InputValidationRule
         return datetimeFormat.format(datetime);
     }
 
+    /**
+     * Get the number of days between start and end with the option of rounding up.
+     * 
+     * @param start - The start date for the range
+     * @param end - The end date for the range
+     * @param roundUp - If the dates have granularity below a day (ie hourse/mins). This will round
+     *            up to the closes number of whole days
+     * @return - The number of days between start and end. In the case that the start and end are
+     *         equal, 0 will be returned
+     */
+    public static Integer getDaySpan(Date start, Date end, boolean roundUp)
+    {
+        if (start.equals(end))
+            return 0;
+
+        float days = ((end.getTime() - start.getTime()) / DAY_IN_MILLIS);
+
+        if (roundUp)
+            return (int) Math.ceil(days);
+
+        return (int) days;
+    }
 }

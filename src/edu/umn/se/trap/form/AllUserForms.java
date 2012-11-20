@@ -51,7 +51,7 @@ public class AllUserForms
      * @return Returns a user's saved forms in a SavedForms object, otherwise null.
      * @throws FormStorageException - Error only when a user is not found in the map.
      */
-    public SavedForms getUserSavedForms(String user) throws FormStorageException
+    private SavedForms getUserSavedForms(String user) throws FormStorageException
     {
         /**
          * Check to see if a user already exists in the map.
@@ -68,15 +68,14 @@ public class AllUserForms
     }
 
     /**
-     * Adds a user to the map (usersForms) to in order to save forms.
+     * Adds a user to the map (usersForms) to in order to save forms. If the user already exists
+     * nothing will happen.
      * 
      * @param user - String id of the user
      */
     public void addUser(String user)
     {
-        /**
-         * Check to see if a user already exists in the map.
-         */
+        // Check to see if a user already exists in the map.
         if (usersForms.containsKey(user))
         {
             /*
@@ -86,9 +85,7 @@ public class AllUserForms
             return;
         }
 
-        /**
-         * The does not already exist, put them in the map and create a new container.
-         */
+        // The user does not already exist, put them in the map and create a new container.
         usersForms.put(user, new SavedForms());
 
         return;
@@ -107,25 +104,13 @@ public class AllUserForms
     public int saveFormData(String user, Map<String, String> formData, int id)
             throws FormStorageException
     {
-        /**
-         * Check to see if a user already exists in the map.
-         */
-        if (!usersForms.containsKey(user))
-        {
-            /**
-             * Throw an exception when a user is not in the map.
-             */
-            throw new FormStorageException("User not found in storage");
-        }
+        // Make sure the user is in the system
+        addUser(user);
 
-        /**
-         * Temporary variable to hold the container of a user's saved forms.
-         */
+        // Temporary variable to hold the container of a user's saved forms.
         SavedForms tempUserForm = getUserSavedForms(user);
 
-        /**
-         * Save the user's form
-         */
+        // Save the user's form
         tempUserForm.saveForm(formData, id);
 
         return id;
@@ -143,20 +128,10 @@ public class AllUserForms
     public int saveFormData(String user, Map<String, String> formData, String desc)
             throws FormStorageException
     {
-        /**
-         * Check to see if a user already exists in the map.
-         */
-        if (!usersForms.containsKey(user))
-        {
-            /**
-             * Throw an exception when a user is not in the map.
-             */
-            throw new FormStorageException("User not found in storage");
-        }
+        // Make sure the user is in the system
+        addUser(user);
 
-        /**
-         * Temporary variable to hold the container of a user's saved forms.
-         */
+        // Temporary variable to hold the container of a user's saved forms.
         SavedForms tempUserForm = getUserSavedForms(user);
 
         /**
@@ -181,30 +156,16 @@ public class AllUserForms
      */
     public Map<String, String> getCompletedForm(String user, int id) throws FormStorageException
     {
-        /**
-         * Check to see if a user already exists in the map.
-         */
-        if (!usersForms.containsKey(user))
-        {
-            /**
-             * Throw an exception when a user is not in the map.
-             */
-            throw new FormStorageException("User not found in storage");
-        }
+        // Make sure the user is in the system
+        addUser(user);
 
-        /**
-         * Temporary variable to hold the container of a user's saved forms.
-         */
+        // Temporary variable to hold the container of a user's saved forms.
         SavedForms tempUserForm = usersForms.get(user);
 
-        /**
-         * Grabs the specific form container which holds information related to a form.
-         */
+        // Grabs the specific form container which holds information related to a form.
         FormContainer tempFormContainer = tempUserForm.getFormContainer(id);
 
-        /**
-         * Return the form if it has a SUBMITTED status.
-         */
+        // Return the form if it has a SUBMITTED status.
         if (tempFormContainer.getStatus() == TravelFormProcessorIntf.FORM_STATUS.SUBMITTED)
         {
             return tempFormContainer.getForm();
@@ -227,30 +188,16 @@ public class AllUserForms
      */
     public Map<String, String> getSavedFormData(String user, int id) throws FormStorageException
     {
-        /**
-         * Check to see if a user already exists in the map.
-         */
-        if (!usersForms.containsKey(user))
-        {
-            /**
-             * Throw an exception when a user is not in the map.
-             */
-            throw new FormStorageException("User not found in storage");
-        }
+        // Make sure the user is in the system
+        addUser(user);
 
-        /**
-         * Temporary variable to hold the container of a user's saved forms.
-         */
+        // Temporary variable to hold the container of a user's saved forms.
         SavedForms tempUserForm = getUserSavedForms(user);
 
-        /**
-         * Grabs the specific form container which holds information related to a form.
-         */
+        // Grabs the specific form container which holds information related to a form.
         FormContainer tempFormContainer = tempUserForm.getFormContainer(id);
 
-        /**
-         * Return the form
-         */
+        // Return the form
         return tempFormContainer.getForm();
 
     }
@@ -264,25 +211,13 @@ public class AllUserForms
      */
     public Map<Integer, TravelFormMetadata> getSavedForms(String user) throws FormStorageException
     {
-        /**
-         * Check to see if a user already exists in the map.
-         */
-        if (!usersForms.containsKey(user))
-        {
-            /**
-             * Throw an exception when a user is not in the map.
-             */
-            throw new FormStorageException("User not found in storage");
-        }
+        // Make sure the user is in the system
+        addUser(user);
 
-        /**
-         * Temporary variable to hold the container of a user's saved forms.
-         */
+        // Temporary variable to hold the container of a user's saved forms.
         SavedForms tempUserForm = getUserSavedForms(user);
 
-        /**
-         * Return a map of form id's and TravelFormMetadata's
-         */
+        // Return a map of form id's and TravelFormMetadata's
         return tempUserForm.getSavedForms();
     }
 
@@ -297,25 +232,13 @@ public class AllUserForms
     public void saveCompletedForm(String user, Map<String, String> data, int id)
             throws FormStorageException
     {
-        /**
-         * Check to see if a user already exists in the map.
-         */
-        if (!usersForms.containsKey(user))
-        {
-            /**
-             * Throw an exception when a user is not in the map.
-             */
-            throw new FormStorageException("User not found in storage");
-        }
+        // Make sure the user is in the system
+        addUser(user);
 
-        /**
-         * Temporary variable to hold the container of a user's saved forms.
-         */
+        // Temporary variable to hold the container of a user's saved forms.
         SavedForms tempUserForm = getUserSavedForms(user);
 
-        /**
-         * Save the form with a SUBMITTED status
-         */
+        // Save the form with a SUBMITTED status
         tempUserForm.saveForm(data, id, TravelFormProcessorIntf.FORM_STATUS.SUBMITTED);
 
         return;
@@ -329,26 +252,13 @@ public class AllUserForms
      */
     public void clearSavedForms(String user) throws FormStorageException
     {
+        // Make sure the user is in the system
+        addUser(user);
 
-        /**
-         * Check to see if a user already exists in the map.
-         */
-        if (!usersForms.containsKey(user))
-        {
-            /**
-             * Throw an exception when a user is not in the map.
-             */
-            throw new FormStorageException("User not found in storage");
-        }
-
-        /**
-         * Temporary variable to hold the container of a user's saved forms.
-         */
+        // Temporary variable to hold the container of a user's saved forms.
         SavedForms tempUserForm = getUserSavedForms(user);
 
-        /**
-         * Clear the forms from the map.
-         */
+        // Clear the forms from the map.
         tempUserForm.clearForms();
 
         return;

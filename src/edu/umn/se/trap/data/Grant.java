@@ -142,7 +142,7 @@ public class Grant
 
         sb.append("Grant:\n");
         sb.append(String.format("\tAccount: %s\n", grantAccount));
-        sb.append(String.format("\tPercent: %f%%\n", grantPercentage));
+        sb.append(String.format("\tPercent: %d%%\n", grantPercentage));
         sb.append(String.format("\tCharge: $%f", grantCharge));
 
         return sb.toString();
