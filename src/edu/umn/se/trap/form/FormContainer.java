@@ -93,9 +93,9 @@ public class FormContainer
      * 
      * @param formData - the form to save
      */
-    public void saveForm(Map<String, String> formData)
+    public void saveForm(Map<String, String> _formData)
     {
-        this.formData = formData;
+        formData = _formData;
     }
 
     /**
