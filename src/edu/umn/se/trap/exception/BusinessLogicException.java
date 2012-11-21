@@ -18,7 +18,7 @@ package edu.umn.se.trap.exception;
 /**
  * An exception representing a problem found while processing a business logic rule.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class BusinessLogicException extends TRAPException

@@ -19,7 +19,7 @@ package edu.umn.se.trap.data;
  * This object holds all information related to the conference attended. Not all fields presented in
  * this object are required for a valid form. All string values will be null if not set.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class ConferenceInfo

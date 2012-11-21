@@ -19,7 +19,7 @@ package edu.umn.se.trap.data;
 import java.util.Date;
 
 /**
- * @author planeman
+ * @author andrewh
  * 
  */
 public class PerDiemExpense

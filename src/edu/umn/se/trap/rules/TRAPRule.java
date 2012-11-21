@@ -22,7 +22,7 @@ import edu.umn.se.trap.exception.TRAPException;
  * The interface that all rules in the TRAP system must implement in-order for the rule registry to
  * communicate with them.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public interface TRAPRule

@@ -19,7 +19,7 @@ package edu.umn.se.trap.exception;
 /**
  * An exception the means that there are insufficient funds for a reimbursement.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class InsufficientFundsException extends TRAPException

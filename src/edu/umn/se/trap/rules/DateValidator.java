@@ -31,7 +31,7 @@ import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.InputValidationException;
 
 /**
- * @author planeman
+ * @author andrewh
  * 
  */
 public class DateValidator extends InputValidationRule

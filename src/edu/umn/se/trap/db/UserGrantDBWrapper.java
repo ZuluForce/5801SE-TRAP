@@ -18,7 +18,7 @@ package edu.umn.se.trap.db;
 import java.util.List;
 
 /**
- * @author planeman
+ * @author andrewh
  * 
  */
 public class UserGrantDBWrapper

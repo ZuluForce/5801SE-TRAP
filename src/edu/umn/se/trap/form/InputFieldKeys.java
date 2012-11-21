@@ -21,7 +21,7 @@ package edu.umn.se.trap.form;
  * they are format strings. For example, the grant accounts are numbered so their field will have to
  * be GRANT%d_ACCOUNT where %s is the placeholder for an integer later.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 @SuppressWarnings("javadoc")

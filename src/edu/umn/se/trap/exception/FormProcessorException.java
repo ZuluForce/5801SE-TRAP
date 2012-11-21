@@ -20,7 +20,7 @@ package edu.umn.se.trap.exception;
  * An exception referencing a problem encountered while processing a form that isn't related to
  * input validation, buisness logic.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class FormProcessorException extends TRAPException

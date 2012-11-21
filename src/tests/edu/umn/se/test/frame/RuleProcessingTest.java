@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
- * @author planeman
+ * @author andrewh
  * 
  */
 public class RuleProcessingTest extends TrapTestFramework

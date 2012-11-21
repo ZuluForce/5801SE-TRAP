@@ -19,7 +19,7 @@ package edu.umn.se.trap.form;
 /**
  * String constants representing the keys used in the TRAP output map.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 @SuppressWarnings("javadoc")

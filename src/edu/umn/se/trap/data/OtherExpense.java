@@ -20,7 +20,7 @@ import java.util.Date;
 /**
  * A data object containing all information pertaining to one meal expense.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class OtherExpense

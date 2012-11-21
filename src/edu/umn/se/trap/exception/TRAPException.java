@@ -16,7 +16,7 @@
 package edu.umn.se.trap.exception;
 
 /**
- * @author planeman
+ * @author andrewh
  * 
  */
 public abstract class TRAPException extends Exception

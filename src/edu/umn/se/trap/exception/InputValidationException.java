@@ -18,7 +18,7 @@ package edu.umn.se.trap.exception;
 /**
  * An exception representing an error during input validation.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class InputValidationException extends TRAPException

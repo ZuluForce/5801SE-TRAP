@@ -18,7 +18,7 @@ package edu.umn.se.trap.data;
 /**
  * A data object class representing the necessary information related to grant.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class Grant

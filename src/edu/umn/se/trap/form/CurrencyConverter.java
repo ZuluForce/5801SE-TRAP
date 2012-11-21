@@ -24,7 +24,7 @@ import edu.umn.se.trap.exception.TRAPRuntimeException;
 import edu.umn.se.trap.rules.DateValidator;
 
 /**
- * @author planeman
+ * @author andrewh
  * 
  */
 public class CurrencyConverter

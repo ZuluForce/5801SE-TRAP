@@ -33,7 +33,7 @@ import edu.umn.se.trap.rules.TRAPRuleRegistry;
  * The main class for TRAP that implements the interface for communication with external systems
  * such as the driver.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class TravelFormProcessor implements TravelFormProcessorIntf

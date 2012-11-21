@@ -26,7 +26,7 @@ import edu.umn.se.trap.exception.TRAPException;
  * registry will pass the app to the internal rules. The order they are processed in is as follows:
  * 1. InputValidationRules 2. BusinessLogicRules 3. FinalizeRule (only one)
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class TRAPRuleRegistry

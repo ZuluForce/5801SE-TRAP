@@ -30,7 +30,7 @@ import edu.umn.se.trap.test.generate.TestDataGenerator;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
- * @author planeman
+ * @author andrewh
  * 
  */
 public class FormDataConverterTest

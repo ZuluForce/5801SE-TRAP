@@ -19,7 +19,7 @@ package edu.umn.se.trap.exception;
 /**
  * An exception meaning that a provided username was not valid according to what is in the UserDB.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class InvalidUsernameException extends TRAPException

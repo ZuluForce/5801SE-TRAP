@@ -18,7 +18,7 @@ package edu.umn.se.trap.data;
 /**
  * A data object containing all information pertaining to one lodging expense.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class LodgingExpense extends PerDiemExpense

@@ -16,7 +16,7 @@
 package edu.umn.se.trap.db;
 
 /**
- * @author planeman
+ * @author andrewh
  * 
  */
 public class CurrencyDBWrapper

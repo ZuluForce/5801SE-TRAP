@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author planeman
+ * @author andrewh
  * 
  */
 public class TestDataGenerator

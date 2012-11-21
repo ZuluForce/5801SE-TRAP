@@ -19,7 +19,7 @@ package edu.umn.se.trap.exception;
 /**
  * A general runtime exception in the TRAP system.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class TRAPRuntimeException extends RuntimeException

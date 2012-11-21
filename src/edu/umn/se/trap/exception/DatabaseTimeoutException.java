@@ -19,7 +19,7 @@ package edu.umn.se.trap.exception;
 /**
  * An exception representing a timed out request from the database.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class DatabaseTimeoutException extends TRAPException

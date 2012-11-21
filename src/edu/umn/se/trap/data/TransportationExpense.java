@@ -21,7 +21,7 @@ import java.util.Date;
  * An object to hold all information related to transportation expenses. Not all fields will be set
  * for every type of transportation expense so it is up to the user of this object to check.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class TransportationExpense

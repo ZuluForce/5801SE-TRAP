@@ -21,7 +21,7 @@ package edu.umn.se.trap.data;
  * 
  * {@link MealExpense#isEmpty()}
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public enum MealTypeEnum

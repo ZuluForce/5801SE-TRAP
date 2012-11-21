@@ -22,7 +22,7 @@ import java.util.List;
 import edu.umn.se.trap.exception.InputValidationException;
 
 /**
- * @author planeman
+ * @author andrewh
  * 
  */
 public class TripDay

@@ -19,7 +19,7 @@ package edu.umn.se.trap.data;
 /**
  * String constants used within TRAP or as input to TRAP that have a particular meaning.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class TRAPConstants

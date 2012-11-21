@@ -31,7 +31,7 @@ import edu.umn.se.trap.form.OutputFieldKeys;
  * rules and later processing to access form data without being dependent on the format of the input
  * data.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class ReimbursementApp

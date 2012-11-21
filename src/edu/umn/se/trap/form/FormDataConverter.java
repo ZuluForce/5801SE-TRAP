@@ -45,7 +45,7 @@ import edu.umn.se.trap.rules.DateValidator;
  * The FormDataConverter converts raw input data maps into a easier to use ReimbursementApp object
  * for further processing within TRAP.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class FormDataConverter

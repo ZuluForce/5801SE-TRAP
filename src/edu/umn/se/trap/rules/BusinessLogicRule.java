@@ -18,7 +18,7 @@ package edu.umn.se.trap.rules;
 /**
  * TODO: Add description
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public abstract class BusinessLogicRule implements TRAPRule

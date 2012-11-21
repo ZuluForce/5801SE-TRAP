@@ -18,7 +18,7 @@ package edu.umn.se.trap.data;
 /**
  * A data object representing information about the user submitting the form.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class UserInfo

@@ -19,7 +19,7 @@ package edu.umn.se.trap.data;
 /**
  * A data object containing all information pertaining to one meal expense.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class MealExpense extends PerDiemExpense

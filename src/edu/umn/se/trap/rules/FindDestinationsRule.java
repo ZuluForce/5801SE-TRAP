@@ -30,7 +30,7 @@ import edu.umn.se.trap.exception.TRAPRuntimeException;
 import edu.umn.se.trap.form.OutputFieldKeys;
 
 /**
- * @author planeman
+ * @author andrewh
  * 
  */
 public class FindDestinationsRule extends BusinessLogicRule

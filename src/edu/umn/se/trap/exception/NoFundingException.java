@@ -19,7 +19,7 @@ package edu.umn.se.trap.exception;
  * TODO: Do we need this in addition to the InsufficientFundsException? Is there a potential
  * difference of when we would use one or the other?
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class NoFundingException extends TRAPException

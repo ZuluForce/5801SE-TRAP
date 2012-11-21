@@ -19,7 +19,7 @@ package edu.umn.se.trap.exception;
  * Exception meaning that a field is missing on the input form which is preventing for
  * submission/processing from moving forward.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class MissingFieldException extends TRAPException
