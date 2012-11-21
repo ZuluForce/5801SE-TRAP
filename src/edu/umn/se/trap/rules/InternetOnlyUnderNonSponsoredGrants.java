@@ -1,4 +1,4 @@
-// AlcoholOnlyAllowedUnderNonSponsored.java
+// InternetOnlyUnderNonSponsoredGrants.java
 package edu.umn.se.trap.rules;
 
 import java.util.ArrayList;
@@ -16,23 +16,20 @@ import edu.umn.se.trap.exception.BusinessLogicException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
- * This class checks that any alcohol related expenses that are claimed have available non-sponsored
- * grants to charge.
- * 
  * @author nagell2008
  * 
  */
-public class AlcoholOnlyAllowedUnderNonSponsored extends BusinessLogicRule
+public class InternetOnlyUnderNonSponsoredGrants extends BusinessLogicRule
 {
 
     /**
      * List of keywords to look for that relate to alcohol.
      */
-    private static final Pattern ALCOHOL_PATTERN = Pattern.compile(
-            "(alcohol|whiskey|rum|vodka|tequila|beer|wine)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern INTERNET_PATTERN = Pattern.compile("(internet|wireless|wifi)",
+            Pattern.CASE_INSENSITIVE);
 
     /**
-     * This class checks that any alcohol related expenses that are claimed have available
+     * This class checks that any internet related expenses that are claimed have available
      * non-sponsored grants to charge.
      */
     @Override
@@ -44,8 +41,8 @@ public class AlcoholOnlyAllowedUnderNonSponsored extends BusinessLogicRule
         // A list of the other expenses
         List<OtherExpense> otherExpenses = app.getOtherExpenseList();
 
-        // Holds only expenses that mention alcohol (or other keywords) in the justification field
-        List<OtherExpense> alcoholExpenses = new ArrayList<OtherExpense>();
+        // Holds only expenses that mention internet (or other keywords) in the justification field
+        List<OtherExpense> internetExpenses = new ArrayList<OtherExpense>();
 
         // Holds grants that have type non-sponsored
         List<Grant> nonSponsoredGrants = new ArrayList<Grant>();
@@ -57,27 +54,27 @@ public class AlcoholOnlyAllowedUnderNonSponsored extends BusinessLogicRule
         String grantType = "";
 
         // Used in matching keywords
-        Matcher alcohol_match;
+        Matcher internet_match;
 
-        // Total amount that a user is claiming in alcohol expenses
-        double totalAlcoholCharge = 0;
+        // Total amount that a user is claiming in internet expenses
+        double totalInternetCharge = 0;
 
         // Total amount of money available to charge non-sponsored grants
         double totalNonSponsoredAmount = 0;
 
-        // Loop through all the other expenses and see if the justification field mentions alcohol
+        // Loop through all the other expenses and see if the justification field mentions internet
         for (OtherExpense expense : otherExpenses)
         {
-            alcohol_match = ALCOHOL_PATTERN.matcher(expense.getExpenseJustification());
+            internet_match = INTERNET_PATTERN.matcher(expense.getExpenseJustification());
 
-            if (alcohol_match.find())
+            if (internet_match.find())
             {
-                alcoholExpenses.add(expense);
+                internetExpenses.add(expense);
             }
         }
 
-        // If no expenses related to alcohol were found, it is safe to return out of the rule
-        if (alcoholExpenses.size() == 0)
+        // If no expenses related to the internet were found, it is safe to return out of the rule
+        if (internetExpenses.size() == 0)
         {
             return;
         }
@@ -103,21 +100,21 @@ public class AlcoholOnlyAllowedUnderNonSponsored extends BusinessLogicRule
             }
         }
 
-        // No grants found of type non-sponsored, but alcohol expenses were found. Need to throw an
+        // No grants found of type non-sponsored, but internet expenses were found. Need to throw an
         // error in this case.
         if (nonSponsoredGrants.size() == 0)
         {
             throw new BusinessLogicException(
-                    "Found alcohol expenses, but there are no non-sponsored grants available");
+                    "Found internet expenses, but there are no non-sponsored grants available");
         }
 
-        // Loop through the alcohol expenses and add up the total
-        for (OtherExpense expense : alcoholExpenses)
+        // Loop through the internet expenses and add up the total
+        for (OtherExpense expense : internetExpenses)
         {
-            totalAlcoholCharge += expense.getExpenseAmount();
+            totalInternetCharge += expense.getExpenseAmount();
         }
 
-        // Loop through the alcohol expenses and add up the total
+        // Loop through the internet expenses and add up the total
         for (Grant grant : nonSponsoredGrants)
         {
             try
@@ -131,14 +128,15 @@ public class AlcoholOnlyAllowedUnderNonSponsored extends BusinessLogicRule
             }
         }
 
-        // If the total charge for alcohol expenses is greater than the amount available from
+        // If the total charge for internet expenses is greater than the amount available from
         // non-sponsored grants, throw an error
-        if (totalAlcoholCharge > totalNonSponsoredAmount)
+        if (totalInternetCharge > totalNonSponsoredAmount)
         {
-            throw new BusinessLogicException("Unable to fund alcohol expenses ($"
-                    + totalAlcoholCharge + ") with available non-sponsored grants");
+            throw new BusinessLogicException("Unable to fund internet expenses ($"
+                    + totalInternetCharge + ") with available non-sponsored grants");
         }
 
         return;
     }
+
 }
