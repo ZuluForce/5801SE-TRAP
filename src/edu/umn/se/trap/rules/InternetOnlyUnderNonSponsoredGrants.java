@@ -16,6 +16,9 @@ import edu.umn.se.trap.exception.BusinessLogicException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
+ * This class checks that any internet related expenses that are claimed have available
+ * non-sponsored grants to charge.
+ * 
  * @author nagell2008
  * 
  */
