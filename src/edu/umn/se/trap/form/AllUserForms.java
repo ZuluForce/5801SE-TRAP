@@ -93,7 +93,7 @@ public class AllUserForms
         }
 
         // The user does not already exist, put them in the map and create a new container.
-        usersForms.put(user, new HashMap<Integer>, FormContainer>());
+        usersForms.put(user, new HashMap<Integer, FormContainer>());
 
         return;
     }
@@ -187,7 +187,7 @@ public class AllUserForms
         // FormContainer tempFormContainer = tempUserForm.getFormContainer(id);
         Map<Integer, FormContainer> tempUsersForms = usersForms.get(user);
 
-        if (tempUsersForms.containsKey(id))
+        if (!tempUsersForms.containsKey(id))
         {
             throw new FormStorageException("Cannot find form " + id + " for user " + user);
         }
@@ -253,10 +253,32 @@ public class AllUserForms
         addUser(user);
 
         // Temporary variable to hold the container of a user's saved forms.
-        SavedForms tempUserForm = getUserSavedForms(user);
+        Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
+
+        // Result map to return
+        Map<Integer, TravelFormMetadata> resultForms = new HashMap<Integer, TravelFormMetadata>();
+
+        /*
+         * Loop through all of a user's form containers to create a new TravelFormMetadata object
+         * and populate it. Then add it to the result map with the form id and TravelFormMetadata.
+         */
+        for (Map.Entry<Integer, FormContainer> entry : tempUserForms.entrySet())
+        {
+            // A new TravelFormMetadata object to hold a description and status
+            TravelFormMetadata tempMetadata = new TravelFormMetadata();
+
+            // The description of a form.
+            tempMetadata.description = entry.getValue().getDescription();
+
+            // The status of the form.
+            tempMetadata.status = entry.getValue().getStatus();
+
+            // Put the form id and tempMetadata into the result hash map.
+            resultForms.put(entry.getKey(), tempMetadata);
+        }
 
         // Return a map of form id's and TravelFormMetadata's
-        return tempUserForm.getSavedForms();
+        return resultForms;
     }
 
     /**
@@ -274,10 +296,21 @@ public class AllUserForms
         addUser(user);
 
         // Temporary variable to hold the container of a user's saved forms.
-        SavedForms tempUserForm = getUserSavedForms(user);
+        // SavedForms tempUserForm = getUserSavedForms(user);
+        Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
+
+        if (!tempUserForms.containsKey(id))
+        {
+            throw new FormStorageException("Cannot find form " + id + " for user " + user);
+        }
+
+        FormContainer tempForm = tempUserForms.get(id);
+
+        tempForm.saveForm(data);
+        tempForm.setStauts(TravelFormProcessorIntf.FORM_STATUS.SUBMITTED);
 
         // Save the form with a SUBMITTED status
-        tempUserForm.saveForm(data, id, TravelFormProcessorIntf.FORM_STATUS.SUBMITTED);
+        // tempUserForm.saveForm(data, id, TravelFormProcessorIntf.FORM_STATUS.SUBMITTED);
 
         return;
     }
@@ -294,10 +327,10 @@ public class AllUserForms
         addUser(user);
 
         // Temporary variable to hold the container of a user's saved forms.
-        SavedForms tempUserForm = getUserSavedForms(user);
+        // SavedForms tempUserForm = getUserSavedForms(user);
+        Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
 
-        // Clear the forms from the map.
-        tempUserForm.clearForms();
+        tempUserForms.clear();
 
         return;
     }

@@ -1,8 +1,6 @@
 // AllUserFormsTests.java
 package edu.umn.se.trap.form;
 
-import static org.junit.Assert.fail;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +10,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umn.se.trap.TravelFormMetadata;
 import edu.umn.se.trap.exception.FormStorageException;
 
 /**
@@ -178,12 +177,15 @@ public class AllUserFormsTests
         }
 
         temp.put("test2", "testCompleted");
+        Map<String, String> completed = new HashMap<String, String>();
+
+        completed.put("test", "this is now done");
 
         try
         {
             allForms.saveCompletedForm("test", temp, id);
-            Map<String, String> completedForm = allForms.getCompletedForm("user", id);
-
+            Map<String, String> completedForm = allForms.getCompletedForm("test", id);
+            log.info("Map: {}", temp);
             Assert.assertEquals(completedForm.get("test2"), "testCompleted");
 
         }
@@ -202,7 +204,32 @@ public class AllUserFormsTests
     @Test
     public void testGetSavedFormData()
     {
-        fail("Not yet implemented");
+        AllUserForms allForms = new AllUserForms();
+
+        allForms.addUser("test");
+
+        int id = -1;
+
+        Map<String, String> temp = new HashMap<String, String>();
+
+        temp.put("test", "testValue");
+
+        try
+        {
+            id = allForms.saveFormData("test", temp, "a test form");
+
+            Assert.assertTrue(id != -1);
+
+            log.info("Map: {}", allForms.getSavedFormData("test", id));
+
+            Assert.assertEquals(allForms.getSavedFormData("test", id), temp);
+        }
+        catch (FormStorageException f)
+        {
+            f.printStackTrace();
+            Assert.fail(f.getMessage());
+        }
+
     }
 
     /**
@@ -211,7 +238,53 @@ public class AllUserFormsTests
     @Test
     public void testGetSavedForms()
     {
-        fail("Not yet implemented");
+        AllUserForms allForms = new AllUserForms();
+
+        allForms.addUser("test");
+
+        int idTemp = -1;
+        int idTemp2 = -1;
+
+        Map<String, String> temp = new HashMap<String, String>();
+        Map<String, String> temp2 = new HashMap<String, String>();
+
+        temp.put("test", "testValue");
+        temp2.put("test2", "test2Value");
+
+        try
+        {
+            idTemp = allForms.saveFormData("test", temp, "a test form");
+            idTemp2 = allForms.saveFormData("test", temp, "a test2 form");
+
+            Assert.assertTrue(idTemp != -1);
+            Assert.assertTrue(idTemp2 != -1 && idTemp2 != idTemp);
+
+            // log.info("Map: {}", allForms.getSavedFormData("test", id));
+        }
+        catch (FormStorageException f)
+        {
+            f.printStackTrace();
+            Assert.fail(f.getMessage());
+        }
+
+        try
+        {
+            Map<Integer, TravelFormMetadata> savedData = allForms.getSavedForms("test");
+            Assert.assertNotNull(savedData);
+
+            for (Map.Entry<Integer, TravelFormMetadata> thing : savedData.entrySet())
+            {
+                log.info("Id: {} Description: {} Status: {}", thing.getKey(),
+                        thing.getValue().description, thing.getValue().status);
+            }
+
+        }
+        catch (FormStorageException f)
+        {
+            f.printStackTrace();
+            Assert.fail(f.getMessage());
+        }
+
     }
 
     /**
@@ -222,7 +295,48 @@ public class AllUserFormsTests
     @Test
     public void testSaveCompletedForm()
     {
-        fail("Not yet implemented");
+        AllUserForms allForms = new AllUserForms();
+
+        allForms.addUser("test");
+
+        int id = -1;
+
+        Map<String, String> temp = new HashMap<String, String>();
+
+        temp.put("test", "testValue");
+
+        try
+        {
+            id = allForms.saveFormData("test", temp, "a test form");
+            Assert.assertTrue(id != -1);
+
+            log.info("Map: {}", allForms.getSavedFormData("test", id));
+        }
+        catch (FormStorageException f)
+        {
+            f.printStackTrace();
+            Assert.fail(f.getMessage());
+        }
+
+        temp.put("test2", "testCompleted");
+        Map<String, String> completed = new HashMap<String, String>();
+
+        completed.put("test", "this is now done");
+
+        try
+        {
+            allForms.saveCompletedForm("test", temp, id);
+            Map<String, String> completedForm = allForms.getCompletedForm("test", id);
+            log.info("Map: {}", temp);
+            Assert.assertEquals(completedForm.get("test2"), "testCompleted");
+
+        }
+        catch (FormStorageException f)
+        {
+            f.printStackTrace();
+            Assert.fail(f.getMessage());
+        }
+
     }
 
     /**
@@ -231,7 +345,55 @@ public class AllUserFormsTests
     @Test
     public void testClearSavedForms()
     {
-        fail("Not yet implemented");
-    }
+        AllUserForms allForms = new AllUserForms();
 
+        allForms.addUser("test");
+
+        int idTemp = -1;
+        int idTemp2 = -1;
+
+        Map<String, String> temp = new HashMap<String, String>();
+        Map<String, String> temp2 = new HashMap<String, String>();
+
+        temp.put("test", "testValue");
+        temp2.put("test2", "test2Value");
+
+        try
+        {
+            idTemp = allForms.saveFormData("test", temp, "a test form");
+            idTemp2 = allForms.saveFormData("test", temp, "a test2 form");
+
+            Assert.assertTrue(idTemp != -1);
+            Assert.assertTrue(idTemp2 != -1 && idTemp2 != idTemp);
+
+            // log.info("Map: {}", allForms.getSavedFormData("test", id));
+        }
+        catch (FormStorageException f)
+        {
+            f.printStackTrace();
+            Assert.fail(f.getMessage());
+        }
+
+        try
+        {
+            allForms.clearSavedForms("test");
+        }
+        catch (FormStorageException f)
+        {
+            f.printStackTrace();
+            Assert.fail(f.getMessage());
+        }
+
+        try
+        {
+            allForms.getSavedFormData("test", idTemp);
+        }
+        catch (FormStorageException f)
+        {
+            Assert.assertTrue(1 == 1);
+
+            log.info("The clearSavedForms test should fail by throwing an exception");
+
+        }
+    }
 }

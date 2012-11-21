@@ -82,9 +82,7 @@ public class SavedForms
     public Map<Integer, TravelFormMetadata> getSavedForms()
     {
 
-        /**
-         * A hash map to hold form id's and TravelFormMetadata's. This will be returned.
-         */
+        // A hash map to hold form id's and TravelFormMetadata's. This will be returned.
         Map<Integer, TravelFormMetadata> resultAllForms = new HashMap<Integer, TravelFormMetadata>();
 
         /*
@@ -106,9 +104,7 @@ public class SavedForms
             resultAllForms.put(entry.getKey(), tempMetadata);
         }
 
-        /**
-         * Return the resulting map. Potentially could be empty.
-         */
+        // Return the resulting map. Potentially could be empty.
         return resultAllForms;
     }
 
