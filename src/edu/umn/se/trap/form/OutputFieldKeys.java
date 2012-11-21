@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // OutputFieldKeys.java
 package edu.umn.se.trap.form;
@@ -64,8 +62,8 @@ public class OutputFieldKeys
 
     // Per Day Fields
     public static final String NUM_DAYS = "NUM_DAYS";
-    public static final String DAY_DATE = "DAY_DATE";
-    public static final String DAY_TOTAL = "DAY_TOTAL";
+    public static final String DAY_DATE_FMT = "DAY%d_DATE";
+    public static final String DAY_TOTAL_FMT = "DAY%d_TOTAL";
 
     // Transportation expenses
     public final static String NUM_TRANSPORTATION_EXPENSES = "NUM_TRANSPORTATION";
@@ -83,8 +81,8 @@ public class OutputFieldKeys
     public final static String NUM_GRANTS = "NUM_GRANTS";
     public final static String GRANT_ACCOUNT_FMT = "GRANT%d_ACCOUNT";
     public final static String GRANT_PERCENT_FMT = "GRANT%d_PERCENT";
-    public final static String GRANT_CHARGE_FMT = "GRANT%d_PERCENT";
-    public final static String GRANT_APPROVER_FMT = "GRANT%d_PERCENT";
+    public final static String GRANT_CHARGE_FMT = "GRANT%d_AMOUNT_TO_CHARGE";
+    public final static String GRANT_APPROVER_FMT = "GRANT%d_APPROVER_NAME";
 
     // Total reimbursement
     public final static String TOTAL_REIMBURSEMENT = "TOTAL_REIMBURSEMENT";

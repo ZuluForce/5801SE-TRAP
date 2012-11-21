@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 package edu.umn.se.trap.form;
 
@@ -82,7 +80,6 @@ public class FormDataConverter
 
         // (Input/Output) Start with datetimes
         value = getFormValue(data, InputFieldKeys.ARRIVAL_DATETIME);
-        log.debug("Arrival Datetime: {}", value);
         app.setArrivalDatetime(DateValidator.convertToDatetime(value));
         app.setOutputField(OutputFieldKeys.ARRIVAL_DATETIME, value);
 
@@ -180,19 +177,26 @@ public class FormDataConverter
 
         // (Output) Full Name
         value = extraUserInfo.get(UserDB.USER_FIELDS.FULL_NAME.ordinal());
+        userInfo.setFullName(value);
         app.setOutputField(OutputFieldKeys.FULL_NAME, value);
 
         // (Output) Citizenship
         value = extraUserInfo.get(UserDB.USER_FIELDS.CITIZENSHIP.ordinal());
+        userInfo.setCitizenship(value);
         app.setOutputField(OutputFieldKeys.CITIZENSHIP, value);
 
         // (Output) Visa Status
-        value = extraUserInfo.get(UserDB.USER_FIELDS.VISA_STATUS.ordinal());
-        app.setOutputField(OutputFieldKeys.VISA_STATUS, value);
+        if (userInfo.getCitizenship().compareToIgnoreCase("United States") != 0)
+        {
+            value = extraUserInfo.get(UserDB.USER_FIELDS.VISA_STATUS.ordinal());
+            userInfo.setVisaStatus(value);
+            app.setOutputField(OutputFieldKeys.VISA_STATUS, value);
+        }
 
         // (Output) Paid by University
         value = extraUserInfo.get(UserDB.USER_FIELDS.PAID_BY_UNIVERSITY.ordinal());
-        app.setOutputField(OutputFieldKeys.VISA_STATUS, value);
+        userInfo.setPaidByUniversity(value);
+        app.setOutputField(OutputFieldKeys.PAID_BY_UNIVERSITY, value);
     }
 
     /**
@@ -845,7 +849,8 @@ public class FormDataConverter
     }
 
     /**
-     * Gets a given key from the data map. If the key isn't found it generates an exception.
+     * Gets a given key from the data map. If the key isn't found or the value is null it generates
+     * an exception.
      * 
      * @param data - The data map to extract the key/value from
      * @param key - The key whose value you want to get

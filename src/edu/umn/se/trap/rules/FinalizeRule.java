@@ -139,9 +139,12 @@ public class FinalizeRule implements TRAPRule
         {
             Date dayDate = DateValidator.advanceDateInDays(app.getDepartureDatetime(),
                     day.getDayNumber() - 1);
-            app.setOutputField(OutputFieldKeys.DAY_DATE, DateValidator.dateToString(dayDate));
 
-            app.setOutputField(OutputFieldKeys.DAY_TOTAL, day.getDayTotal().toString());
+            formattedField = String.format(OutputFieldKeys.DAY_DATE_FMT, day.getDayNumber());
+            app.setOutputField(formattedField, DateValidator.dateToString(dayDate));
+
+            formattedField = String.format(OutputFieldKeys.DAY_TOTAL_FMT, day.getDayNumber());
+            app.setOutputField(formattedField, day.getDayTotal().toString());
         }
 
         // TODO: Add any other fields not covered elsewhere

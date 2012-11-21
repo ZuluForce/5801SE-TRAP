@@ -32,6 +32,7 @@ import edu.umn.se.trap.db.UserGrantDBWrapper;
 import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.InvalidUsernameException;
 import edu.umn.se.trap.exception.TRAPException;
+import edu.umn.se.trap.exception.TRAPRuntimeException;
 import edu.umn.se.trap.form.AllUserForms;
 import edu.umn.se.trap.form.FormDataConverter;
 import edu.umn.se.trap.rules.TRAPRuleRegistry;
@@ -98,10 +99,17 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     @Override
     public void clearSavedForms() throws TRAPException
     {
-        checkUserSet();
+        try
+        {
+            checkUserSet();
 
-        log.info("Clearing saved forms for {}", user);
-        formStorage.clearSavedForms(user);
+            log.info("Clearing saved forms for {}", user);
+            formStorage.clearSavedForms(user);
+        }
+        catch (RuntimeException re)
+        {
+            throw new TRAPRuntimeException(re);
+        }
     }
 
     /**
@@ -114,9 +122,16 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     @Override
     public Map<String, String> getCompletedForm(Integer id) throws TRAPException
     {
-        checkUserSet();
-        log.info("Fetching completed formId {} for {}", id, user);
-        return formStorage.getCompletedForm(user, id);
+        try
+        {
+            checkUserSet();
+            log.info("Fetching completed formId {} for {}", id, user);
+            return formStorage.getCompletedForm(user, id);
+        }
+        catch (RuntimeException re)
+        {
+            throw new TRAPRuntimeException(re);
+        }
     }
 
     /**
@@ -130,10 +145,17 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     @Override
     public Map<String, String> getSavedFormData(Integer id) throws TRAPException
     {
-        checkUserSet();
+        try
+        {
+            checkUserSet();
 
-        log.info("Fetching saved form data {} for {}", id, user);
-        return formStorage.getSavedFormData(user, id);
+            log.info("Fetching saved form data {} for {}", id, user);
+            return formStorage.getSavedFormData(user, id);
+        }
+        catch (RuntimeException re)
+        {
+            throw new TRAPRuntimeException(re);
+        }
     }
 
     /**
@@ -146,10 +168,17 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     @Override
     public Map<Integer, TravelFormMetadata> getSavedForms() throws TRAPException
     {
-        checkUserSet();
+        try
+        {
+            checkUserSet();
 
-        log.info("Fetching saved form info for {}", user);
-        return formStorage.getSavedForms(user);
+            log.info("Fetching saved form info for {}", user);
+            return formStorage.getSavedForms(user);
+        }
+        catch (RuntimeException re)
+        {
+            throw new TRAPRuntimeException(re);
+        }
     }
 
     /**
@@ -173,10 +202,17 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     @Override
     public Integer saveFormData(Map<String, String> formData, String desc) throws TRAPException
     {
-        checkUserSet();
+        try
+        {
+            checkUserSet();
 
-        log.info("Saving form data for {} with a description", user);
-        return formStorage.saveFormData(user, formData, desc);
+            log.info("Saving form data for {} with a description", user);
+            return formStorage.saveFormData(user, formData, desc);
+        }
+        catch (RuntimeException re)
+        {
+            throw new TRAPRuntimeException(re);
+        }
     }
 
     /**
@@ -191,10 +227,17 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     @Override
     public Integer saveFormData(Map<String, String> formData, Integer id) throws TRAPException
     {
-        checkUserSet();
+        try
+        {
+            checkUserSet();
 
-        log.info("Saving form data for {} under form id {}", user, id);
-        return formStorage.saveFormData(user, formData, id);
+            log.info("Saving form data for {} under form id {}", user, id);
+            return formStorage.saveFormData(user, formData, id);
+        }
+        catch (RuntimeException re)
+        {
+            throw new TRAPRuntimeException(re);
+        }
     }
 
     /**
@@ -206,15 +249,21 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     @Override
     public void setUser(String user) throws TRAPException
     {
-        // TODO: Check that this is a valid user
-        if (!UserDBWrapper.isValidUser(user))
+        try
         {
-            throw new InvalidUsernameException(String.format("username '%s' is invalid", user));
-        }
+            if (!UserDBWrapper.isValidUser(user))
+            {
+                throw new InvalidUsernameException(String.format("username '%s' is invalid", user));
+            }
 
-        log.info("Setting current user to {}", user);
-        this.user = user;
-        formStorage.addUser(user);
+            log.info("Setting current user to {}", user);
+            this.user = user;
+            formStorage.addUser(user);
+        }
+        catch (RuntimeException re)
+        {
+            throw new TRAPRuntimeException(re);
+        }
     }
 
     /**
@@ -230,19 +279,26 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     @Override
     public void submitFormData(Integer id) throws TRAPException
     {
-        checkUserSet();
+        try
+        {
+            checkUserSet();
 
-        log.info("Starting submission process for form {}", id);
+            log.info("Starting submission process for form {}", id);
 
-        Map<String, String> data = formStorage.getSavedFormData(user, id);
+            Map<String, String> data = formStorage.getSavedFormData(user, id);
 
-        ReimbursementApp app = FormDataConverter.formToReimbursementApp(data);
+            ReimbursementApp app = FormDataConverter.formToReimbursementApp(data);
 
-        ruleRegistry.processApp(app);
+            ruleRegistry.processApp(app);
 
-        formStorage.saveCompletedForm(user, app.getOutputFields(), id);
+            formStorage.saveCompletedForm(user, app.getOutputFields(), id);
 
-        log.info("Completed submission and processing of form {}. Ouput saved.", id);
+            log.info("Completed submission and processing of form {}. Ouput saved.", id);
+        }
+        catch (RuntimeException re)
+        {
+            throw new TRAPRuntimeException(re);
+        }
     }
 
     /**

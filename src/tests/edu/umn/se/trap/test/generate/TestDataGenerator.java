@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // TestDataGenerator.java
 package edu.umn.se.trap.test.generate;
@@ -19,12 +17,17 @@ package edu.umn.se.trap.test.generate;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author andrewh
  * 
  */
 public class TestDataGenerator
 {
+    private final static Logger log = LoggerFactory.getLogger(TestDataGenerator.class);
+
     public enum SampleDataEnum
     {
         SAMPLE1,
@@ -58,7 +61,10 @@ public class TestDataGenerator
      */
     public static Map<String, String> getExpectedOutput(LoadedSampleForm input)
     {
-        return getExpectedOutput(input.inputFile + ".output");
+        String propFile = input.inputFile + ".output";
+        log.info("Loading expected output file: " + propFile);
+
+        return getExpectedOutput(propFile);
     }
 
     /**
