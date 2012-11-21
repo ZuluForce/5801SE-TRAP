@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 package edu.umn.se.trap;
 
@@ -21,7 +19,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.data.ReimbursementApp;
+import edu.umn.se.trap.db.CurrencyDB;
+import edu.umn.se.trap.db.CurrencyDBWrapper;
+import edu.umn.se.trap.db.GrantDB;
+import edu.umn.se.trap.db.GrantDBWrapper;
+import edu.umn.se.trap.db.PerDiemDB;
+import edu.umn.se.trap.db.PerDiemDBWrapper;
+import edu.umn.se.trap.db.UserDB;
 import edu.umn.se.trap.db.UserDBWrapper;
+import edu.umn.se.trap.db.UserGrantDB;
+import edu.umn.se.trap.db.UserGrantDBWrapper;
 import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.InvalidUsernameException;
 import edu.umn.se.trap.exception.TRAPException;
@@ -51,14 +58,32 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     private String user;
 
     /**
+     * Constructor -- uses parameters to allow for unit testing.
+     */
+
+    /**
      * Construct the TravelFormProcessor object. This creates and initializes object for the main
      * sub-systems, form storage and application rule processing.
+     * 
+     * @param userDB the user database table abstraction.
+     * @param perDiemDB the perDiem DB table abstraction.
+     * @param grantDB the grant DB table abstraction.
+     * @param userGrantDB the user to grant DB table abstraction.
+     * @param currencyDB the table abstraction for the currency DB.
      * 
      * @see AllUserForms
      * @see TRAPRuleRegistry
      */
-    public TravelFormProcessor()
+    public TravelFormProcessor(UserDB userDB, PerDiemDB perDiemDB, GrantDB grantDB,
+            UserGrantDB userGrantDB, CurrencyDB currencyDB)
     {
+        // Initialize all database wrappers
+        UserDBWrapper.setUserDB(userDB);
+        PerDiemDBWrapper.setPerDiemDB(perDiemDB);
+        GrantDBWrapper.setGrantDB(grantDB);
+        UserGrantDBWrapper.setUserGrantDB(userGrantDB);
+        CurrencyDBWrapper.setCurrencyDB(currencyDB);
+
         formStorage = new AllUserForms();
         ruleRegistry = new TRAPRuleRegistry();
         user = null;
@@ -74,6 +99,8 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     public void clearSavedForms() throws TRAPException
     {
         checkUserSet();
+
+        log.info("Clearing saved forms for {}", user);
         formStorage.clearSavedForms(user);
     }
 
@@ -88,6 +115,7 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     public Map<String, String> getCompletedForm(Integer id) throws TRAPException
     {
         checkUserSet();
+        log.info("Fetching completed formId {} for {}", id, user);
         return formStorage.getCompletedForm(user, id);
     }
 
@@ -103,6 +131,8 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     public Map<String, String> getSavedFormData(Integer id) throws TRAPException
     {
         checkUserSet();
+
+        log.info("Fetching saved form data {} for {}", id, user);
         return formStorage.getSavedFormData(user, id);
     }
 
@@ -117,6 +147,8 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     public Map<Integer, TravelFormMetadata> getSavedForms() throws TRAPException
     {
         checkUserSet();
+
+        log.info("Fetching saved form info for {}", user);
         return formStorage.getSavedForms(user);
     }
 
@@ -143,6 +175,7 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     {
         checkUserSet();
 
+        log.info("Saving form data for {} with a description", user);
         return formStorage.saveFormData(user, formData, desc);
     }
 
@@ -160,6 +193,7 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     {
         checkUserSet();
 
+        log.info("Saving form data for {} under form id {}", user, id);
         return formStorage.saveFormData(user, formData, id);
     }
 
@@ -178,6 +212,7 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
             throw new InvalidUsernameException(String.format("username '%s' is invalid", user));
         }
 
+        log.info("Setting current user to {}", user);
         this.user = user;
         formStorage.addUser(user);
     }
@@ -197,6 +232,8 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
     {
         checkUserSet();
 
+        log.info("Starting submission process for form {}", id);
+
         Map<String, String> data = formStorage.getSavedFormData(user, id);
 
         ReimbursementApp app = FormDataConverter.formToReimbursementApp(data);
@@ -205,7 +242,7 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
 
         formStorage.saveCompletedForm(user, app.getOutputFields(), id);
 
-        // TODO: check for any other required steps
+        log.info("Completed submission and processing of form {}. Ouput saved.", id);
     }
 
     /**

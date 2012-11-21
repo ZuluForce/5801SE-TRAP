@@ -133,8 +133,6 @@ public class FinalizeRule implements TRAPRule
 
         }
 
-        // TODO: Make sure to add a call to the GrantApproverName.checkRule method
-
         // Add day totals
         app.setOutputField(OutputFieldKeys.NUM_DAYS, app.getNumDays().toString());
         for (TripDay day : app.getAllTripDays())
@@ -145,8 +143,6 @@ public class FinalizeRule implements TRAPRule
 
             app.setOutputField(OutputFieldKeys.DAY_TOTAL, day.getDayTotal().toString());
         }
-
-        // TODO: Add Destinations
 
         // TODO: Add any other fields not covered elsewhere
 
