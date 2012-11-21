@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 package edu.umn.se.trap.rules;
 
@@ -25,7 +23,6 @@ import edu.umn.se.trap.data.TransportationExpense;
 import edu.umn.se.trap.data.TripDay;
 import edu.umn.se.trap.db.GrantDBWrapper;
 import edu.umn.se.trap.db.KeyNotFoundException;
-import edu.umn.se.trap.db.UserGrantDBWrapper;
 import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.InsufficientFundsException;
 import edu.umn.se.trap.exception.TRAPException;
@@ -134,24 +131,9 @@ public class FinalizeRule implements TRAPRule
             formattedField = String.format(OutputFieldKeys.GRANT_CHARGE_FMT, i + 1);
             app.setOutputField(formattedField, grant.getGrantCharge().toString());
 
-            String approver;
-            try
-            {
-                approver = UserGrantDBWrapper.getGrantAdmin(grant.getGrantAccount());
-            }
-            catch (KeyNotFoundException e)
-            {
-                throw new FormProcessorException("No grant found with account name "
-                        + grant.getGrantAccount());
-            }
-
-            // Only list the approver if it is someone besides the submitter
-            if (approver.compareTo(app.getUserInfo().getUsername()) != 0)
-            {
-                formattedField = String.format(OutputFieldKeys.GRANT_APPROVER_FMT, i + 1);
-                app.setOutputField(formattedField, approver);
-            }
         }
+
+        // TODO: Make sure to add a call to the GrantApproverName.checkRule method
 
         // Add day totals
         app.setOutputField(OutputFieldKeys.NUM_DAYS, app.getNumDays().toString());
