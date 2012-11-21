@@ -1,4 +1,4 @@
 CSci-5801---TRAP
 ================
 
-For the horrible 5801 TRAP project -_-
+For the horrible 5801 TRAP project -_- (indifferent face)
