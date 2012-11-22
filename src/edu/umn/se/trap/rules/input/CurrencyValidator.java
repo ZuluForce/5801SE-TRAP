@@ -1,6 +1,9 @@
 // CurrencyValidator.java
 package edu.umn.se.trap.rules.input;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,8 +20,7 @@ public class CurrencyValidator extends InputValidationRule
 
     private static Logger log = LoggerFactory.getLogger(CurrencyValidator.class);
 
-    // TODO Need to figure out a formatter for this one
-    // blah blah
+    private final static NumberFormat numberFormat = new DecimalFormat("#0.00");
 
     @Override
     public void checkRule(ReimbursementApp app) throws InputValidationException,
