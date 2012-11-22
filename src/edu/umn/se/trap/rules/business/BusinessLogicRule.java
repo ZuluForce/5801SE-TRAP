@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ****************************************************************************************/
-package edu.umn.se.trap.rules;
+package edu.umn.se.trap.rules.business;
+
+import edu.umn.se.trap.rules.TRAPRule;
 
 /**
  * TODO: Add description

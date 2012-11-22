@@ -12,7 +12,7 @@
  * the License.
  ****************************************************************************************/
 // FindDestinationsRule.java
-package edu.umn.se.trap.rules;
+package edu.umn.se.trap.rules.business;
 
 import java.util.ArrayList;
 import java.util.List;

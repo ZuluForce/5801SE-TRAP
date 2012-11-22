@@ -27,6 +27,7 @@ import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.InsufficientFundsException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.form.OutputFieldKeys;
+import edu.umn.se.trap.rules.input.DateValidator;
 
 /**
  * TODO: Write description

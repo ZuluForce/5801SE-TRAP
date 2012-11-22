@@ -21,7 +21,7 @@ import edu.umn.se.trap.data.TRAPConstants;
 import edu.umn.se.trap.db.CurrencyDBWrapper;
 import edu.umn.se.trap.db.KeyNotFoundException;
 import edu.umn.se.trap.exception.TRAPRuntimeException;
-import edu.umn.se.trap.rules.DateValidator;
+import edu.umn.se.trap.rules.input.DateValidator;
 
 /**
  * @author andrewh

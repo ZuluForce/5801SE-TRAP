@@ -1,32 +1,28 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // DateValidator.java
-package edu.umn.se.trap.rules;
+package edu.umn.se.trap.rules.input;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.data.ReimbursementApp;
-import edu.umn.se.trap.data.TransportationExpense;
 import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.InputValidationException;
 
@@ -91,27 +87,6 @@ public class DateValidator extends InputValidationRule
         {
             throw new InputValidationException(
                     "Trip arrival time comes after form submission time.");
-        }
-
-        // Check the date for all transportation expenses
-        List<TransportationExpense> transportExpenses = app.getTransportationExpenseList();
-
-        // The start of day for the two ends of the trip
-        Date departureStart, arrivalStart;
-        departureStart = getStartOfDay(departure);
-        arrivalStart = getStartOfDay(arrival);
-
-        for (int i = 0; i < transportExpenses.size(); ++i)
-        {
-            TransportationExpense expense = transportExpenses.get(i);
-            Date expenseDate = expense.getExpenseDate();
-
-            if (expenseDate.before(departureStart) || expenseDate.after(arrivalStart))
-            {
-                throw new InputValidationException(String.format(
-                        "Transportation expense %d outside departure->arrival trip range (%s).",
-                        i + 1, expenseDate));
-            }
         }
     }
 

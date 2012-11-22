@@ -37,7 +37,7 @@ import edu.umn.se.trap.db.UserDBWrapper;
 import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.exception.MissingFieldException;
 import edu.umn.se.trap.exception.TRAPException;
-import edu.umn.se.trap.rules.DateValidator;
+import edu.umn.se.trap.rules.input.DateValidator;
 
 /**
  * The FormDataConverter converts raw input data maps into a easier to use ReimbursementApp object

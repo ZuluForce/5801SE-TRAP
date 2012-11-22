@@ -21,6 +21,17 @@ import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.exception.TRAPException;
+import edu.umn.se.trap.rules.business.AddOtherExpensesRule;
+import edu.umn.se.trap.rules.business.AlcoholOnlyAllowedUnderNonSponsored;
+import edu.umn.se.trap.rules.business.BusinessLogicRule;
+import edu.umn.se.trap.rules.business.FindDestinationsRule;
+import edu.umn.se.trap.rules.business.GrantApproverName;
+import edu.umn.se.trap.rules.business.InternetOnlyUnderNonSponsoredGrants;
+import edu.umn.se.trap.rules.business.NoExportGrantsOnlyForUSCitizens;
+import edu.umn.se.trap.rules.input.DateValidator;
+import edu.umn.se.trap.rules.input.InputValidationRule;
+import edu.umn.se.trap.rules.input.OtherExpenseDateValidator;
+import edu.umn.se.trap.rules.input.TransportationDateValidator;
 
 /**
  * A registry of rules that are used to process a ReimbursementApp. When called to process, the
@@ -99,10 +110,16 @@ public class TRAPRuleRegistry
 
         // Add InputValidationRules
         addInputValidationRule(new DateValidator());
+        addInputValidationRule(new TransportationDateValidator());
+        addInputValidationRule(new OtherExpenseDateValidator());
 
         // Add BusinessLogicRules
         addBusinessLogicRule(new FindDestinationsRule());
         addBusinessLogicRule(new GrantApproverName());
+        addBusinessLogicRule(new AddOtherExpensesRule());
+        addBusinessLogicRule(new AlcoholOnlyAllowedUnderNonSponsored());
+        addBusinessLogicRule(new InternetOnlyUnderNonSponsoredGrants());
+        addBusinessLogicRule(new NoExportGrantsOnlyForUSCitizens());
     }
 
     /**
