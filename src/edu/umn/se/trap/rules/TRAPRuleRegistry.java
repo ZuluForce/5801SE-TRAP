@@ -25,6 +25,7 @@ import edu.umn.se.trap.rules.business.AddOtherExpensesRule;
 import edu.umn.se.trap.rules.business.AlcoholOnlyAllowedUnderNonSponsored;
 import edu.umn.se.trap.rules.business.BusinessLogicRule;
 import edu.umn.se.trap.rules.business.FindDestinationsRule;
+import edu.umn.se.trap.rules.business.ForeignGrantsNoDomesticTravel;
 import edu.umn.se.trap.rules.business.GrantApproverName;
 import edu.umn.se.trap.rules.business.InternetOnlyUnderNonSponsoredGrants;
 import edu.umn.se.trap.rules.business.NoExportGrantsOnlyForUSCitizens;
@@ -120,6 +121,7 @@ public class TRAPRuleRegistry
         addBusinessLogicRule(new AlcoholOnlyAllowedUnderNonSponsored());
         addBusinessLogicRule(new InternetOnlyUnderNonSponsoredGrants());
         addBusinessLogicRule(new NoExportGrantsOnlyForUSCitizens());
+        addBusinessLogicRule(new ForeignGrantsNoDomesticTravel());
     }
 
     /**
