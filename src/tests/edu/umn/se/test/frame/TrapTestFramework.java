@@ -17,6 +17,9 @@ package edu.umn.se.test.frame;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.umn.se.trap.TravelFormMetadata;
 import edu.umn.se.trap.TravelFormProcessor;
 import edu.umn.se.trap.db.CurrencyDB;
@@ -25,6 +28,7 @@ import edu.umn.se.trap.db.PerDiemDB;
 import edu.umn.se.trap.db.UserDB;
 import edu.umn.se.trap.db.UserGrantDB;
 import edu.umn.se.trap.exception.TRAPException;
+import edu.umn.se.trap.exception.TRAPRuntimeException;
 import edu.umn.se.trap.test.generate.LoadedSampleForm;
 import edu.umn.se.trap.test.generate.TestDataGenerator;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
@@ -35,6 +39,7 @@ import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
  */
 public class TrapTestFramework
 {
+    private static final Logger log = LoggerFactory.getLogger(TrapTestFramework.class);
 
     private final CurrencyDB currencyDB = new CurrencyDB();
     private final GrantDB grantDB = new GrantDB();
@@ -147,7 +152,15 @@ public class TrapTestFramework
     public Map<String, String> getExpectedOutput(Integer id) throws TRAPException
     {
         LoadedSampleForm data = savedForms.get(id);
+        if (data == null)
+        {
+            throw new TRAPRuntimeException("getExpectedOutput failed to find saved form with id "
+                    + id);
+        }
 
-        return TestDataGenerator.getExpectedOutput(data);
+        Map<String, String> expected = TestDataGenerator.getExpectedOutput(data);
+        log.info("getExpectedOutput: {}", expected);
+
+        return expected;
     }
 }

@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 package edu.umn.se.trap.data;
 
@@ -24,10 +22,10 @@ import java.util.Date;
  * @author andrewh
  * 
  */
-public class TransportationExpense
+public class TransportationExpense implements ExpenseWithCurrencyIface
 {
     /** Date this expense occurred on */
-    private Date transportationDate;
+    private Date expenseDate;
 
     /** Carrier for this expense */
     private String transportationCarrier;
@@ -39,7 +37,7 @@ public class TransportationExpense
     private String transportationRental;
 
     /** The currency used to pay for this expense */
-    private String transportationCurrency;
+    private String expenseCurrency;
 
     /** The specific transportation expense type */
     private TransportationTypeEnum transportationType;
@@ -55,8 +53,8 @@ public class TransportationExpense
      */
     public TransportationExpense()
     {
-        transportationDate = null;
-        transportationCarrier = transportationRental = transportationCurrency = null;
+        expenseDate = null;
+        transportationCarrier = transportationRental = expenseCurrency = null;
 
         transportationMilesTraveled = -1;
         expenseAmount = reimbursementAmount = -1.0;
@@ -70,20 +68,20 @@ public class TransportationExpense
      * @see #setTransportationDate(Date)
      * @return - The date this expense occured on
      */
-    public Date getTransportationDate()
+    public Date getExpenseDate()
     {
-        return transportationDate;
+        return expenseDate;
     }
 
     /**
      * Set the date this expense occurred on.
      * 
-     * @see #getTransportationDate()
+     * @see #getExpenseDate()
      * @param transportationDate - The date the expense occurred on.
      */
     public void setTransportationDate(Date transportationDate)
     {
-        this.transportationDate = transportationDate;
+        this.expenseDate = transportationDate;
     }
 
     /**
@@ -160,6 +158,7 @@ public class TransportationExpense
      * @see #setExpenseAmount(Double)
      * @return - The expense amount for this expense
      */
+    @Override
     public Double getExpenseAmount()
     {
         return expenseAmount;
@@ -172,6 +171,7 @@ public class TransportationExpense
      * @see #getExpenseAmount()
      * @param expenseAmount - The claimed expense amount for this expense
      */
+    @Override
     public void setExpenseAmount(Double expenseAmount)
     {
         this.expenseAmount = expenseAmount;
@@ -204,9 +204,10 @@ public class TransportationExpense
      * 
      * @return - The currency type for this expense
      */
-    public String getTransportationCurrency()
+    @Override
+    public String getExpenseCurrency()
     {
-        return transportationCurrency;
+        return expenseCurrency;
     }
 
     /**
@@ -214,9 +215,10 @@ public class TransportationExpense
      * 
      * @param transportationCurrency - The currency type for this expense
      */
-    public void setTransportationCurrency(String transportationCurrency)
+    @Override
+    public void setExpenseCurrency(String transportationCurrency)
     {
-        this.transportationCurrency = transportationCurrency;
+        expenseCurrency = transportationCurrency;
     }
 
     /**
@@ -247,9 +249,9 @@ public class TransportationExpense
     {
         StringBuilder sb = new StringBuilder();
         sb.append("Transportation Expense:\n");
-        sb.append(String.format("\tDate: %s\n", transportationDate));
+        sb.append(String.format("\tDate: %s\n", expenseDate));
         sb.append(String.format("\tAmount: $%f\n", expenseAmount));
-        sb.append(String.format("\tCurrency: %s\n", transportationCurrency));
+        sb.append(String.format("\tCurrency: %s\n", expenseCurrency));
         sb.append(String.format("\tCarrier: %s\n", transportationCarrier));
         sb.append(String.format("\tRental: %s\n", transportationRental));
         if (transportationType == TransportationTypeEnum.CAR

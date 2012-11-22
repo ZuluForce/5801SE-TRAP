@@ -27,7 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.exception.TRAPException;
-import edu.umn.se.trap.test.generate.LoadedSampleForm;
 import edu.umn.se.trap.util.PrettyPrint;
 
 /**
@@ -52,11 +51,7 @@ public class RuleProcessingTest extends TrapTestFramework
             int id = this.addRandomForm();
             submitFormData(id);
 
-            Map<String, String> testExpected = new LoadedSampleForm(
-                    "data/sample1.properties.output");
-
             Map<String, String> expected = getExpectedOutput(id);
-            log.info("Expected output: {}", PrettyPrint.prettyMap(expected));
             Map<String, String> output = getCompletedForm(id);
             log.info("\nOutput map: {}", PrettyPrint.prettyMap(output));
 
@@ -83,9 +78,15 @@ public class RuleProcessingTest extends TrapTestFramework
         for (Map.Entry<String, String> entry : m1.entrySet())
         {
             String key = entry.getKey();
-            if (!m2.containsKey(key) || !m2.get(key).equalsIgnoreCase(m1.get(key)))
+            if (!m2.containsKey(key))
             {
-                difference.add(key);
+                difference.add("<missing>" + key);
+                continue;
+            }
+
+            if (!m2.get(key).equalsIgnoreCase(m1.get(key)))
+            {
+                difference.add("<diff>" + key);
             }
         }
 

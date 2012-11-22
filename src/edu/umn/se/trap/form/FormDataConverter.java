@@ -510,6 +510,9 @@ public class FormDataConverter
                 lodgingExpense
                         .setExpenseDate(DateValidator.advanceDateInDays(expenseDate, day - 1));
 
+                // Convert to USD
+                CurrencyConverter.convertExpenseCurrency(lodgingExpense);
+
                 app.addLodgingExpense(lodgingExpense, day);
             }
             catch (MissingFieldException mfe)
@@ -567,7 +570,7 @@ public class FormDataConverter
             // Transportation Currency
             filledKey = String.format(InputFieldKeys.TRANSPORTATION_CURRENCY_FMT, i);
             value = getFormValue(data, filledKey);
-            transportExpense.setTransportationCurrency(value);
+            transportExpense.setExpenseCurrency(value);
 
             // Transportation Date
             filledKey = String.format(InputFieldKeys.TRANSPORTATION_DATE_FMT, i);
@@ -632,6 +635,9 @@ public class FormDataConverter
                 break;
             }
 
+            // Convert to USD
+            CurrencyConverter.convertExpenseCurrency(transportExpense);
+
             // Add it to the RApp
             app.addTransportationExpense(transportExpense);
         }
@@ -691,6 +697,9 @@ public class FormDataConverter
             filledKey = String.format(InputFieldKeys.OTHER_JUSTIFICATION_FMT, i);
             value = getFormValue(data, filledKey);
             otherExpense.setExpenseJustification(value);
+
+            // Convert to USD
+            CurrencyConverter.convertExpenseCurrency(otherExpense);
 
             // Add it to the RApp
             app.addOtherExpense(otherExpense);
@@ -761,6 +770,10 @@ public class FormDataConverter
                 Date expenseDate = app.getDepartureDatetime();
                 incidental.setExpenseDate(DateValidator.advanceDateInDays(expenseDate, day - 1));
 
+                // Convert to USD
+                CurrencyConverter.convertExpenseCurrency(incidental);
+
+                // Add to App
                 app.addIncidentalExpense(incidental, day);
             }
             catch (MissingFieldException mfe)

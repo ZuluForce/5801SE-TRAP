@@ -104,7 +104,7 @@ public class DateValidator extends InputValidationRule
         for (int i = 0; i < transportExpenses.size(); ++i)
         {
             TransportationExpense expense = transportExpenses.get(i);
-            Date expenseDate = expense.getTransportationDate();
+            Date expenseDate = expense.getExpenseDate();
 
             if (expenseDate.before(departureStart) || expenseDate.after(arrivalStart))
             {

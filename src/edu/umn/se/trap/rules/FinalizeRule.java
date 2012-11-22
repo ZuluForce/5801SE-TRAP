@@ -161,7 +161,7 @@ public class FinalizeRule implements TRAPRule
             // Date
             formattedField = String.format(OutputFieldKeys.TRANSPORTATION_DATE_FMT, i);
             app.setOutputField(formattedField,
-                    DateValidator.dateToString(expense.getTransportationDate()));
+                    DateValidator.dateToString(expense.getExpenseDate()));
 
             // Type
             formattedField = String.format(OutputFieldKeys.TRANSPORTATION_TYPE_FMT, i);

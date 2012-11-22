@@ -32,6 +32,7 @@ import edu.umn.se.trap.exception.TRAPException;
  */
 public class TRAPRuleRegistry
 {
+    /** Logger for the TRAPRuleRegistry */
     private static Logger log = LoggerFactory.getLogger(TRAPRuleRegistry.class);
 
     /** List of input validation rules called by the registry */
