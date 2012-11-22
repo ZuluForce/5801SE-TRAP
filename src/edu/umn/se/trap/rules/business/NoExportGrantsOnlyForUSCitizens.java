@@ -6,6 +6,7 @@ import java.util.List;
 import edu.umn.se.trap.data.Grant;
 import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.data.UserInfo;
+import edu.umn.se.trap.db.GrantDB;
 import edu.umn.se.trap.db.GrantDBWrapper;
 import edu.umn.se.trap.db.KeyNotFoundException;
 import edu.umn.se.trap.exception.BusinessLogicException;
@@ -45,8 +46,21 @@ public class NoExportGrantsOnlyForUSCitizens extends BusinessLogicRule
                         + grant.getGrantAccount(), e);
             }
 
-            // TODO: Need to finish this for-loop with checking that a user has US citizenship if
-            // the grant is noExport
+            organizationType = (String) grantInfo.get(GrantDB.GRANT_FIELDS.ORGANIZATION_TYPE
+                    .ordinal());
+
+            if (organizationType.compareToIgnoreCase("noExport") == 0)
+            {
+                if (currentUserCitizenShip.compareToIgnoreCase("United States") == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    throw new BusinessLogicException("User has citizenship: "
+                            + currentUserCitizenShip + " and is trying to claim a no-export grant");
+                }
+            }
 
         }
 
