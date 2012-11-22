@@ -39,6 +39,9 @@ public class TransportationExpense implements ExpenseWithCurrencyIface
     /** The currency used to pay for this expense */
     private String expenseCurrency;
 
+    /** The original, pre-conversion currency for this expense */
+    private String originalCurrency;
+
     /** The specific transportation expense type */
     private TransportationTypeEnum transportationType;
 
@@ -68,6 +71,7 @@ public class TransportationExpense implements ExpenseWithCurrencyIface
      * @see #setTransportationDate(Date)
      * @return - The date this expense occured on
      */
+    @Override
     public Date getExpenseDate()
     {
         return expenseDate;
@@ -81,7 +85,7 @@ public class TransportationExpense implements ExpenseWithCurrencyIface
      */
     public void setTransportationDate(Date transportationDate)
     {
-        this.expenseDate = transportationDate;
+        expenseDate = transportationDate;
     }
 
     /**
@@ -239,6 +243,28 @@ public class TransportationExpense implements ExpenseWithCurrencyIface
     public void setTransportationType(TransportationTypeEnum transportationType)
     {
         this.transportationType = transportationType;
+    }
+
+    /**
+     * Set the original, pre-conversion, currency for this expense.
+     * 
+     * @param currency - The currency to set
+     */
+    @Override
+    public void setOriginalCurrency(String currency)
+    {
+        originalCurrency = currency;
+    }
+
+    /**
+     * Get the original, pre-conversion, currency for this expense.
+     * 
+     * @return - The original currency for this expense
+     */
+    @Override
+    public String getOriginalCurrency()
+    {
+        return originalCurrency;
     }
 
     /**

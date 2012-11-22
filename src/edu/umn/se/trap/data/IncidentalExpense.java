@@ -29,6 +29,9 @@ public class IncidentalExpense extends PerDiemExpense implements ExpenseWithCurr
     /** The currency for this expense */
     private String expenseCurrency;
 
+    /** The original, pre-conversion currency for this expense */
+    private String originalCurrency;
+
     /** The justification for this expense */
     private String expenseJustification;
 
@@ -193,6 +196,7 @@ public class IncidentalExpense extends PerDiemExpense implements ExpenseWithCurr
      * 
      * @param expenseCurrency - The currency to set for this expense.
      */
+    @Override
     public void setExpenseCurrency(String expenseCurrency)
     {
         this.expenseCurrency = expenseCurrency;
@@ -216,6 +220,28 @@ public class IncidentalExpense extends PerDiemExpense implements ExpenseWithCurr
     public void setExpenseJustification(String expenseJustification)
     {
         this.expenseJustification = expenseJustification;
+    }
+
+    /**
+     * Set the original, pre-conversion, currency for this expense.
+     * 
+     * @param currency - The currency to set
+     */
+    @Override
+    public void setOriginalCurrency(String currency)
+    {
+        originalCurrency = currency;
+    }
+
+    /**
+     * Get the original, pre-conversion, currency for this expense.
+     * 
+     * @return - The original currency for this expense
+     */
+    @Override
+    public String getOriginalCurrency()
+    {
+        return originalCurrency;
     }
 
     /**

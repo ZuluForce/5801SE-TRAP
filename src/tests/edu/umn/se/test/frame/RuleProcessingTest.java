@@ -35,6 +35,7 @@ import edu.umn.se.trap.util.PrettyPrint;
  */
 public class RuleProcessingTest extends TrapTestFramework
 {
+    /** Logger for the RuleProcessingTest */
     private static Logger log = LoggerFactory.getLogger(RuleProcessingTest.class);
 
     /**

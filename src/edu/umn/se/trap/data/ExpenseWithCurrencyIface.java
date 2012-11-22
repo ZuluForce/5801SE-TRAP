@@ -44,4 +44,18 @@ public interface ExpenseWithCurrencyIface
      * @return - The date of the expense
      */
     public Date getExpenseDate();
+
+    /**
+     * Set the original, pre-conversion, currency for this expense.
+     * 
+     * @param currency - The original currency to set for the expense
+     */
+    public void setOriginalCurrency(String currency);
+
+    /**
+     * Get the original, pre-conversion, currency for this expense.
+     * 
+     * @return - The original currency for this expense
+     */
+    public String getOriginalCurrency();
 }
