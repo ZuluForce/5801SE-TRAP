@@ -100,6 +100,7 @@ public class CurrencyConverter
 
         if (currency.compareToIgnoreCase(TRAPConstants.USD) == 0)
         {
+            expense.setOriginalCurrency(currency);
             return;
         }
 
@@ -107,5 +108,6 @@ public class CurrencyConverter
         amount = convertToUSD(amount, currency, date);
         expense.setExpenseAmount(amount);
         expense.setExpenseCurrency(TRAPConstants.USD);
+        expense.setOriginalCurrency(currency);
     }
 }

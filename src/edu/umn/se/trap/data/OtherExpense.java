@@ -32,6 +32,9 @@ public class OtherExpense implements ExpenseWithCurrencyIface
     /** The currency for this expense */
     private String expenseCurrency;
 
+    /** The original, pre-conversion currency for this expense */
+    private String originalCurrency;
+
     /** The claimed amount for this expense */
     private Double expenseAmount;
 
@@ -43,6 +46,7 @@ public class OtherExpense implements ExpenseWithCurrencyIface
      * 
      * @return - The date for the expense
      */
+    @Override
     public Date getExpenseDate()
     {
         return expenseDate;
@@ -141,6 +145,28 @@ public class OtherExpense implements ExpenseWithCurrencyIface
     public void setExpenseCurrency(String expenseCurrency)
     {
         this.expenseCurrency = expenseCurrency;
+    }
+
+    /**
+     * Set the original, pre-conversion, currency for this expense.
+     * 
+     * @param currency - The currency to set
+     */
+    @Override
+    public void setOriginalCurrency(String currency)
+    {
+        originalCurrency = currency;
+    }
+
+    /**
+     * Get the original, pre-conversion, currency for this expense.
+     * 
+     * @return - The original currency for this expense
+     */
+    @Override
+    public String getOriginalCurrency()
+    {
+        return originalCurrency;
     }
 
     /**

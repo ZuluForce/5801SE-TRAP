@@ -27,6 +27,9 @@ public class LodgingExpense extends PerDiemExpense implements ExpenseWithCurrenc
     /** The currency for this expense */
     private String expenseCurrency;
 
+    /** The original, pre-conversion currency for this expense */
+    private String originalCurrency;
+
     /**
      * Construct the LodgingExpense object. This initializes all attributes to unset sentinel
      * values.
@@ -100,6 +103,28 @@ public class LodgingExpense extends PerDiemExpense implements ExpenseWithCurrenc
     public void setExpenseCurrency(String expenseCurrency)
     {
         this.expenseCurrency = expenseCurrency;
+    }
+
+    /**
+     * Set the original, pre-conversion, currency for this expense.
+     * 
+     * @param currency - The currency to set
+     */
+    @Override
+    public void setOriginalCurrency(String currency)
+    {
+        originalCurrency = currency;
+    }
+
+    /**
+     * Get the original, pre-conversion, currency for this expense.
+     * 
+     * @return - The original currency for this expense
+     */
+    @Override
+    public String getOriginalCurrency()
+    {
+        return originalCurrency;
     }
 
     /**
