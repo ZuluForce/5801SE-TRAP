@@ -14,11 +14,12 @@ import edu.umn.se.trap.exception.InputValidationException;
  */
 public class PhoneNumberValidator extends InputValidationRule
 {
-
+    /** Logger for the PhoneNumberValidator class */
     private static Logger log = LoggerFactory.getLogger(PhoneNumberValidator.class);
 
     // TODO Figure out what to use for a formatter
-    private final static String phoneNumberFormat = new String();
+    /** TRAP format for a phone number */
+    private final static String phoneNumberRegex = "\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d";
 
     @Override
     public void checkRule(ReimbursementApp app) throws InputValidationException,
@@ -26,19 +27,17 @@ public class PhoneNumberValidator extends InputValidationRule
     {
 
         // TODO Need phone number. From userInfo object?
-        // String phoneNumber = app.getUserInfo()
-        String phoneNumber = "1234567890";
+        String phoneNumber = app.getUserInfo().getEmergencycontactPhone();
 
         if (phoneNumber == null)
         {
             throw new InputValidationException("Missing phone number");
         }
 
-        // TODO This depends on figuring out the phoneNumber formatter
-        if (phoneNumber == "blah")
+        // TODO Write a better exception message.
+        if (!phoneNumberRegex.matches(phoneNumber))
         {
-            throw new InputValidationException(
-                    "The phone number is not formatted correctly. Please use the format dddddddddd where d is any number");
+            throw new InputValidationException("The phone number is not formatted correctly.");
         }
 
     }
