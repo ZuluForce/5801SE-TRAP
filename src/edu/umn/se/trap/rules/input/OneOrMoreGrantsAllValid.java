@@ -25,15 +25,15 @@ public class OneOrMoreGrantsAllValid extends InputValidationRule
     public void checkRule(ReimbursementApp app) throws InputValidationException,
             FormProcessorException
     {
-        List<Grant> submittedGrants = app.getGrantList();
+        List<Grant> grants = app.getGrantList();
 
         // TODO Change exception message
-        if (submittedGrants.isEmpty())
+        if (grants.isEmpty())
         {
             throw new InputValidationException("No grants were submitted");
         }
 
-        for (Grant grant : submittedGrants)
+        for (Grant grant : grants)
         {
             if (GrantDBWrapper.isValidGrant(grant.getGrantAccount()))
             {
