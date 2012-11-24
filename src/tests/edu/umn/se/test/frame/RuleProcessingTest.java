@@ -16,8 +16,6 @@ package edu.umn.se.test.frame;
 
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -56,41 +54,18 @@ public class RuleProcessingTest extends TrapTestFramework
             Map<String, String> output = getCompletedForm(id);
             log.info("\nOutput map: {}", PrettyPrint.prettyMap(output));
 
-            List<String> difference = formDifference(expected, output);
-            if (difference.size() != 0)
+            if (expected.size() != output.size())
             {
-                log.error("Size of output: {}   Size of expected: {}", output.size(),
-                        expected.size());
-                log.error("Output/Expected difference:\n{}", difference);
-                Assert.fail("Output map is not equal to the expected");
+                Assert.fail(String.format("Output is not expected size. output={}  expected={}",
+                        output.size(), expected.size()));
             }
+
+            Assert.assertTrue("Output map not equal to expected", doOutputsMatch(output, expected));
         }
         catch (TRAPException e)
         {
             e.printStackTrace();
             fail("Unexpected exception: " + e.getMessage());
         }
-    }
-
-    public static List<String> formDifference(Map<String, String> m1, Map<String, String> m2)
-    {
-        List<String> difference = new ArrayList<String>();
-
-        for (Map.Entry<String, String> entry : m1.entrySet())
-        {
-            String key = entry.getKey();
-            if (!m2.containsKey(key))
-            {
-                difference.add("<missing>" + key);
-                continue;
-            }
-
-            if (!m2.get(key).equalsIgnoreCase(m1.get(key)))
-            {
-                difference.add("<diff>" + key);
-            }
-        }
-
-        return difference;
     }
 }
