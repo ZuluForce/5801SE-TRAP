@@ -32,7 +32,6 @@ import edu.umn.se.trap.rules.business.NoExportGrantsOnlyForUSCitizens;
 import edu.umn.se.trap.rules.input.DateValidator;
 import edu.umn.se.trap.rules.input.InputValidationRule;
 import edu.umn.se.trap.rules.input.OtherExpenseDateValidator;
-import edu.umn.se.trap.rules.input.TransportationDateValidator;
 
 /**
  * A registry of rules that are used to process a ReimbursementApp. When called to process, the
@@ -111,7 +110,9 @@ public class TRAPRuleRegistry
 
         // Add InputValidationRules
         addInputValidationRule(new DateValidator());
-        addInputValidationRule(new TransportationDateValidator());
+
+        // TODO: Add this one back after my question gets answered on the forums
+        // addInputValidationRule(new TransportationDateValidator());
         addInputValidationRule(new OtherExpenseDateValidator());
 
         // Add BusinessLogicRules

@@ -14,8 +14,13 @@
 // TrapTestFramework.java
 package edu.umn.se.test.frame;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +32,11 @@ import edu.umn.se.trap.db.GrantDB;
 import edu.umn.se.trap.db.PerDiemDB;
 import edu.umn.se.trap.db.UserDB;
 import edu.umn.se.trap.db.UserGrantDB;
+import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.exception.TRAPRuntimeException;
+import edu.umn.se.trap.form.OutputFieldKeys;
+import edu.umn.se.trap.rules.input.DateValidator;
 import edu.umn.se.trap.test.generate.LoadedSampleForm;
 import edu.umn.se.trap.test.generate.TestDataGenerator;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
@@ -162,5 +170,122 @@ public class TrapTestFramework
         log.info("getExpectedOutput: {}", expected);
 
         return expected;
+    }
+
+    public boolean doOutputsMatch(Map<String, String> output, Map<String, String> expected)
+            throws InputValidationException
+    {
+        // First check the values that aren't necessarily the same across both outputs but don't
+        // invalidate them from being equivalent results
+
+        // Submission datetime
+        String submitTimeStr = output.get(OutputFieldKeys.FORM_SUBMISSION_DATETIME);
+        Date submitDatetime = DateValidator.convertToDatetime(submitTimeStr);
+
+        Date now = new Date();
+        if (submitDatetime.after(now))
+        {
+            log.debug("submission datetime after output check time.");
+            return false;
+        }
+
+        output.remove(OutputFieldKeys.FORM_SUBMISSION_DATETIME);
+
+        // Destinations. They can come in any order so we need to check that the *set* of
+        // destinations is the same
+        Set<Map<String, String>> outDests, expectedDests;
+        outDests = new HashSet<Map<String, String>>();
+        expectedDests = new HashSet<Map<String, String>>();
+
+        int numDests = Integer.parseInt(output.get(OutputFieldKeys.NUM_DESTINATIONS));
+        int numExpectedDests = Integer.parseInt(expected.get(OutputFieldKeys.NUM_DESTINATIONS));
+
+        if (numDests != numExpectedDests)
+        {
+            log.error("Number of destinations in the output({}) does not match expected ({})",
+                    numDests, numExpectedDests);
+        }
+
+        for (int i = 1; i <= numDests; ++i)
+        {
+            Map<String, String> newDest = new HashMap<String, String>();
+            Map<String, String> newDestExpected = new HashMap<String, String>();
+
+            // city
+            String field = String.format(OutputFieldKeys.DESTINATION_CITY_FMT, i);
+            String value = output.get(field);
+            output.remove(field);
+            newDest.put("city", value);
+
+            // city - expected
+            value = expected.get(field);
+            expected.remove(field);
+            newDestExpected.put("city", value);
+
+            // state
+            field = String.format(OutputFieldKeys.DESTINATION_STATE_FMT, i);
+            value = output.get(field);
+            output.remove(field);
+            newDest.put("state", value);
+
+            // state - expected
+            value = expected.get(field);
+            expected.remove(field);
+            newDestExpected.put("state", value);
+
+            // country
+            field = String.format(OutputFieldKeys.DESTINATION_COUNTRY_FMT, i);
+            value = output.get(field);
+            output.remove(field);
+            newDest.put("country", value);
+
+            // country - expected
+            value = expected.get(field);
+            expected.remove(field);
+            newDestExpected.put("country", value);
+
+            // Add to the sets
+            outDests.add(newDest);
+            expectedDests.add(newDestExpected);
+        }
+
+        if (!outDests.equals(expectedDests))
+        {
+            log.error("Set of destinations not equivalent");
+            log.error("Actual output destinations:\n\t{}", outDests);
+            log.error("Expected destinations:\n\t{}", expectedDests);
+            return false;
+        }
+
+        List<String> difference = mapDifference(output, expected);
+        if (difference.size() != 0)
+        {
+            log.error("Difference between output and expected:\n{}", difference);
+            return false;
+        }
+
+        return true;
+    }
+
+    public static List<String> mapDifference(Map<String, String> m1, Map<String, String> m2)
+    {
+        List<String> difference = new ArrayList<String>();
+
+        for (Map.Entry<String, String> entry : m1.entrySet())
+        {
+            String key = entry.getKey();
+            if (!m2.containsKey(key))
+            {
+                difference.add("<missing>" + key);
+                continue;
+            }
+
+            if (!m2.get(key).equalsIgnoreCase(m1.get(key)))
+            {
+                difference.add("<diff>" + key);
+            }
+        }
+
+        return difference;
     }
 }

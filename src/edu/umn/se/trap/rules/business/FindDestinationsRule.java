@@ -33,6 +33,7 @@ import edu.umn.se.trap.form.OutputFieldKeys;
  */
 public class FindDestinationsRule extends BusinessLogicRule
 {
+    /** Logger for the FindDestinationsRule */
     private static Logger log = LoggerFactory.getLogger(FindDestinationsRule.class);
 
     /*
@@ -63,6 +64,8 @@ public class FindDestinationsRule extends BusinessLogicRule
 
                 ++numDestinations;
 
+                log.debug("Adding destination: city={}, state={}, country={}", expense.getCity(),
+                        expense.getState(), expense.getCountry());
                 // Destination city
                 String field = String.format(OutputFieldKeys.DESTINATION_CITY_FMT, numDestinations);
                 app.setOutputField(field, expense.getCity());
