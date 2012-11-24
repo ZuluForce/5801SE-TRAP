@@ -55,7 +55,7 @@ public class GrantDBWrapper
 
     // Testing a boolean method
     // TODO Add some printing/logging in here
-    public static boolean isValidGrant(String accountName) throws KeyNotFoundException
+    public static boolean isValidGrant(String accountName)
     {
         try
         {
