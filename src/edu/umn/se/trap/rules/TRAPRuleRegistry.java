@@ -27,10 +27,12 @@ import edu.umn.se.trap.rules.business.BusinessLogicRule;
 import edu.umn.se.trap.rules.business.FindDestinationsRule;
 import edu.umn.se.trap.rules.business.ForeignGrantsNoDomesticTravel;
 import edu.umn.se.trap.rules.business.GrantApproverName;
+import edu.umn.se.trap.rules.business.IncidentalPerDiem;
 import edu.umn.se.trap.rules.business.InternetOnlyUnderNonSponsoredGrants;
 import edu.umn.se.trap.rules.business.LodgingPerDiem;
 import edu.umn.se.trap.rules.business.MealPerDiem;
 import edu.umn.se.trap.rules.business.NoExportGrantsOnlyForUSCitizens;
+import edu.umn.se.trap.rules.business.TransportationGasMileage;
 import edu.umn.se.trap.rules.input.DateValidator;
 import edu.umn.se.trap.rules.input.InputValidationRule;
 import edu.umn.se.trap.rules.input.OtherExpenseDateValidator;
@@ -128,6 +130,9 @@ public class TRAPRuleRegistry
 
         addBusinessLogicRule(new MealPerDiem());
         addBusinessLogicRule(new LodgingPerDiem());
+        addBusinessLogicRule(new IncidentalPerDiem());
+
+        addBusinessLogicRule(new TransportationGasMileage());
     }
 
     /**

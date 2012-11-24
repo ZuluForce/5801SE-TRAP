@@ -59,7 +59,7 @@ public class TransportationExpense implements ExpenseWithCurrencyIface
         expenseDate = null;
         transportationCarrier = transportationRental = expenseCurrency = null;
 
-        transportationMilesTraveled = -1;
+        transportationMilesTraveled = null;
         expenseAmount = reimbursementAmount = -1.0;
 
         transportationType = TransportationTypeEnum.NOT_SET;
@@ -114,10 +114,10 @@ public class TransportationExpense implements ExpenseWithCurrencyIface
     /**
      * Get the number of miles traveled for this expense
      * 
-     * @see #setTransportationMilesTraveled(int)
-     * @return - Number of miles travelled.
+     * @see #setTransportationMilesTraveled(Integer)
+     * @return - Number of miles traveled.
      */
-    public int getTransportationMilesTraveled()
+    public Integer getTransportationMilesTraveled()
     {
         return transportationMilesTraveled;
     }
@@ -129,7 +129,7 @@ public class TransportationExpense implements ExpenseWithCurrencyIface
      * @see #getTransportationMilesTraveled()
      * @param transportationMilesTraveled - The number of miles traveled
      */
-    public void setTransportationMilesTraveled(int transportationMilesTraveled)
+    public void setTransportationMilesTraveled(Integer transportationMilesTraveled)
     {
         this.transportationMilesTraveled = transportationMilesTraveled;
     }

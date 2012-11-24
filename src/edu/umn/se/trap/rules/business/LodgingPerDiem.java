@@ -45,12 +45,18 @@ public class LodgingPerDiem extends BusinessLogicRule
                     perDiem = PerDiemDBWrapper.getDomesticPerDiemLodging(expense.getCity(),
                             expense.getState());
                 }
+                else
+                {
+                    perDiem = PerDiemDBWrapper.getInternationalPerDiemLodging(expense.getCity(),
+                            expense.getCountry());
+                }
             }
             catch (KeyNotFoundException notFound)
             {
                 log.error("Could not find lodging per diem for expense:\n{}", expense);
                 throw new BusinessLogicException(
-                        "Could not find per diem for lodging expense on day " + day.getDayNumber());
+                        "Could not find per diem for lodging expense on day " + day.getDayNumber(),
+                        notFound);
             }
 
             // Make sure the claimed expense amount is no more than the per diem
