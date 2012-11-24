@@ -21,5 +21,9 @@ import edu.umn.se.trap.exception.TRAPException;
  */
 public class ProperCurrencyConversion extends BusinessLogicRule
 {
-    return;
+    @override
+    public void checkRule(ReimbursementApp app) throws TRAPException
+    {
+
+    }
 }

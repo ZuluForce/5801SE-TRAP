@@ -21,5 +21,9 @@ import edu.umn.se.trap.exception.TRAPException;
  */
 public class MealPerDiem extends BusinessLogicRule
 {
-    return;
+	@override
+	public void checkRule(ReimbursementApp app) throws TRAPException
+	{
+
+    }
 }
