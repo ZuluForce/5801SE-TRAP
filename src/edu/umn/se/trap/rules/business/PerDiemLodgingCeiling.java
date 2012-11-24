@@ -9,7 +9,7 @@ import edu.umn.se.trap.exception.TRAPException;
  * @author maure113
  * 
  */
-public class OnlyOneCheckedLuggage extends BusinessLogicRule
+public class PerDiemLodgingCeiling extends BusinessLogicRule
 {
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
