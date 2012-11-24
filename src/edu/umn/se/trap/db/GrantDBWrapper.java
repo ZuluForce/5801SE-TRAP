@@ -52,4 +52,19 @@ public class GrantDBWrapper
     {
         grantDB = db;
     }
+
+    // Testing a boolean method
+    // TODO Add some printing/logging in here
+    public static boolean isValidGrant(String accountName) throws KeyNotFoundException
+    {
+        try
+        {
+            grantDB.getGrantInfo(accountName);
+            return true;
+        }
+        catch (KeyNotFoundException e)
+        {
+            return false;
+        }
+    }
 }

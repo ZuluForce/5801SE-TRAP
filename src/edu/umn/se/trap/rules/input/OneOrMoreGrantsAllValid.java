@@ -1,7 +1,6 @@
 // OneOrMoreGrantsAllValid.java
 package edu.umn.se.trap.rules.input;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.data.Grant;
 import edu.umn.se.trap.data.ReimbursementApp;
+import edu.umn.se.trap.db.GrantDBWrapper;
 import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.InputValidationException;
 
@@ -26,7 +26,6 @@ public class OneOrMoreGrantsAllValid extends InputValidationRule
             FormProcessorException
     {
         List<Grant> submittedGrants = app.getGrantList();
-        Iterator iter = submittedGrants.iterator();
 
         // TODO Change exception message
         if (submittedGrants.isEmpty())
@@ -34,9 +33,12 @@ public class OneOrMoreGrantsAllValid extends InputValidationRule
             throw new InputValidationException("No grants were submitted");
         }
 
-        while (iter.hasNext())
+        for (Grant grant : submittedGrants)
         {
-            // GrantDBWrapper.getGrantInfo(iter.);
+            if (GrantDBWrapper.isValidGrant(grant.getGrantAccount()))
+            {
+                throw new InputValidationException("Grant is not valid");
+            }
         }
 
     }
