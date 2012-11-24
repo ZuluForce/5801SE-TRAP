@@ -193,14 +193,21 @@ public class DateValidator extends InputValidationRule
      * @param d - The date for which you want to get the start of day for.
      * @return - A Date representing the start of the day for the given date.
      */
-    private static Date getStartOfDay(Date d)
+    public static Date getStartOfDay(Date d)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.set(Calendar.HOUR, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
 
         return cal.getTime();
+    }
+
+    public static Date getStartOfNextDay(Date d)
+    {
+        d = advanceDateInDays(d, 1);
+        return getStartOfDay(d);
     }
 }

@@ -30,6 +30,11 @@ public class TransportationDateValidator extends InputValidationRule
         Date departure = app.getDepartureDatetime();
         Date arrival = app.getArrivalDatetime();
 
+        // We allow any transportation expense for the duration of the
+        // departure and arrival dates since we don't have time info.
+        departure = DateValidator.getStartOfDay(departure);
+        arrival = DateValidator.getStartOfNextDay(arrival);
+
         for (int i = 0; i < transportExpenses.size(); ++i)
         {
             TransportationExpense expense = transportExpenses.get(i);
@@ -45,7 +50,7 @@ public class TransportationDateValidator extends InputValidationRule
                                 i + 1));
             }
 
-            // All transportation expenses must be before the arrival time
+            // All transportation expenses must be before or on the day of arrival
             if (expenseDate.after(arrival))
             {
                 throw new InputValidationException(String.format(

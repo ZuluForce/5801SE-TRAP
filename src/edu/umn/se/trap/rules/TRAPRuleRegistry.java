@@ -28,10 +28,13 @@ import edu.umn.se.trap.rules.business.FindDestinationsRule;
 import edu.umn.se.trap.rules.business.ForeignGrantsNoDomesticTravel;
 import edu.umn.se.trap.rules.business.GrantApproverName;
 import edu.umn.se.trap.rules.business.InternetOnlyUnderNonSponsoredGrants;
+import edu.umn.se.trap.rules.business.LodgingPerDiem;
+import edu.umn.se.trap.rules.business.MealPerDiem;
 import edu.umn.se.trap.rules.business.NoExportGrantsOnlyForUSCitizens;
 import edu.umn.se.trap.rules.input.DateValidator;
 import edu.umn.se.trap.rules.input.InputValidationRule;
 import edu.umn.se.trap.rules.input.OtherExpenseDateValidator;
+import edu.umn.se.trap.rules.input.TransportationDateValidator;
 
 /**
  * A registry of rules that are used to process a ReimbursementApp. When called to process, the
@@ -111,8 +114,7 @@ public class TRAPRuleRegistry
         // Add InputValidationRules
         addInputValidationRule(new DateValidator());
 
-        // TODO: Add this one back after my question gets answered on the forums
-        // addInputValidationRule(new TransportationDateValidator());
+        addInputValidationRule(new TransportationDateValidator());
         addInputValidationRule(new OtherExpenseDateValidator());
 
         // Add BusinessLogicRules
@@ -123,6 +125,9 @@ public class TRAPRuleRegistry
         addBusinessLogicRule(new InternetOnlyUnderNonSponsoredGrants());
         addBusinessLogicRule(new NoExportGrantsOnlyForUSCitizens());
         addBusinessLogicRule(new ForeignGrantsNoDomesticTravel());
+
+        addBusinessLogicRule(new MealPerDiem());
+        addBusinessLogicRule(new LodgingPerDiem());
     }
 
     /**
