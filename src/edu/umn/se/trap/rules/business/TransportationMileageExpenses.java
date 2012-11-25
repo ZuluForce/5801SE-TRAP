@@ -12,18 +12,24 @@ import edu.umn.se.trap.exception.BusinessLogicException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
+ * Adds transportation expenses involving car mileage. Mileage can only be claimed for personal car
+ * use. Mileage is reimbursed at a rate of $0.55 per mile.
  * 
  * @author andrewh
  * 
  */
-public class TransportationGasMileage extends BusinessLogicRule
+public class TransportationMileageExpenses extends BusinessLogicRule
 {
     /** Log for the TransportationGasMileage class */
-    private static final Logger log = LoggerFactory.getLogger(TransportationGasMileage.class);
+    private static final Logger log = LoggerFactory.getLogger(TransportationMileageExpenses.class);
 
     /** Reimbursement rate per mile for gas expenses */
     private static final Double mileageRate = 0.55;
 
+    /**
+     * Adds transportation expenses involving car mileage. Mileage can only be claimed for personal
+     * car use. Mileage is reimbursed at a rate of $0.55 per mile.
+     */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {

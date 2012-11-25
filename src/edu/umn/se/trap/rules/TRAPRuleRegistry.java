@@ -39,10 +39,15 @@ import edu.umn.se.trap.rules.business.MealPerDiem;
 import edu.umn.se.trap.rules.business.NIHGrantRestrictions;
 import edu.umn.se.trap.rules.business.NoExportGrantsOnlyForUSCitizens;
 import edu.umn.se.trap.rules.business.PerDayCarExpenses;
-import edu.umn.se.trap.rules.business.TransportationGasMileage;
+import edu.umn.se.trap.rules.business.TransportationMileageExpenses;
+import edu.umn.se.trap.rules.business.USCarriersOnly;
 import edu.umn.se.trap.rules.input.DateValidator;
+import edu.umn.se.trap.rules.input.EmailAddressValidator;
+import edu.umn.se.trap.rules.input.GrantPercentSumTo100;
 import edu.umn.se.trap.rules.input.InputValidationRule;
+import edu.umn.se.trap.rules.input.OneOrMoreGrantsAllValid;
 import edu.umn.se.trap.rules.input.OtherExpenseDateValidator;
+import edu.umn.se.trap.rules.input.PhoneNumberValidator;
 import edu.umn.se.trap.rules.input.TransportationDateValidator;
 
 /**
@@ -125,6 +130,10 @@ public class TRAPRuleRegistry
 
         addInputValidationRule(new TransportationDateValidator());
         addInputValidationRule(new OtherExpenseDateValidator());
+        addInputValidationRule(new EmailAddressValidator());
+        addInputValidationRule(new GrantPercentSumTo100());
+        addInputValidationRule(new OneOrMoreGrantsAllValid());
+        addInputValidationRule(new PhoneNumberValidator());
 
         // Add BusinessLogicRules
         addBusinessLogicRule(new FindDestinationsRule());
@@ -144,10 +153,12 @@ public class TRAPRuleRegistry
         addBusinessLogicRule(new LodgingPerDiem());
         addBusinessLogicRule(new IncidentalPerDiem());
 
-        addBusinessLogicRule(new TransportationGasMileage());
+        addBusinessLogicRule(new TransportationMileageExpenses());
         addBusinessLogicRule(new PerDayCarExpenses());
         addBusinessLogicRule(new BaggageExpenses());
         addBusinessLogicRule(new AddTransportationExpenses());
+
+        addBusinessLogicRule(new USCarriersOnly());
 
     }
 

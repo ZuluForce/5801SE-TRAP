@@ -13,6 +13,8 @@ import edu.umn.se.trap.exception.BusinessLogicException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
+ * Add all incidental expenses to the total according to their per diem amount. Incidentals on the
+ * first and last day will only be given 75% of their per diem amount.
  * 
  * @author andrewh
  * 
@@ -22,6 +24,10 @@ public class IncidentalPerDiem extends BusinessLogicRule
     /** Logger for the IncidentalPerDiem class */
     private static final Logger log = LoggerFactory.getLogger(IncidentalExpense.class);
 
+    /**
+     * Add all incidental expenses to the total according to their per diem amount. Incidentals on
+     * the first and last day will only be given 75% of their per diem amount.
+     */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {

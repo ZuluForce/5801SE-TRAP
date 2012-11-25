@@ -20,6 +20,9 @@ import edu.umn.se.trap.exception.TRAPException;
  */
 public class PerDayCarExpenses extends BusinessLogicRule
 {
+    /**
+     * This rule checks that there are no personal and rental car expenses claimed on the same day.
+     */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {

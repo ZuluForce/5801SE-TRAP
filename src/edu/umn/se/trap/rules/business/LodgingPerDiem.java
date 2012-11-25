@@ -13,6 +13,8 @@ import edu.umn.se.trap.exception.BusinessLogicException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
+ * Add all lodging expenses to the total according to their per diem amount. If a loding expense is
+ * claimed for more than the per diem an exception will be thrown.
  * 
  * @author andrewh
  * 
@@ -22,6 +24,10 @@ public class LodgingPerDiem extends BusinessLogicRule
     /** Logger for the PerDiemLodgingCeiling class */
     private static final Logger log = LoggerFactory.getLogger(LodgingPerDiem.class);
 
+    /**
+     * Add all lodging expenses to the total according to their per diem amount. If a loding expense
+     * is claimed for more than the per diem an exception will be thrown.
+     */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {

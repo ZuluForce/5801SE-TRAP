@@ -14,6 +14,8 @@ import edu.umn.se.trap.exception.BusinessLogicException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
+ * Add all meal expenses to the total according to their per diem amount. Meals on the first and
+ * last day will only be given 75% of their per diem amount.
  * 
  * @author andrewh
  * 
@@ -23,6 +25,10 @@ public class MealPerDiem extends BusinessLogicRule
     /** Logger for the MealPerDiem class */
     private static final Logger log = LoggerFactory.getLogger(MealPerDiem.class);
 
+    /**
+     * Add all meal expenses to the total according to their per diem amount. Meals on the first and
+     * last day will only be given 75% of their per diem amount.
+     */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {

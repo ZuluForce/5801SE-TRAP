@@ -15,12 +15,16 @@ import edu.umn.se.trap.exception.TRAPException;
  */
 public class OnlyOneCheckedLuggage extends BusinessLogicRule
 {
+    /**
+     * This rule checks that there are no more baggage expense claims than the number of flights.
+     */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {
         Integer numBaggageExpenses = 0;
         Integer numAirTravelExpenses = 0;
 
+        // Tally up the number of baggage and air travel expenses
         for (TransportationExpense expense : app.getTransportationExpenseList())
         {
             TransportationTypeEnum type = expense.getTransportationType();
@@ -34,6 +38,7 @@ public class OnlyOneCheckedLuggage extends BusinessLogicRule
             }
         }
 
+        // Make sure the # baggage expenses is less or equal to the # of air travel expenses
         if (numBaggageExpenses > numAirTravelExpenses)
         {
             throw new BusinessLogicException(
