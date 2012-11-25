@@ -166,10 +166,7 @@ public class TrapTestFramework
                     + id);
         }
 
-        Map<String, String> expected = TestDataGenerator.getExpectedOutput(data);
-        log.info("getExpectedOutput: {}", expected);
-
-        return expected;
+        return TestDataGenerator.getExpectedOutput(data);
     }
 
     public boolean doOutputsMatch(Map<String, String> output, Map<String, String> expected)

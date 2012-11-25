@@ -142,6 +142,10 @@ public class TransportationExpense implements ExpenseWithCurrencyIface
      */
     public String getTransportationRental()
     {
+        if (transportationRental == null)
+        {
+            return TRAPConstants.STR_NO;
+        }
         return transportationRental;
     }
 
@@ -201,6 +205,14 @@ public class TransportationExpense implements ExpenseWithCurrencyIface
     public void setReimbursementAmount(Double amount)
     {
         reimbursementAmount = amount;
+    }
+
+    /**
+     * Set the reimbursementAmount to be the full claimed amount of the expense.
+     */
+    public void reimburseFullAmount()
+    {
+        reimbursementAmount = expenseAmount;
     }
 
     /**
