@@ -17,6 +17,7 @@ import edu.umn.se.trap.exception.InputValidationException;
  */
 public class GrantPercentSumTo100 extends InputValidationRule
 {
+    /** Logger for the GrantPercentSumTo100 class */
     private static Logger log = LoggerFactory.getLogger(GrantPercentSumTo100.class);
 
     @Override
@@ -24,26 +25,18 @@ public class GrantPercentSumTo100 extends InputValidationRule
             FormProcessorException
     {
         List<Grant> grants = app.getGrantList();
-        int grantTotal = 0;
-
-        // TODO Reword exception message
-        if (grants.isEmpty())
-        {
-            throw new InputValidationException("Missing grants");
-        }
+        Integer grantTotal = 0;
 
         for (Grant grant : grants)
         {
             grantTotal += grant.getGrantPercentage();
         }
 
-        // TODO put inside for loop?
-        if (grantTotal > 100)
+        if (grantTotal != 100)
         {
-            throw new InputValidationException("Total reimbursement exceeds total expenses");
+            throw new InputValidationException(String.format(
+                    "Grant percentages do not sum to 100% (%d%%)", grantTotal));
         }
-
-        // TODO what if grants do not sum to 100%? Leave it?
     }
 
 }

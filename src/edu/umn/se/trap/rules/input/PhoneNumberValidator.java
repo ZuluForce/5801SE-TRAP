@@ -25,13 +25,11 @@ public class PhoneNumberValidator extends InputValidationRule
     public void checkRule(ReimbursementApp app) throws InputValidationException,
             FormProcessorException
     {
-
-        // TODO Need phone number. From userInfo object?
         String phoneNumber = app.getUserInfo().getEmergencycontactPhone();
 
         if (phoneNumber == null)
         {
-            throw new InputValidationException("Missing phone number");
+            throw new InputValidationException("Missing emergency contact phone number");
         }
 
         // TODO Write a better exception message.

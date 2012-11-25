@@ -27,19 +27,18 @@ public class OneOrMoreGrantsAllValid extends InputValidationRule
     {
         List<Grant> grants = app.getGrantList();
 
-        // TODO Change exception message
         if (grants.isEmpty())
         {
-            throw new InputValidationException("No grants were submitted");
+            throw new InputValidationException("No grants provided");
         }
 
         for (Grant grant : grants)
         {
             if (GrantDBWrapper.isValidGrant(grant.getGrantAccount()))
             {
-                throw new InputValidationException("Grant is not valid");
+                throw new InputValidationException(String.format("Grant account %s is not valid",
+                        grant.getGrantAccount()));
             }
         }
-
     }
 }
