@@ -30,4 +30,7 @@ public class TRAPConstants
 
     /** US Dollar string format */
     public static String USD = "USD";
+
+    /** String used to in the country field for the United States of 'Murica */
+    public static String USA = "USA";
 }
