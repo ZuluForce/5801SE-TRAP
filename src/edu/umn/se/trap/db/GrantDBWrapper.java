@@ -19,25 +19,57 @@ import java.util.List;
 import edu.umn.se.trap.data.Grant;
 
 /**
+ * A wrapper around a source of grant information. This provides information on grant organization
+ * types, funding organizations, account types, approvers, and available funds.
+ * 
  * @author andrewh
  * 
  */
 public class GrantDBWrapper
 {
+    /** Underlying db that the wrapper will call */
     private static GrantDB grantDB;
 
+    /** Government organization type */
     public static final String ORG_TYPE_GOV = "government";
+
+    /** noExport organization type */
     public static final String ORG_TYPE_NOEXPORT = "noExport";
+
+    /** Foreign organization type */
     public static final String ORG_TYPE_FOREIGN = "foreign";
+
+    /** DoD funding organization */
     public static final String FUNDING_ORG_DOD = "DOD";
+
+    /** NIH funding organization */
     public static final String FUNDING_ORG_NIH = "NIH";
+
+    /** Sponsored account type */
     public static final String SPONSORED_ACCT = "sponsored";
 
+    /** Non-Sponsored account type */
+    public static final String NONSPONSORED_ACCT = "non-sponsored";
+
+    /**
+     * Get the grant info object list from the underlying database. This is made private since it
+     * directly exposes the underlying db and we don't want other people using it.
+     * 
+     * @param accountName - The account to get info for
+     * @return - The object list of information for the grant.
+     */
     private static List<Object> getGrantInfo(String accountName) throws KeyNotFoundException
     {
         return grantDB.getGrantInfo(accountName);
     }
 
+    /**
+     * Get the balance for a particular account.
+     * 
+     * @param accountName - The grant account to get the balance for.
+     * @return - The balance for the account
+     * @throws KeyNotFoundException - When the grant cannot be found in the db
+     */
     public static Double getGrantBalance(String accountName) throws KeyNotFoundException
     {
         List<Object> grantInfo = getGrantInfo(accountName);
@@ -45,6 +77,13 @@ public class GrantDBWrapper
         return (Double) grantInfo.get(GrantDB.GRANT_FIELDS.ACCOUNT_BALANCE.ordinal());
     }
 
+    /**
+     * Get the account type for the grant. (ie sponsored or non-sponsored)
+     * 
+     * @param accountName - The grant account to get the account type for.
+     * @return - The account type for the grant.
+     * @throws KeyNotFoundException When the grant cannot be found in the db
+     */
     public static String getGrantAccountType(String accountName) throws KeyNotFoundException
     {
         List<Object> grantInfo = getGrantInfo(accountName);
@@ -52,6 +91,13 @@ public class GrantDBWrapper
         return (String) grantInfo.get(GrantDB.GRANT_FIELDS.ACCOUNT_TYPE.ordinal());
     }
 
+    /**
+     * Get the grant organization type. (ie government, noExport ...)
+     * 
+     * @param accountName - The grant account to get the organization type for
+     * @return - The organization type for the grant.
+     * @throws KeyNotFoundException When the grant cannot be found in the db
+     */
     public static String getGrantOrganizationType(String accountName) throws KeyNotFoundException
     {
         List<Object> grantInfo = getGrantInfo(accountName);
@@ -59,6 +105,13 @@ public class GrantDBWrapper
         return (String) grantInfo.get(GrantDB.GRANT_FIELDS.ORGANIZATION_TYPE.ordinal());
     }
 
+    /**
+     * Get the grant funding organization (ie DoD, NIH, ...)
+     * 
+     * @param accountName - the grant account to get the funding organization for.
+     * @return - The funding organization for the grant.
+     * @throws KeyNotFoundException When the grant cannot be found in the db
+     */
     public static String getGrantFundingOrganization(String accountName)
             throws KeyNotFoundException
     {
@@ -67,6 +120,13 @@ public class GrantDBWrapper
         return (String) grantInfo.get(GrantDB.GRANT_FIELDS.FUNDING_ORGANIZATION.ordinal());
     }
 
+    /**
+     * Update the balance in the given account to have a specific newBalance.
+     * 
+     * @param accountName - The grant account to set the balance for.
+     * @param newBalance - The balance to set in the grant.
+     * @throws KeyNotFoundException If the grant is not found in the db
+     */
     public static void updateAccountBalance(String accountName, Double newBalance)
             throws KeyNotFoundException
     {
@@ -155,13 +215,22 @@ public class GrantDBWrapper
         return foreignGrants;
     }
 
+    /**
+     * Set the underlying db that is to be called by this wrapper
+     * 
+     * @param db - The db implementation for the wrapper to call.
+     */
     public static void setGrantDB(GrantDB db)
     {
         grantDB = db;
     }
 
-    // Testing a boolean method
-    // TODO Add some printing/logging in here
+    /**
+     * Check if a grant is present in the database.
+     * 
+     * @param accountName - The account name to check for presence in the db
+     * @return - True if the grant account is present in the db, false otherwise.
+     */
     public static boolean isValidGrant(String accountName)
     {
         try

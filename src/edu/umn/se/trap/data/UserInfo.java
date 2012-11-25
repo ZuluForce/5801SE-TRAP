@@ -37,6 +37,7 @@ public class UserInfo
     /** Full name: {lastname} [name_suffix], {firstname} [middle] */
     private String fullName;
 
+    /** The country of citizenship */
     private String citizenship;
 
     /** Visa status. Will be null for U.S. citizen */

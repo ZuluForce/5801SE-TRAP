@@ -14,18 +14,35 @@
 package edu.umn.se.trap.db;
 
 /**
+ * A wrapper around a source of currency information. This provides currency conversion rates for
+ * particular dates.
+ * 
  * @author andrewh
  * 
  */
 public class CurrencyDBWrapper
 {
+    /** Underlying db that the wrapper will call */
     private static CurrencyDB currencyDB;
 
+    /**
+     * Get the conversion rate for a particular currency on the given date.
+     * 
+     * @param currency - The currency to get the conversion rate for
+     * @param date - The date to get the conversion rate for
+     * @return - The conversion rate for the currency on the given date
+     * @throws KeyNotFoundException When the currency is not found in the db
+     */
     public static Double getConversion(String currency, String date) throws KeyNotFoundException
     {
         return currencyDB.getConversion(currency, date);
     }
 
+    /**
+     * Set the underlying db that is to be called by this wrapper
+     * 
+     * @param db - The db implementation for the wrapper to call.
+     */
     public static void setCurrencyDB(CurrencyDB db)
     {
         currencyDB = db;

@@ -22,16 +22,32 @@ import edu.umn.se.trap.data.MealTypeEnum;
 import edu.umn.se.trap.exception.TRAPDatabaseException;
 
 /**
+ * A wrapper around a source of expense per diem informaiton. This provides per diems for meals,
+ * incidentals and lodging.
+ * 
  * @author andrewh
  * 
  */
 public class PerDiemDBWrapper
 {
+    /** Log for this class */
     private static final Logger log = LoggerFactory.getLogger(PerDiemDBWrapper.class);
 
+    /** Underlying db that the wrapper will call */
     private static PerDiemDB perDiemDB;
 
-    public static List<Double> getDomesticPerDiem(String city, String state)
+    /**
+     * Get the per diem for a domestic expense given a city and state. If the per diem cannot be
+     * found with the city and state it is retried with just the state.
+     * 
+     * @param city - City for the per diem.
+     * @param state - State for the per diem
+     * @return - The list of per diems for the given city/state (or just state if the first combo
+     *         doesn't work)
+     * @throws KeyNotFoundException - If the per diem cannot be found for the given city/state or
+     *             just state
+     */
+    private static List<Double> getDomesticPerDiem(String city, String state)
             throws KeyNotFoundException
     {
         try
@@ -47,7 +63,14 @@ public class PerDiemDBWrapper
         return getDomesticPerDiem(state);
     }
 
-    public static List<Double> getDomesticPerDiem(String state) throws KeyNotFoundException
+    /**
+     * Get the domestic per diems for a given state.
+     * 
+     * @param state - State to lookup for per diems.
+     * @return - The list of per diems for the given states
+     * @throws KeyNotFoundException If the per diems cannot be found for the given state
+     */
+    private static List<Double> getDomesticPerDiem(String state) throws KeyNotFoundException
     {
         return perDiemDB.getDomesticPerDiem(state);
     }
@@ -132,6 +155,11 @@ public class PerDiemDBWrapper
         }
     }
 
+    /**
+     * Set the underlying db that is to be called by this wrapper
+     * 
+     * @param db - The db implementation for the wrapper to call.
+     */
     public static void setPerDiemDB(PerDiemDB db)
     {
         perDiemDB = db;
