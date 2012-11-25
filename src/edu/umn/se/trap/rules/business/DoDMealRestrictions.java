@@ -106,9 +106,10 @@ public class DoDMealRestrictions extends BusinessLogicRule
 
                 if (perDiem > nonDoDGrantTotalAvailable)
                 {
-                    throw new BusinessLogicException("Meal per diem of $" + perDiem
-                            + " is greater than $" + nonDoDGrantTotalAvailable
-                            + " in available DoD grants");
+                    throw new BusinessLogicException(
+                            String.format(
+                                    "Meal per diem of $%.2f is greater than $%.2f in available non-DoD grants",
+                                    perDiem, nonDoDGrantTotalAvailable));
                 }
             }
         }
