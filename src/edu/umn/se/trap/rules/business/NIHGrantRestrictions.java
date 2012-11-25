@@ -99,12 +99,6 @@ public class NIHGrantRestrictions extends BusinessLogicRule
             }
         }
 
-        if (nihGrants.size() == 0)
-        {
-            // No NIH grants found, just return from this business rule
-            return;
-        }
-
         // Holds all meal expenses a user is claiming
         List<MealExpense> mealExpenses = app.getMealExpenseList();
 

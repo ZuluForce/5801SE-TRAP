@@ -34,9 +34,6 @@ public class DoDMealRestrictions extends BusinessLogicRule
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {
-        // Holds all available grants
-        List<Grant> grants = app.getGrantList();
-
         // Holds DoD grants
         List<Grant> dodGrants;
         try
@@ -48,9 +45,6 @@ public class DoDMealRestrictions extends BusinessLogicRule
             throw new BusinessLogicException("Failed to get a list of available DoD grants");
         }
 
-        // Temporary variable to hold grant information
-        List<Object> grantInfo;
-
         // Keeps track of the total amount of funds available in the DoD grants
         double dodGrantTotalAvailable = 0;
 
@@ -59,17 +53,6 @@ public class DoDMealRestrictions extends BusinessLogicRule
          */
         for (Grant grant : dodGrants)
         {
-            try
-            {
-                // Hold information related to the current grant
-                grantInfo = GrantDBWrapper.getGrantInfo(grant.getGrantAccount());
-            }
-            catch (KeyNotFoundException e)
-            {
-                throw new BusinessLogicException("Could not grab grant information for grant: "
-                        + grant.getGrantAccount(), e);
-            }
-
             try
             {
                 dodGrantTotalAvailable += GrantDBWrapper.getGrantBalance(grant.getGrantAccount());

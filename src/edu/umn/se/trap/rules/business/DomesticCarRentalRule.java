@@ -38,7 +38,15 @@ public class DomesticCarRentalRule extends BusinessLogicRule
     public void checkRule(ReimbursementApp app) throws TRAPException
     {
 
-        List<Grant> dodGrants = GrantDBWrapper.getDODGrants(app.getGrantList());
+        List<Grant> dodGrants;
+        try
+        {
+            dodGrants = GrantDBWrapper.getDODGrants(app.getGrantList());
+        }
+        catch (KeyNotFoundException e)
+        {
+            throw new BusinessLogicException("Failed to get a list of DoD grants");
+        }
 
         for (TransportationExpense expense : app.getTransportationExpenseList())
         {
