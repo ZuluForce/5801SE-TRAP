@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.data.MealExpense;
 import edu.umn.se.trap.data.ReimbursementApp;
+import edu.umn.se.trap.data.TRAPConstants;
 import edu.umn.se.trap.data.TripDay;
 import edu.umn.se.trap.db.KeyNotFoundException;
 import edu.umn.se.trap.db.PerDiemDBWrapper;
@@ -19,6 +20,7 @@ import edu.umn.se.trap.exception.TRAPException;
  */
 public class MealPerDiem extends BusinessLogicRule
 {
+    /** Logger for the MealPerDiem class */
     private static final Logger log = LoggerFactory.getLogger(MealPerDiem.class);
 
     @Override
@@ -36,7 +38,7 @@ public class MealPerDiem extends BusinessLogicRule
                 try
                 {
                     // Get the per diem amount
-                    if (country.compareToIgnoreCase("USA") == 0)
+                    if (country.compareToIgnoreCase(TRAPConstants.USA) == 0)
                     {
                         perDiem = PerDiemDBWrapper.getDomesticPerDiemMeal(meal.getCity(),
                                 meal.getState(), meal.getType());

@@ -35,7 +35,7 @@ public class DomesticCarRentalRule extends BusinessLogicRule
         {
             // Check if it is domestic by looking at the currency
             String currency = expense.getExpenseCurrency();
-            if (currency.compareToIgnoreCase(TRAPConstants.USD) == 0)
+            if (currency.compareToIgnoreCase(TRAPConstants.USD) != 0)
                 continue;
 
             // Check if the transport expense is a rental car
