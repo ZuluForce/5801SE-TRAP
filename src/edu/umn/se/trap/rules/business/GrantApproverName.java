@@ -12,15 +12,18 @@ import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.form.OutputFieldKeys;
 
 /**
+ * This rule checks that grant output fields have the grant approver name set. If the current user
+ * is on of the grant approvers, the name is left blank.
+ * 
  * @author nagell2008
  * 
  */
 public class GrantApproverName extends BusinessLogicRule
 {
 
-    /*
-     * (non-Javadoc)
-     * @see edu.umn.se.trap.rules.TRAPRule#checkRule(edu.umn.se.trap.data.ReimbursementApp)
+    /**
+     * This rule checks that grant output fields have the grant approver name set. If the current
+     * user is on of the grant approvers, the name is left blank.
      */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
