@@ -53,7 +53,7 @@ public class AlcoholOnlyAllowedUnderNonSponsored extends BusinessLogicRule
         String grantType = "";
 
         // Used in matching keywords
-        Matcher alcohol_match;
+        Matcher alcoholMatch;
 
         // Total amount that a user is claiming in alcohol expenses
         double totalAlcoholCharge = 0;
@@ -64,9 +64,9 @@ public class AlcoholOnlyAllowedUnderNonSponsored extends BusinessLogicRule
         // Loop through all the other expenses and see if the justification field mentions alcohol
         for (OtherExpense expense : otherExpenses)
         {
-            alcohol_match = ALCOHOL_PATTERN.matcher(expense.getExpenseJustification());
+            alcoholMatch = ALCOHOL_PATTERN.matcher(expense.getExpenseJustification());
 
-            if (alcohol_match.find())
+            if (alcoholMatch.find())
             {
                 alcoholExpenses.add(expense);
             }
