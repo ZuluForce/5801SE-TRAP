@@ -43,6 +43,8 @@ public class NIHGrantRestrictions extends BusinessLogicRule
 
         // Holds the remaining grants
         List<Grant> otherGrants = app.getGrantList();
+
+        // Remove all the NIH grants to leave only non-NIH grants
         otherGrants.removeAll(nihGrants);
 
         // Total amount of non-NIH grant money available
@@ -87,6 +89,8 @@ public class NIHGrantRestrictions extends BusinessLogicRule
             case PUBLIC_TRANSPORTATION:
                 break;
             default:
+                // If the expense (one that a NIH grant does not allow) cannot be covered by a
+                // non-NIH grant, throw an exception
                 otherTransportationExpenses.add(texpense);
                 if (texpense.getExpenseAmount() > nonNIHGrantTotalAvailable)
                 {

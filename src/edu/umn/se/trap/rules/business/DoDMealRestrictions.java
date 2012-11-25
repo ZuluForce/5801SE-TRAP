@@ -38,6 +38,7 @@ public class DoDMealRestrictions extends BusinessLogicRule
         List<Grant> dodGrants;
         try
         {
+            // Fill with DoD grants
             dodGrants = GrantDBWrapper.getDODGrants(app.getGrantList());
         }
         catch (KeyNotFoundException e1)
@@ -50,11 +51,11 @@ public class DoDMealRestrictions extends BusinessLogicRule
 
         // Holds non-DoD grants
         List<Grant> nonDoDGrants = app.getGrantList();
+
+        // Remove all the DoD grants from all the grants to leave only non-DoD grants
         nonDoDGrants.removeAll(dodGrants);
 
-        /*
-         * This loops breaks apart the DoD grants and the non-DoD grants
-         */
+        // This loop adds up the total amount available from the non-DoD grants
         for (Grant grant : nonDoDGrants)
         {
             try
@@ -90,6 +91,7 @@ public class DoDMealRestrictions extends BusinessLogicRule
 
                 try
                 {
+                    // See if the country is USA
                     if (country.compareToIgnoreCase(TRAPConstants.USA) == 0)
                     {
                         perDiem = PerDiemDBWrapper.getDomesticPerDiemMeal(me.getCity(),
@@ -104,6 +106,7 @@ public class DoDMealRestrictions extends BusinessLogicRule
                     throw new BusinessLogicException("Failed to find per diem for meal expense", e);
                 }
 
+                // If the per diem is greater than the total amount of non-DoD grants
                 if (perDiem > nonDoDGrantTotalAvailable)
                 {
                     throw new BusinessLogicException(
