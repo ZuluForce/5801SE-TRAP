@@ -33,4 +33,7 @@ public class TRAPConstants
 
     /** String used to in the country field for the United States of 'Murica */
     public static String USA = "USA";
+
+    /** Long form of the USA */
+    public static String USA_LONG = "United States";
 }

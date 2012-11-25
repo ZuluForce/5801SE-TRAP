@@ -28,11 +28,12 @@ public class GrantDBWrapper
 
     public static final String ORG_TYPE_GOV = "government";
     public static final String ORG_TYPE_NOEXPORT = "noExport";
+    public static final String ORG_TYPE_FOREIGN = "foreign";
     public static final String FUNDING_ORG_DOD = "DOD";
     public static final String FUNDING_ORG_NIH = "NIH";
     public static final String SPONSORED_ACCT = "sponsored";
 
-    public static List<Object> getGrantInfo(String accountName) throws KeyNotFoundException
+    private static List<Object> getGrantInfo(String accountName) throws KeyNotFoundException
     {
         return grantDB.getGrantInfo(accountName);
     }
@@ -44,11 +45,26 @@ public class GrantDBWrapper
         return (Double) grantInfo.get(GrantDB.GRANT_FIELDS.ACCOUNT_BALANCE.ordinal());
     }
 
-    public static String getGrantType(String accountName) throws KeyNotFoundException
+    public static String getGrantAccountType(String accountName) throws KeyNotFoundException
     {
         List<Object> grantInfo = getGrantInfo(accountName);
 
         return (String) grantInfo.get(GrantDB.GRANT_FIELDS.ACCOUNT_TYPE.ordinal());
+    }
+
+    public static String getGrantOrganizationType(String accountName) throws KeyNotFoundException
+    {
+        List<Object> grantInfo = getGrantInfo(accountName);
+
+        return (String) grantInfo.get(GrantDB.GRANT_FIELDS.ORGANIZATION_TYPE.ordinal());
+    }
+
+    public static String getGrantFundingOrganization(String accountName)
+            throws KeyNotFoundException
+    {
+        List<Object> grantInfo = getGrantInfo(accountName);
+
+        return (String) grantInfo.get(GrantDB.GRANT_FIELDS.FUNDING_ORGANIZATION.ordinal());
     }
 
     public static void updateAccountBalance(String accountName, Double newBalance)
@@ -99,11 +115,8 @@ public class GrantDBWrapper
 
         for (Grant grant : grants)
         {
-            List<Object> grantInfo = getGrantInfo(grant.getGrantAccount());
-            String grantAcctType = (String) grantInfo.get(GrantDB.GRANT_FIELDS.ACCOUNT_TYPE
-                    .ordinal());
-            String grantFundingOrg = (String) grantInfo
-                    .get(GrantDB.GRANT_FIELDS.FUNDING_ORGANIZATION.ordinal());
+            String grantAcctType = getGrantAccountType(grant.getGrantAccount());
+            String grantFundingOrg = getGrantFundingOrganization(grant.getGrantAccount());
 
             // Check if this grant is of the specified type
             boolean isOfType = true;
@@ -117,6 +130,29 @@ public class GrantDBWrapper
         }
 
         return filteredGrants;
+    }
+
+    /**
+     * Filter the list of grants to just the foreign grants.
+     * 
+     * @param grants - The full list of grants to be filtered.
+     * @return - The list of foreign grants from the original list.
+     * @throws KeyNotFoundException If the grant cannot be found in the db
+     */
+    public static List<Grant> getForeignGrants(List<Grant> grants) throws KeyNotFoundException
+    {
+        List<Grant> foreignGrants = new ArrayList<Grant>();
+        for (Grant grant : grants)
+        {
+            String orgType = getGrantOrganizationType(grant.getGrantAccount());
+
+            if (orgType.compareToIgnoreCase(ORG_TYPE_FOREIGN) == 0)
+            {
+                foreignGrants.add(grant);
+            }
+        }
+
+        return foreignGrants;
     }
 
     public static void setGrantDB(GrantDB db)

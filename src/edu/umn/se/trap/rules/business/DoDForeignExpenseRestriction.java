@@ -71,7 +71,6 @@ public class DoDForeignExpenseRestriction extends BusinessLogicRule
         {
             Boolean foreignDay, foreignExpense;
             foreignDay = foreignExpense = false;
-            Double foreignDayTotal = 0.0;
 
             String country = null;
 
@@ -90,10 +89,11 @@ public class DoDForeignExpenseRestriction extends BusinessLogicRule
                     if (incidentalExpense.getExpenseAmount() > nonDoDFunds)
                     {
                         throw new BusinessLogicException(
-                                "Foreign incidental expense cannot be funded under non DoD grants. Not enough $ in non-DoD grants");
+                                "Foreign incidental expense cannot be funded under DoD grants. Not enough $ in non-DoD grants");
                     }
                 }
 
+                // Keep track if this day has foreign expenses
                 foreignDay |= foreignExpense;
             }
 
@@ -111,16 +111,19 @@ public class DoDForeignExpenseRestriction extends BusinessLogicRule
                     if (lodgingExpense.getExpenseAmount() > nonDoDFunds)
                     {
                         throw new BusinessLogicException(
-                                "Foreign lodging expense cannot be funded under non DoD grants. Not enough $ in non-DoD grants");
+                                "Foreign lodging expense cannot be funded under DoD grants. Not enough $ in non-DoD grants");
                     }
                 }
 
+                // Keep track if this day has foreign expenses
                 foreignDay |= foreignExpense;
             }
 
             // Check the meal expenses for the day
             for (MealExpense expense : day.getMealExpenses())
             {
+                foreignExpense = false;
+
                 country = expense.getCountry();
                 foreignExpense = (country.compareToIgnoreCase(TRAPConstants.USA) != 0);
                 if (foreignExpense)
@@ -143,10 +146,11 @@ public class DoDForeignExpenseRestriction extends BusinessLogicRule
                     if (perDiem > nonDoDFunds)
                     {
                         throw new BusinessLogicException(
-                                "Foreign meal expense cannot be funded under non DoD grants. Not enough $ in non-DoD grants");
+                                "Foreign meal expense cannot be funded under DoD grants. Not enough $ in non-DoD grants");
                     }
                 }
 
+                // Keep track if this day has foreign expenses
                 foreignDay |= foreignExpense;
             }
 
@@ -165,7 +169,7 @@ public class DoDForeignExpenseRestriction extends BusinessLogicRule
         for (TransportationExpense texpense : app.getTransportationExpenseList())
         {
             boolean foreignCurrency = (texpense.getExpenseCurrency().compareToIgnoreCase(
-                    TRAPConstants.USD) == 0);
+                    TRAPConstants.USD) != 0);
             if (foreignDates.contains(texpense.getExpenseDate()) || foreignCurrency)
             {
                 if (texpense.getExpenseAmount() > nonDoDFunds)
@@ -180,7 +184,7 @@ public class DoDForeignExpenseRestriction extends BusinessLogicRule
         for (OtherExpense otherExpense : app.getOtherExpenseList())
         {
             boolean foreignCurrency = (otherExpense.getExpenseCurrency().compareToIgnoreCase(
-                    TRAPConstants.USD) == 0);
+                    TRAPConstants.USD) != 0);
 
             if (foreignDates.contains(otherExpense.getExpenseDate()) || foreignCurrency)
             {

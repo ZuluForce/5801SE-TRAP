@@ -1,15 +1,14 @@
 // NoExportGrantsOnlyForUSCitizens.java
 package edu.umn.se.trap.rules.business;
 
-import java.util.List;
-
 import edu.umn.se.trap.data.Grant;
 import edu.umn.se.trap.data.ReimbursementApp;
+import edu.umn.se.trap.data.TRAPConstants;
 import edu.umn.se.trap.data.UserInfo;
-import edu.umn.se.trap.db.GrantDB;
 import edu.umn.se.trap.db.GrantDBWrapper;
 import edu.umn.se.trap.db.KeyNotFoundException;
 import edu.umn.se.trap.exception.BusinessLogicException;
+import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
@@ -36,29 +35,24 @@ public class NoExportGrantsOnlyForUSCitizens extends BusinessLogicRule
         // Temporary variable to hold a funds organization type
         String organizationType = "";
 
-        // Temporary variable to hold grant information as needed
-        List<Object> grantInfo;
-
         // This loop checks that if a user is not a United States citizen who is using a noExport
         // grant, throw an exception
         for (Grant grant : app.getGrantList())
         {
             try
             {
-                grantInfo = GrantDBWrapper.getGrantInfo(grant.getGrantAccount());
+                organizationType = GrantDBWrapper.getGrantOrganizationType(grant.getGrantAccount());
             }
             catch (KeyNotFoundException e)
             {
-                throw new BusinessLogicException("Could not grab grant information from grant: "
-                        + grant.getGrantAccount(), e);
+                e.printStackTrace();
+                throw new FormProcessorException("Cannot get organization type for account: "
+                        + grant.getGrantAccount());
             }
 
-            organizationType = (String) grantInfo.get(GrantDB.GRANT_FIELDS.ORGANIZATION_TYPE
-                    .ordinal());
-
-            if (organizationType.compareToIgnoreCase("noExport") == 0)
+            if (organizationType.compareToIgnoreCase(GrantDBWrapper.ORG_TYPE_NOEXPORT) == 0)
             {
-                if (currentUserCitizenShip.compareToIgnoreCase("United States") == 0)
+                if (currentUserCitizenShip.compareToIgnoreCase(TRAPConstants.USA_LONG) == 0)
                 {
                     continue;
                 }

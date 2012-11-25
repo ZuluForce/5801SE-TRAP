@@ -83,7 +83,7 @@ public class InternetOnlyUnderNonSponsoredGrants extends BusinessLogicRule
         {
             try
             {
-                grantType = GrantDBWrapper.getGrantType(grant.getGrantAccount());
+                grantType = GrantDBWrapper.getGrantAccountType(grant.getGrantAccount());
             }
             catch (KeyNotFoundException e)
             {
