@@ -48,12 +48,30 @@ public class NIHGrantRestrictions extends BusinessLogicRule
         // Total amount of NIH grant money available
         double nihGrantTotalAvailable = 0;
 
-        // This for-loop separates NIH and non-NIH grants and updates the respective totals
+        // Total amount of non-NIH grant money available
+        double nonNIHGrantTotalAvailable = 0;
+
+        // This for-loop updates the NIH grant totals
         for (Grant grant : nihGrants)
         {
             try
             {
                 nihGrantTotalAvailable += GrantDBWrapper.getGrantBalance(grant.getGrantAccount());
+            }
+            catch (KeyNotFoundException e)
+            {
+                throw new BusinessLogicException("Could not grab grant account balance for grant: "
+                        + grant.getGrantAccount(), e);
+            }
+        }
+
+        // This for-loop updates the non-NIH grant totals
+        for (Grant grant : otherGrants)
+        {
+            try
+            {
+                nonNIHGrantTotalAvailable += GrantDBWrapper
+                        .getGrantBalance(grant.getGrantAccount());
             }
             catch (KeyNotFoundException e)
             {
@@ -84,14 +102,15 @@ public class NIHGrantRestrictions extends BusinessLogicRule
             case AIR:
             case BAGGAGE:
             case PUBLIC_TRANSPORTATION:
-                if (texpense.getExpenseAmount() > nihGrantTotalAvailable)
+                break;
+            default:
+                otherTransportationExpenses.add(texpense);
+                if (texpense.getExpenseAmount() > nonNIHGrantTotalAvailable)
                 {
                     throw new BusinessLogicException("Transportation expense of $"
                             + texpense.getExpenseAmount() + " cannont be funded with $"
-                            + nihGrantTotalAvailable);
+                            + nonNIHGrantTotalAvailable);
                 }
-            default:
-                otherTransportationExpenses.add(texpense);
                 break;
             }
         }
