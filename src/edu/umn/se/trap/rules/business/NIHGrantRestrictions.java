@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.umn.se.trap.data.Grant;
-import edu.umn.se.trap.data.MealExpense;
 import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.data.TransportationExpense;
-import edu.umn.se.trap.db.GrantDB;
 import edu.umn.se.trap.db.GrantDBWrapper;
 import edu.umn.se.trap.db.KeyNotFoundException;
 import edu.umn.se.trap.exception.BusinessLogicException;
@@ -24,87 +22,49 @@ import edu.umn.se.trap.exception.TRAPException;
 public class NIHGrantRestrictions extends BusinessLogicRule
 {
 
-    /*
-     * (non-Javadoc)
-     * @see edu.umn.se.trap.rules.TRAPRule#checkRule(edu.umn.se.trap.data.ReimbursementApp)
+    /**
+     * This rule checks all the requirements of the NIH grants. Specifically, NIH grants do not
+     * reimburse for meal expenses and only reimburse for air and public transportation expenses.
      */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {
 
-        // Holds all available grants to the user
-        List<Grant> grants = app.getGrantList();
-
         // Holds only NIH grants
-        List<Grant> nihGrants = new ArrayList<Grant>();
+        List<Grant> nihGrants;
+        try
+        {
+            nihGrants = GrantDBWrapper.getNIHGrants(app.getGrantList());
+        }
+        catch (KeyNotFoundException e1)
+        {
+            throw new BusinessLogicException("Failed to get the NIH grants");
+        }
 
         // Holds the remaining grants
-        List<Grant> otherGrants = new ArrayList<Grant>();
-
-        // Temporary variable to hold grant information when needed
-        List<Object> grantInfo;
+        List<Grant> otherGrants = app.getGrantList();
+        otherGrants.removeAll(nihGrants);
 
         // Total amount of NIH grant money available
         double nihGrantTotalAvailable = 0;
 
-        // Total amount on non-NIH grant money available
-        double otherGrantTotalAvailable = 0;
-
-        // Temporary variable to hold the organization type
-        String grantOrganizationType = "";
-
         // This for-loop separates NIH and non-NIH grants and updates the respective totals
-        for (Grant grant : grants)
+        for (Grant grant : nihGrants)
         {
             try
             {
-                grantInfo = GrantDBWrapper.getGrantInfo(grant.getGrantAccount());
+                nihGrantTotalAvailable += GrantDBWrapper.getGrantBalance(grant.getGrantAccount());
             }
             catch (KeyNotFoundException e)
             {
-                throw new BusinessLogicException("Could not grab grant information for grant: "
+                throw new BusinessLogicException("Could not grab grant account balance for grant: "
                         + grant.getGrantAccount(), e);
-            }
-            grantOrganizationType = (String) grantInfo.get(GrantDB.GRANT_FIELDS.ORGANIZATION_TYPE
-                    .ordinal());
-            if (grantOrganizationType.compareToIgnoreCase("NIH") == 0)
-            {
-                nihGrants.add(grant);
-                try
-                {
-                    nihGrantTotalAvailable += GrantDBWrapper.getGrantBalance(grant
-                            .getGrantAccount());
-                }
-                catch (KeyNotFoundException e)
-                {
-                    throw new BusinessLogicException(
-                            "Could not grab grant account balance for grant: "
-                                    + grant.getGrantAccount(), e);
-                }
-            }
-            else
-            {
-                otherGrants.add(grant);
-                try
-                {
-                    otherGrantTotalAvailable += GrantDBWrapper.getGrantBalance(grant
-                            .getGrantAccount());
-                }
-                catch (KeyNotFoundException e)
-                {
-                    throw new BusinessLogicException(
-                            "Could not grab grant account balance for grant: "
-                                    + grant.getGrantAccount(), e);
-                }
             }
         }
 
-        // Holds all meal expenses a user is claiming
-        List<MealExpense> mealExpenses = app.getMealExpenseList();
-
         // If there are no non-NIH grants available but there are meal expenses, throw an exception
         // as NIH grants do not allow meal reimbursement
-        if (otherGrants.size() == 0 && mealExpenses.size() > 0)
+        if (otherGrants.size() == 0 && app.getMealExpenseList().size() > 0)
         {
             throw new BusinessLogicException("Unable to claim meal expenses under NIH grants.");
         }
@@ -112,14 +72,8 @@ public class NIHGrantRestrictions extends BusinessLogicRule
         // Holds transportation expenses
         List<TransportationExpense> transportationExpenses = app.getTransportationExpenseList();
 
-        // Holds only allowed transportation expenses
-        List<TransportationExpense> allowedTransportationExpenses = new ArrayList<TransportationExpense>();
-
         // Holds only other transportation expenses
         List<TransportationExpense> otherTransportationExpenses = new ArrayList<TransportationExpense>();
-
-        // Running total of allowed transportation costs
-        double transportationExpenseCost = 0;
 
         // This loop finds only the allowed transportation costs and adds them to the running total
         // of transportation expenses
@@ -128,17 +82,14 @@ public class NIHGrantRestrictions extends BusinessLogicRule
             switch (texpense.getTransportationType())
             {
             case AIR:
-                allowedTransportationExpenses.add(texpense);
-                transportationExpenseCost += texpense.getExpenseAmount();
-                break;
             case BAGGAGE:
-                allowedTransportationExpenses.add(texpense);
-                transportationExpenseCost += texpense.getExpenseAmount();
-                break;
             case PUBLIC_TRANSPORTATION:
-                allowedTransportationExpenses.add(texpense);
-                transportationExpenseCost += texpense.getExpenseAmount();
-                break;
+                if (texpense.getExpenseAmount() > nihGrantTotalAvailable)
+                {
+                    throw new BusinessLogicException("Transportation expense of $"
+                            + texpense.getExpenseAmount() + " cannont be funded with $"
+                            + nihGrantTotalAvailable);
+                }
             default:
                 otherTransportationExpenses.add(texpense);
                 break;
@@ -150,15 +101,6 @@ public class NIHGrantRestrictions extends BusinessLogicRule
         {
             throw new BusinessLogicException(
                     "NIH grants can only reimburse for Air, Baggage or Public Transportation expenses");
-        }
-
-        // If there is not enough money in the NIH grant(s) to cover the transportation expenses,
-        // throw an exception
-        if (transportationExpenseCost > nihGrantTotalAvailable)
-        {
-            throw new BusinessLogicException("NIH grant(s) do not have enough ($"
-                    + nihGrantTotalAvailable + ") funds to cover $" + transportationExpenseCost
-                    + " in expenses.");
         }
 
         // No problems found, continue processing
