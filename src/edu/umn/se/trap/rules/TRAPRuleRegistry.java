@@ -32,6 +32,7 @@ import edu.umn.se.trap.rules.business.IncidentalPerDiem;
 import edu.umn.se.trap.rules.business.InternetOnlyUnderNonSponsoredGrants;
 import edu.umn.se.trap.rules.business.LodgingPerDiem;
 import edu.umn.se.trap.rules.business.MealPerDiem;
+import edu.umn.se.trap.rules.business.NIHGrantRestrictions;
 import edu.umn.se.trap.rules.business.NoExportGrantsOnlyForUSCitizens;
 import edu.umn.se.trap.rules.business.PerDayCarExpenses;
 import edu.umn.se.trap.rules.business.TransportationGasMileage;
@@ -129,6 +130,7 @@ public class TRAPRuleRegistry
         addBusinessLogicRule(new InternetOnlyUnderNonSponsoredGrants());
         addBusinessLogicRule(new NoExportGrantsOnlyForUSCitizens());
         addBusinessLogicRule(new ForeignGrantsNoDomesticTravel());
+        addBusinessLogicRule(new NIHGrantRestrictions());
 
         addBusinessLogicRule(new MealPerDiem());
         addBusinessLogicRule(new LodgingPerDiem());
@@ -137,6 +139,7 @@ public class TRAPRuleRegistry
         addBusinessLogicRule(new TransportationGasMileage());
         addBusinessLogicRule(new PerDayCarExpenses());
         addBusinessLogicRule(new BaggageExpenses());
+
     }
 
     /**
