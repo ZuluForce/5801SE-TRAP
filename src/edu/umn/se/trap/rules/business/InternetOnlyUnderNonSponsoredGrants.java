@@ -68,6 +68,7 @@ public class InternetOnlyUnderNonSponsoredGrants extends BusinessLogicRule
                         + grant.getGrantAccount(), e);
             }
 
+            // If the grant is non-sponsored, update the running grant total
             if (grantType.compareToIgnoreCase("non-sponsored") == 0)
             {
                 try
@@ -87,8 +88,10 @@ public class InternetOnlyUnderNonSponsoredGrants extends BusinessLogicRule
         // Loop through all the other expenses and see if the justification field mentions alcohol
         for (OtherExpense expense : otherExpenses)
         {
+            // Get the justification and prepare to search through it
             internetMatch = INTERNET_PATTERN.matcher(expense.getExpenseJustification());
 
+            // If a match is found, see if the expense is greater than the available amount
             if (internetMatch.find())
             {
                 if (expense.getExpenseAmount() > totalNonSponsoredAmount)
@@ -102,8 +105,10 @@ public class InternetOnlyUnderNonSponsoredGrants extends BusinessLogicRule
 
         for (IncidentalExpense expense : incidentalExpenses)
         {
+            // Get the justification and prepare to search through it
             internetMatch = INTERNET_PATTERN.matcher(expense.getExpenseJustification());
 
+            // If a match is found, see if the expense is greater than the available amount
             if (internetMatch.find())
             {
                 if (expense.getExpenseAmount() > totalNonSponsoredAmount)

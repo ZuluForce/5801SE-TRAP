@@ -50,8 +50,10 @@ public class NoExportGrantsOnlyForUSCitizens extends BusinessLogicRule
                         + grant.getGrantAccount());
             }
 
+            // Check if the grant is of type noExport
             if (organizationType.compareToIgnoreCase(GrantDBWrapper.ORG_TYPE_NOEXPORT) == 0)
             {
+                // If the user is a United States citizen, continue. Otherwise, throw an exception
                 if (currentUserCitizenShip.compareToIgnoreCase(TRAPConstants.USA_LONG) == 0)
                 {
                     continue;
