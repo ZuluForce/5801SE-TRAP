@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.data.TransportationCarrierEnum;
 import edu.umn.se.trap.data.TransportationExpense;
+import edu.umn.se.trap.data.TransportationTypeEnum;
 import edu.umn.se.trap.exception.BusinessLogicException;
 import edu.umn.se.trap.exception.TRAPException;
 
@@ -25,29 +26,23 @@ public class USCarriersOnly extends BusinessLogicRule
     {
         List<TransportationExpense> transportationExpenses = app.getTransportationExpenseList();
 
-        // TODO Do I need to check for empty here?
-        if (transportationExpenses.isEmpty())
+        for (TransportationExpense expense : transportationExpenses)
         {
-            throw new BusinessLogicException("Missing transportation expenses");
-        }
-
-        for (TransportationExpense transportationExpense : transportationExpenses)
-        {
-            if (transportationExpense.getTransportationType().toString() == "AIR")
+            TransportationTypeEnum type = expense.getTransportationType();
+            if (type == TransportationTypeEnum.AIR)
             {
-                // TODO Not sure if this is going to work. Can switch to a for loop if it does not.
+                String carrier = expense.getTransportationCarrier();
                 try
                 {
-                    TransportationCarrierEnum.valueOf(transportationExpense
-                            .getTransportationCarrier());
+                    TransportationCarrierEnum.valueOf(carrier);
                 }
-                catch (Exception e)
+                catch (IllegalArgumentException e)
                 {
-                    throw new BusinessLogicException(
-                            "Air carrier is not recognized or not a US based carrier.");
+                    throw new BusinessLogicException(String.format(
+                            "Air carrier is not recognized or not a US based carrier (%s).",
+                            carrier), e);
                 }
             }
         }
-
     }
 }

@@ -25,6 +25,7 @@ public class IncidentalPerDiem extends BusinessLogicRule
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {
+        Double incidentalTotal = 0.0;
 
         for (TripDay day : app.getAllTripDays())
         {
@@ -66,8 +67,15 @@ public class IncidentalPerDiem extends BusinessLogicRule
                         expense.getExpenseAmount(), perDiem));
             }
 
+            if (day.getDayNumber() == 1 || day.getDayNumber() == app.getNumDays())
+            {
+                perDiem *= 0.75;
+            }
+
             app.addtoPerDiemTotal(expense.getExpenseAmount(), day.getDayNumber());
+            incidentalTotal += perDiem;
         }
 
+        log.info("Added ${} in incidentals to the total", incidentalTotal);
     }
 }

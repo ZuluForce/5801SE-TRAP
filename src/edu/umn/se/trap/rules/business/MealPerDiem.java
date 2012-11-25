@@ -24,6 +24,8 @@ public class MealPerDiem extends BusinessLogicRule
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {
+        Double mealTotal = 0.0;
+
         for (TripDay day : app.getAllTripDays())
         {
             for (MealExpense meal : day.getMealExpenses())
@@ -51,9 +53,19 @@ public class MealPerDiem extends BusinessLogicRule
                     throw new BusinessLogicException("Failed to find per diem for meal expense", e);
                 }
 
+                // Only 75% on first and last days
+                if (day.getDayNumber() == 1 || day.getDayNumber() == app.getNumDays())
+                {
+                    perDiem *= 0.75;
+                }
+
                 // Add the per diem to the day's total
                 app.addtoPerDiemTotal(perDiem, day.getDayNumber());
+
+                mealTotal += perDiem;
             }
         }
+
+        log.info("Added ${} in meal expenses to the total", mealTotal);
     }
 }

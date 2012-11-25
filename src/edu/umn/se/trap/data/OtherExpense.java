@@ -42,6 +42,18 @@ public class OtherExpense implements ExpenseWithCurrencyIface
     private Double reimbursementAmount;
 
     /**
+     * Initialize the OtherExpese object. Sets all numerical objects to -1 and other objects to
+     * null.
+     */
+    public OtherExpense()
+    {
+        expenseDate = null;
+        expenseJustification = expenseCurrency = originalCurrency = null;
+
+        expenseAmount = reimbursementAmount = -1.0;
+    }
+
+    /**
      * Get the date for this expense
      * 
      * @return - The date for the expense
