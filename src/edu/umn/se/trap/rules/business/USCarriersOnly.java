@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.data.ReimbursementApp;
-import edu.umn.se.trap.data.TransportationCarrierEnum;
 import edu.umn.se.trap.data.TransportationExpense;
 import edu.umn.se.trap.data.TransportationTypeEnum;
 import edu.umn.se.trap.exception.BusinessLogicException;
@@ -26,29 +25,42 @@ public class USCarriersOnly extends BusinessLogicRule
 
     public USCarriersOnly()
     {
+        USCarriers.add("Southwest");
         USCarriers.add("Alaska Airlines");
+        USCarriers.add("American");
+        USCarriers.add("Delta");
+        USCarriers.add("Frontier");
+        USCarriers.add("Great Lakes");
+        USCarriers.add("Spirit");
+        USCarriers.add("Sun Country");
+        USCarriers.add("United");
+        USCarriers.add("US Airways");
     }
 
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {
         List<TransportationExpense> transportationExpenses = app.getTransportationExpenseList();
+        boolean isUSCarrier;
 
         for (TransportationExpense expense : transportationExpenses)
         {
             TransportationTypeEnum type = expense.getTransportationType();
             if (type == TransportationTypeEnum.AIR)
             {
+                isUSCarrier = false;
                 String carrier = expense.getTransportationCarrier();
-                try
+                for (String USCarrier : USCarriers)
                 {
-                    TransportationCarrierEnum.valueOf(carrier);
+                    if (carrier.compareToIgnoreCase(USCarrier) == 0)
+                    {
+                        isUSCarrier = true;
+                        break;
+                    }
                 }
-                catch (IllegalArgumentException e)
+                if (!isUSCarrier)
                 {
-                    throw new BusinessLogicException(String.format(
-                            "Air carrier is not recognized or not a US based carrier (%s).",
-                            carrier), e);
+                    throw new BusinessLogicException("Air carrier is not US based.");
                 }
             }
         }
