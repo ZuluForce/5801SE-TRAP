@@ -13,7 +13,10 @@
  ****************************************************************************************/
 package edu.umn.se.trap.db;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import edu.umn.se.trap.data.Grant;
 
 /**
  * @author andrewh
@@ -22,6 +25,12 @@ import java.util.List;
 public class GrantDBWrapper
 {
     private static GrantDB grantDB;
+
+    public static final String ORG_TYPE_GOV = "government";
+    public static final String ORG_TYPE_NOEXPORT = "noExport";
+    public static final String FUNDING_ORG_DOD = "DOD";
+    public static final String FUNDING_ORG_NIH = "NIH";
+    public static final String SPONSORED_ACCT = "sponsored";
 
     public static List<Object> getGrantInfo(String accountName) throws KeyNotFoundException
     {
@@ -46,6 +55,68 @@ public class GrantDBWrapper
             throws KeyNotFoundException
     {
         grantDB.updateAccountBalance(accountName, newBalance);
+    }
+
+    /**
+     * Filter the given list of grants to just NIH grants.
+     * 
+     * @param grants - the unfiltered list of grants
+     * @return - The list of NIH grants from the original grants parameter
+     * @throws KeyNotFoundException When a grant cannot be found in the db
+     */
+    public static List<Grant> getDODGrants(List<Grant> grants) throws KeyNotFoundException
+    {
+        return getGrantsOfCertainType(grants, SPONSORED_ACCT, FUNDING_ORG_DOD);
+    }
+
+    /**
+     * Filter the given list of grants to just DoD grants.
+     * 
+     * @param grants - the unfiltered list of grants
+     * @return - The list of DoD grants from the original grants parameter
+     * @throws KeyNotFoundException When a grant cannot be found in the db
+     */
+    public static List<Grant> getNIHGrants(List<Grant> grants) throws KeyNotFoundException
+    {
+        return getGrantsOfCertainType(grants, SPONSORED_ACCT, FUNDING_ORG_NIH);
+    }
+
+    /**
+     * Filter the given list of grants to just those that have a certain account type (ie sponsored
+     * or non-sponsored) and funding organization (DOD or NIH).
+     * 
+     * @param grants - The unfiltered list of grants
+     * @param acctType - The type of the account to filter on.
+     * @param fundingOrg - The funding organization to filter on.
+     * @return - A list of grants filtered to those with the appropriate account type and funding
+     *         organization.
+     * @throws KeyNotFoundException When a grant cannot be found in the db
+     */
+    public static List<Grant> getGrantsOfCertainType(List<Grant> grants, String acctType,
+            String fundingOrg) throws KeyNotFoundException
+    {
+        List<Grant> filteredGrants = new ArrayList<Grant>();
+
+        for (Grant grant : grants)
+        {
+            List<Object> grantInfo = getGrantInfo(grant.getGrantAccount());
+            String grantAcctType = (String) grantInfo.get(GrantDB.GRANT_FIELDS.ACCOUNT_TYPE
+                    .ordinal());
+            String grantFundingOrg = (String) grantInfo
+                    .get(GrantDB.GRANT_FIELDS.FUNDING_ORGANIZATION.ordinal());
+
+            // Check if this grant is of the specified type
+            boolean isOfType = true;
+            isOfType &= (grantAcctType.compareToIgnoreCase(acctType) == 0);
+            isOfType &= (grantFundingOrg.compareToIgnoreCase(fundingOrg) == 0);
+
+            if (isOfType)
+            {
+                filteredGrants.add(grant);
+            }
+        }
+
+        return filteredGrants;
     }
 
     public static void setGrantDB(GrantDB db)
