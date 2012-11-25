@@ -46,16 +46,21 @@ public class DoDMealRestrictions extends BusinessLogicRule
         }
 
         // Keeps track of the total amount of funds available in the DoD grants
-        double dodGrantTotalAvailable = 0;
+        double nonDoDGrantTotalAvailable = 0;
+
+        // Holds non-DoD grants
+        List<Grant> nonDoDGrants = app.getGrantList();
+        nonDoDGrants.removeAll(dodGrants);
 
         /*
          * This loops breaks apart the DoD grants and the non-DoD grants
          */
-        for (Grant grant : dodGrants)
+        for (Grant grant : nonDoDGrants)
         {
             try
             {
-                dodGrantTotalAvailable += GrantDBWrapper.getGrantBalance(grant.getGrantAccount());
+                nonDoDGrantTotalAvailable += GrantDBWrapper
+                        .getGrantBalance(grant.getGrantAccount());
             }
             catch (KeyNotFoundException e)
             {
@@ -76,7 +81,7 @@ public class DoDMealRestrictions extends BusinessLogicRule
          */
         for (MealExpense me : mealExpenses)
         {
-            if (me.getType() == MealTypeEnum.LUNCH || me.getType() == MealTypeEnum.DINNER)
+            if (me.getType() == MealTypeEnum.BREAKFAST)
             {
 
                 // Country where the meal was claimed
@@ -99,10 +104,10 @@ public class DoDMealRestrictions extends BusinessLogicRule
                     throw new BusinessLogicException("Failed to find per diem for meal expense", e);
                 }
 
-                if (perDiem > dodGrantTotalAvailable)
+                if (perDiem > nonDoDGrantTotalAvailable)
                 {
                     throw new BusinessLogicException("Meal per diem of $" + perDiem
-                            + " is greater than $" + dodGrantTotalAvailable
+                            + " is greater than $" + nonDoDGrantTotalAvailable
                             + " in available DoD grants");
                 }
             }

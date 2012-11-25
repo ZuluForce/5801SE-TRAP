@@ -45,25 +45,8 @@ public class NIHGrantRestrictions extends BusinessLogicRule
         List<Grant> otherGrants = app.getGrantList();
         otherGrants.removeAll(nihGrants);
 
-        // Total amount of NIH grant money available
-        double nihGrantTotalAvailable = 0;
-
         // Total amount of non-NIH grant money available
         double nonNIHGrantTotalAvailable = 0;
-
-        // This for-loop updates the NIH grant totals
-        for (Grant grant : nihGrants)
-        {
-            try
-            {
-                nihGrantTotalAvailable += GrantDBWrapper.getGrantBalance(grant.getGrantAccount());
-            }
-            catch (KeyNotFoundException e)
-            {
-                throw new BusinessLogicException("Could not grab grant account balance for grant: "
-                        + grant.getGrantAccount(), e);
-            }
-        }
 
         // This for-loop updates the non-NIH grant totals
         for (Grant grant : otherGrants)
