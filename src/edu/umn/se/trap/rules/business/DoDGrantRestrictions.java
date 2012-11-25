@@ -147,21 +147,6 @@ public class DoDGrantRestrictions extends BusinessLogicRule
          */
         for (TransportationExpense texpense : transportationExpenses)
         {
-            if (texpense.getTransportationRental().compareToIgnoreCase(TRAPConstants.STR_YES) == 0)
-            {
-                if (texpense.getTransportationCarrier().compareToIgnoreCase("Hertz") == 0)
-                {
-                    allowedCarRentalTransportationExpenses.add(texpense);
-                    carRentalTotalExpense += texpense.getExpenseAmount();
-                }
-                else
-                {
-                    otherCarRentalTransportationExpenses.add(texpense);
-                }
-
-                continue;
-            }
-
             if (texpense.getTransportationType() == TransportationTypeEnum.AIR)
             {
                 if (texpense.getOriginalCurrency().compareToIgnoreCase(TRAPConstants.USD) == 0)
@@ -175,27 +160,6 @@ public class DoDGrantRestrictions extends BusinessLogicRule
                     otherAirTravelExpenses.add(texpense);
                 }
             }
-        }
-
-        /*
-         * Only DoD grants are available, no claimable Hertz car rentals, but there are other car
-         * expense claims, throw an exception
-         */
-        if (otherGrants.size() == 0 && allowedCarRentalTransportationExpenses.size() == 0
-                && otherCarRentalTransportationExpenses.size() > 0)
-        {
-            throw new BusinessLogicException("DoD grants can only reimburse for Hertz rental cars");
-        }
-
-        /*
-         * If there is not enough money for car rental expenses in the DoD grants, throw an
-         * exception.
-         */
-        if (carRentalTotalExpense > dodGrantTotalAvailable)
-        {
-            throw new BusinessLogicException("Car rental charges of $" + carRentalTotalExpense
-                    + " are not covered by DoD grants ($" + dodGrantTotalAvailable
-                    + " total available)");
         }
 
         /*
@@ -294,12 +258,11 @@ public class DoDGrantRestrictions extends BusinessLogicRule
          * If there is not enough money for meal, travel and car rental expenses in the DoD grants,
          * throw an exception.
          */
-        if ((mealExpensesTotal + carRentalTotalExpense + airTotalExpense) > dodGrantTotalAvailable)
+        if ((mealExpensesTotal + airTotalExpense) > dodGrantTotalAvailable)
         {
-            throw new BusinessLogicException("Total car rental, meal and air travel charges of $"
-                    + (mealExpensesTotal + carRentalTotalExpense + airTotalExpense)
-                    + " are not covered by DoD grants ($" + dodGrantTotalAvailable
-                    + " total available)");
+            throw new BusinessLogicException("Total meal and air travel charges of $"
+                    + (mealExpensesTotal + airTotalExpense) + " are not covered by DoD grants ($"
+                    + dodGrantTotalAvailable + " total available)");
         }
 
         // All checks under DoD grants have passed
