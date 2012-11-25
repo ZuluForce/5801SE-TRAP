@@ -15,6 +15,9 @@ import edu.umn.se.trap.exception.BusinessLogicException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
+ * This rule checks all the requirements of the NIH grants. Specifically, NIH grants do not
+ * reimburse for meal expenses and only reimburse for air and public transportation expenses.
+ * 
  * @author nagell2008
  * 
  */
@@ -28,19 +31,29 @@ public class NIHGrantRestrictions extends BusinessLogicRule
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {
-        // going with funding organization
 
+        // Holds all available grants to the user
         List<Grant> grants = app.getGrantList();
 
+        // Holds only NIH grants
         List<Grant> nihGrants = new ArrayList<Grant>();
+
+        // Holds the remaining grants
         List<Grant> otherGrants = new ArrayList<Grant>();
+
+        // Temporary variable to hold grant information when needed
         List<Object> grantInfo;
 
+        // Total amount of NIH grant money available
         double nihGrantTotalAvailable = 0;
+
+        // Total amount on non-NIH grant money available
         double otherGrantTotalAvailable = 0;
 
+        // Temporary variable to hold the organization type
         String grantOrganizationType = "";
 
+        // This for-loop separates NIH and non-NIH grants and updates the respective totals
         for (Grant grant : grants)
         {
             try
@@ -92,19 +105,30 @@ public class NIHGrantRestrictions extends BusinessLogicRule
             return;
         }
 
+        // Holds all meal expenses a user is claiming
         List<MealExpense> mealExpenses = app.getMealExpenseList();
 
+        // If there are no non-NIH grants available but there are meal expenses, throw an exception
+        // as NIH grants do not allow meal reimbursement
         if (otherGrants.size() == 0 && mealExpenses.size() > 0)
         {
             throw new BusinessLogicException("Unable to claim meal expenses under NIH grants.");
         }
 
+        // Holds transportation expenses
         List<TransportationExpense> transportationExpenses = app.getTransportationExpenseList();
 
+        // Holds only allowed transportation expenses
         List<TransportationExpense> allowedTransportationExpenses = new ArrayList<TransportationExpense>();
 
+        // Holds only other transportation expenses
+        List<TransportationExpense> otherTransportationExpenses = new ArrayList<TransportationExpense>();
+
+        // Running total of allowed transportation costs
         double transportationExpenseCost = 0;
 
+        // This loop finds only the allowed transportation costs and adds them to the running total
+        // of transportation expenses
         for (TransportationExpense texpense : transportationExpenses)
         {
             switch (texpense.getTransportationType())
@@ -122,10 +146,20 @@ public class NIHGrantRestrictions extends BusinessLogicRule
                 transportationExpenseCost += texpense.getExpenseAmount();
                 break;
             default:
+                otherTransportationExpenses.add(texpense);
                 break;
             }
         }
 
+        // If there are only NIH grants and non-allowed transportation expenses, throw an exception
+        if (otherGrants.size() == 0 && otherTransportationExpenses.size() > 0)
+        {
+            throw new BusinessLogicException(
+                    "NIH grants can only reimburse for Air, Baggage or Public Transportation expenses");
+        }
+
+        // If there is not enough money in the NIH grant(s) to cover the transportation expenses,
+        // throw an exception
         if (transportationExpenseCost > nihGrantTotalAvailable)
         {
             throw new BusinessLogicException("NIH grant(s) do not have enough ($"
@@ -133,6 +167,7 @@ public class NIHGrantRestrictions extends BusinessLogicRule
                     + " in expenses.");
         }
 
+        // No problems found, continue processing
         return;
 
     }
