@@ -89,7 +89,7 @@ public class CurrencyConverter
      * Given an expense which implements the ExpenseWithCurrencyIface, this function will convert
      * the internal currency to USD and reset the fields in the expense appropriately.
      * 
-     * @param expense
+     * @param expense - expense to convert currency
      */
     public static void convertExpenseCurrency(ExpenseWithCurrencyIface expense)
     {
