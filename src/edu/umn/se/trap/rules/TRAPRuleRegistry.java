@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.rules.business.AddOtherExpensesRule;
+import edu.umn.se.trap.rules.business.AddTransportationExpenses;
 import edu.umn.se.trap.rules.business.AlcoholOnlyAllowedUnderNonSponsored;
 import edu.umn.se.trap.rules.business.BaggageExpenses;
 import edu.umn.se.trap.rules.business.BusinessLogicRule;
@@ -137,6 +138,7 @@ public class TRAPRuleRegistry
         addBusinessLogicRule(new TransportationGasMileage());
         addBusinessLogicRule(new PerDayCarExpenses());
         addBusinessLogicRule(new BaggageExpenses());
+        addBusinessLogicRule(new AddTransportationExpenses());
     }
 
     /**

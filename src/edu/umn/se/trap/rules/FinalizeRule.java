@@ -54,7 +54,7 @@ public class FinalizeRule implements TRAPRule
         // Go through each grant and find how much we need from each
         for (Grant grant : app.getGrantList())
         {
-            Double grantCharge = grant.getGrantPercentage() * total;
+            Double grantCharge = grant.getGrantPercentageFraction() * total;
 
             // Check that the grant has the required funds
             try
@@ -111,7 +111,7 @@ public class FinalizeRule implements TRAPRule
     {
         String formattedField;
         // Reimbursement Total
-        formattedField = String.format("%1$,.2f", app.getReimbursementTotal());
+        formattedField = formatDoubleAsCurrencyNoComma(app.getReimbursementTotal());
         app.setOutputField(OutputFieldKeys.TOTAL_REIMBURSEMENT, formattedField);
 
         // Grant output fields
@@ -130,7 +130,8 @@ public class FinalizeRule implements TRAPRule
             app.setOutputField(formattedField, grant.getGrantPercentage().toString());
 
             formattedField = String.format(OutputFieldKeys.GRANT_CHARGE_FMT, i + 1);
-            app.setOutputField(formattedField, grant.getGrantCharge().toString());
+            app.setOutputField(formattedField,
+                    formatDoubleAsCurrencyNoComma(grant.getGrantCharge()));
 
         }
 
@@ -145,10 +146,8 @@ public class FinalizeRule implements TRAPRule
             app.setOutputField(formattedField, DateValidator.dateToString(dayDate));
 
             formattedField = String.format(OutputFieldKeys.DAY_TOTAL_FMT, day.getDayNumber());
-            app.setOutputField(formattedField, day.getDayTotal().toString());
+            app.setOutputField(formattedField, formatDoubleAsCurrencyNoComma(day.getDayTotal()));
         }
-
-        // TODO: Add any other fields not covered elsewhere
 
         // Add transportation expense fields
         List<TransportationExpense> transportExpenses = app.getTransportationExpenseList();
@@ -161,8 +160,7 @@ public class FinalizeRule implements TRAPRule
 
             // Date
             formattedField = String.format(OutputFieldKeys.TRANSPORTATION_DATE_FMT, i);
-            app.setOutputField(formattedField,
-                    DateValidator.dateToString(expense.getExpenseDate()));
+            app.setOutputField(formattedField, DateValidator.dateToString(expense.getExpenseDate()));
 
             // Type
             formattedField = String.format(OutputFieldKeys.TRANSPORTATION_TYPE_FMT, i);
@@ -171,7 +169,7 @@ public class FinalizeRule implements TRAPRule
             // Total
             formattedField = String.format(OutputFieldKeys.TRANSPORTATION_TOTAL_FMT, i);
             app.setOutputField(formattedField,
-                    formatDoubleAsCurrency(expense.getReimbursementAmount()));
+                    formatDoubleAsCurrencyNoComma(expense.getReimbursementAmount()));
         }
 
         // Add other expense fields
@@ -193,13 +191,13 @@ public class FinalizeRule implements TRAPRule
             // Total
             formattedField = String.format(OutputFieldKeys.OTHER_TOTAL_FMT, i);
             app.setOutputField(formattedField,
-                    formatDoubleAsCurrency(expense.getReimbursementAmount()));
+                    formatDoubleAsCurrencyNoComma(expense.getReimbursementAmount()));
         }
     }
 
     /**
      * Given a double this will return its string representation in a format how money is usually
-     * represented, with two decimal places.
+     * represented, with two decimal places and comma separators.
      * 
      * @param money - The Double to be formatted to a string.
      * @return - A Double formatted as a string as "[0-9]+\.[0-9]{2}" to put it as a regex
@@ -207,5 +205,17 @@ public class FinalizeRule implements TRAPRule
     public static String formatDoubleAsCurrency(Double money)
     {
         return String.format("%1$,.2f", money);
+    }
+
+    /**
+     * Given a double this will return its string representation in a format how money is usually
+     * represented, with two decimal places but no comma separator.
+     * 
+     * @param money - The Double to be formatted to a string.
+     * @return - A Double formatted as a string as "[0-9]+\.[0-9]{2}" to put it as a regex
+     */
+    public static String formatDoubleAsCurrencyNoComma(Double money)
+    {
+        return String.format("%1$.2f", money);
     }
 }

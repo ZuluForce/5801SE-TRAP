@@ -27,6 +27,7 @@ public class TransportationGasMileage extends BusinessLogicRule
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {
+        Double mileageTotal = 0.0;
         for (TransportationExpense expense : app.getTransportationExpenseList())
         {
             Integer milesTraveled = expense.getTransportationMilesTraveled();
@@ -53,6 +54,8 @@ public class TransportationGasMileage extends BusinessLogicRule
                         milesTraveled);
                 expense.setReimbursementAmount(reimbursementAmount);
                 app.addToReimbursementTotal(reimbursementAmount);
+
+                mileageTotal += reimbursementAmount;
             }
             else if (milesTraveled != null)
             {
@@ -61,5 +64,6 @@ public class TransportationGasMileage extends BusinessLogicRule
             }
         }
 
+        log.info("Added ${} in mileage expenses to total", mileageTotal);
     }
 }

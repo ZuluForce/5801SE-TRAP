@@ -23,6 +23,8 @@ public class BaggageExpenses extends BusinessLogicRule
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {
+        Double baggageTotal = 0.0;
+
         for (TransportationExpense expense : app.getTransportationExpenseList())
         {
             TransportationTypeEnum type = expense.getTransportationType();
@@ -52,8 +54,12 @@ public class BaggageExpenses extends BusinessLogicRule
                 // Add expense to total
                 expense.reimburseFullAmount();
                 app.addToReimbursementTotal(expense.getExpenseAmount());
+
+                baggageTotal += expense.getExpenseAmount();
             }
         }
+
+        log.info("Added ${} in baggage expenses to the total", baggageTotal);
     }
 
 }
