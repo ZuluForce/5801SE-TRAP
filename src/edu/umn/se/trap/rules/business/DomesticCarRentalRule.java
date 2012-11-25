@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.umn.se.trap.data.Grant;
 import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.data.TRAPConstants;
 import edu.umn.se.trap.data.TransportationExpense;
 import edu.umn.se.trap.data.TransportationTypeEnum;
+import edu.umn.se.trap.db.GrantDBWrapper;
+import edu.umn.se.trap.db.KeyNotFoundException;
 import edu.umn.se.trap.exception.BusinessLogicException;
 import edu.umn.se.trap.exception.TRAPException;
 
@@ -25,12 +28,18 @@ public class DomesticCarRentalRule extends BusinessLogicRule
     public static final List<String> acceptedCarriers = new ArrayList<String>(
             Arrays.asList("National Travel"));
 
+    /** Allowed car rental for DoD grants */
+    public static final String dodAllowedCarRental = "Hertz";
+
     /**
      * Check that all domestic car rentals use a an accepted carrier.
      */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {
+
+        List<Grant> dodGrants = GrantDBWrapper.getDODGrants(app.getGrantList());
+
         for (TransportationExpense expense : app.getTransportationExpenseList())
         {
             // Check if it is domestic by looking at the currency
@@ -60,6 +69,12 @@ public class DomesticCarRentalRule extends BusinessLogicRule
                     throw new BusinessLogicException("Carrier not accept for domestic car rental: "
                             + carrier);
                 }
+
+                if (!isDODCarrierAccepted(carrier, dodGrants, expense))
+                {
+                    throw new BusinessLogicException("Carrier not accept for DOD car rental: "
+                            + carrier);
+                }
             }
         }
     }
@@ -81,6 +96,53 @@ public class DomesticCarRentalRule extends BusinessLogicRule
         }
 
         return false;
+    }
+
+    /**
+     * Check if the given carrier name is allowed under the DoD grants
+     * 
+     * @param carrier - Car rental carrier
+     * @param dodGrants - List of only DoD grants
+     * @param expense - The current expense to check
+     * @return - True if the carrier is allowed by the DoD, False otherwise
+     * @throws BusinessLogicException - When a carrier is not accepted by a DoD grant, or relative
+     *             database information could not be found
+     */
+    private boolean isDODCarrierAccepted(String carrier, List<Grant> dodGrants,
+            TransportationExpense expense) throws BusinessLogicException
+    {
+        // Running total of available funds in DoD grants
+        double dodGrantTotal = 0;
+
+        // Loop through all the grants and check that the carrier
+        for (Grant grant : dodGrants)
+        {
+            if (dodAllowedCarRental.compareToIgnoreCase(carrier) != 0)
+            {
+                return false;
+            }
+
+            try
+            {
+                dodGrantTotal += GrantDBWrapper.getGrantBalance(grant.getGrantAccount());
+            }
+            catch (KeyNotFoundException e)
+            {
+                throw new BusinessLogicException("Unable to find the account balance for grant: "
+                        + grant.getGrantAccount(), e);
+            }
+
+        }
+
+        // The expense amount is greater than the total amount in the DoD grants
+        if (expense.getExpenseAmount() > dodGrantTotal)
+        {
+            throw new BusinessLogicException("Car rental expense of $" + expense.getExpenseAmount()
+                    + " cannot be reimbursed using DoD grants with $" + dodGrantTotal
+                    + " available funds.");
+        }
+
+        return true;
     }
 
 }
