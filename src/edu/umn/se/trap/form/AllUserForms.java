@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 package edu.umn.se.trap.form;
 
@@ -53,27 +51,6 @@ public class AllUserForms
         usersForms = new HashMap<String, Map<Integer, FormContainer>>();
 
         formId = 0;
-    }
-
-    /**
-     * Returns the container holding all of a specific user's forms.
-     * 
-     * @param user - String of the user id
-     * @return Returns a user's saved forms in a SavedForms object.
-     * @throws FormStorageException - Error only when a user is not found in the map.
-     */
-    private Map<Integer, FormContainer> getUserSavedForms(String user) throws FormStorageException
-    {
-
-        // Check to see if a user already exists in the map.
-
-        if (usersForms.containsKey(user))
-        {
-            return usersForms.get(user);
-        }
-
-        // Throw an exception when a user is not in the map.
-        throw new FormStorageException("User not found in storage");
     }
 
     /**
@@ -338,7 +315,7 @@ public class AllUserForms
     }
 
     /**
-     * @return
+     * @return - Returns a new id for a form
      */
     private int generateNewId()
     {
