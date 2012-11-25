@@ -13,27 +13,34 @@ import edu.umn.se.trap.exception.BusinessLogicException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
+ * NoExport grants can only be used by users who are United States citizens
+ * 
  * @author nagell2008
  * 
  */
 public class NoExportGrantsOnlyForUSCitizens extends BusinessLogicRule
 {
 
-    /*
-     * (non-Javadoc)
-     * @see edu.umn.se.trap.rules.TRAPRule#checkRule(edu.umn.se.trap.data.ReimbursementApp)
+    /**
+     * NoExport grants can only be used by users who are United States citizens
      */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {
-
+        // Current user of the TRAP system
         UserInfo currentUser = app.getUserInfo();
 
+        // Citizenship of the current user
         String currentUserCitizenShip = currentUser.getCitizenship();
+
+        // Temporary variable to hold a funds organization type
         String organizationType = "";
 
+        // Temporary variable to hold grant information as needed
         List<Object> grantInfo;
 
+        // This loop checks that if a user is not a United States citizen who is using a noExport
+        // grant, throw an exception
         for (Grant grant : app.getGrantList())
         {
             try
