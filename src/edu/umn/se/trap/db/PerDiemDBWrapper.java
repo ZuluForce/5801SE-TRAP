@@ -75,6 +75,17 @@ public class PerDiemDBWrapper
         return perDiemDB.getDomesticPerDiem(state);
     }
 
+    /**
+     * Get the domestic per diem for meals in the given city/state and the specific meal type. If
+     * the per diem cannot be found for the city/state combo, just the state will be tried.
+     * 
+     * @param city - City for the per diem
+     * @param state - State for the per diem
+     * @param meal - Meal type to get the per diem for
+     * @return - The per diem for the specific meal type on in the given city/state or just the
+     *         state
+     * @throws KeyNotFoundException - If there is no per diem listing for the given state
+     */
     public static Double getDomesticPerDiemMeal(String city, String state, MealTypeEnum meal)
             throws KeyNotFoundException
     {
@@ -82,6 +93,15 @@ public class PerDiemDBWrapper
         return getPerDiemMeal(perDiems, meal);
     }
 
+    /**
+     * Get the domestic per diem for lodging in the given city/state. If the per diem cannot be
+     * found for the city/state, just the state will be tried.
+     * 
+     * @param city - City for the per diem
+     * @param state - State for the per diem
+     * @return - The per diem for lodging in the given city/state or just the state
+     * @throws KeyNotFoundException If there is no per diem listing for the given state
+     */
     public static Double getDomesticPerDiemLodging(String city, String state)
             throws KeyNotFoundException
     {
@@ -89,6 +109,15 @@ public class PerDiemDBWrapper
         return perDiems.get(PerDiemDB.RATE_FIELDS.LODGING_CEILING.ordinal());
     }
 
+    /**
+     * Get the domestic per diem for incidnetals in the given city/state. If the per diem cannot be
+     * found for the city/state, just the state will be tried.
+     * 
+     * @param city - City for the per diem
+     * @param state - State for the per diem
+     * @return - The per diem for incidentals in the given city/state or just the state
+     * @throws KeyNotFoundException If there is no per diem listing for the given state
+     */
     public static Double getDomesticPerDiemIncidental(String city, String state)
             throws KeyNotFoundException
     {
@@ -96,7 +125,18 @@ public class PerDiemDBWrapper
         return perDiems.get(PerDiemDB.RATE_FIELDS.INCIDENTAL_CEILING.ordinal());
     }
 
-    public static List<Double> getInternationalPerDiem(String city, String country)
+    /**
+     * Get the per diem for an international expense given a city and country. If the per diem
+     * cannot be found with the city and country it is retried with just the country.
+     * 
+     * @param city - City for the per diem.
+     * @param country - Country for the per diem
+     * @return - The list of per diems for the given city/country (or just country if the first
+     *         combo doesn't work)
+     * @throws KeyNotFoundException - If the per diem cannot be found for the given city/country or
+     *             just country
+     */
+    private static List<Double> getInternationalPerDiem(String city, String country)
             throws KeyNotFoundException
     {
         try
@@ -113,11 +153,30 @@ public class PerDiemDBWrapper
         return getInternationalPerDiem(country);
     }
 
+    /**
+     * Get the per diem for an international expense given a country.
+     * 
+     * @param country - Country for the per diem
+     * @return - The list of per diems for the given country
+     * @throws KeyNotFoundException - If the per diem cannot be found for the given country
+     */
     public static List<Double> getInternationalPerDiem(String country) throws KeyNotFoundException
     {
         return perDiemDB.getInternationalPerDiem(country);
     }
 
+    /**
+     * Get the international per diem for meals in the given city/country and the specific meal
+     * type. If the per diem cannot be found for the city/country combo, just the country will be
+     * tried.
+     * 
+     * @param city - City for the per diem
+     * @param country - Country for the per diem
+     * @param meal - Meal type to get the per diem for
+     * @return - The per diem for the specific meal type on in the given city/country or just the
+     *         country
+     * @throws KeyNotFoundException - If there is no per diem listing for the given country
+     */
     public static Double getInternationalPerDiemMeal(String city, String country, MealTypeEnum meal)
             throws KeyNotFoundException
     {
@@ -125,6 +184,15 @@ public class PerDiemDBWrapper
         return getPerDiemMeal(perDiems, meal);
     }
 
+    /**
+     * Get the international per diem for lodging in the given city/country. If the per diem cannot
+     * be found for the city/country combo, just the country will be tried.
+     * 
+     * @param city - City for the per diem
+     * @param country - Country for the per diem
+     * @return - The per diem for the lodging in the given city/country or just the country
+     * @throws KeyNotFoundException - If there is no per diem listing for the given country
+     */
     public static Double getInternationalPerDiemLodging(String city, String country)
             throws KeyNotFoundException
     {
@@ -132,6 +200,15 @@ public class PerDiemDBWrapper
         return perDiems.get(PerDiemDB.RATE_FIELDS.LODGING_CEILING.ordinal());
     }
 
+    /**
+     * Get the international per diem for incidentals in the given city/country. If the per diem
+     * cannot be found for the city/country combo, just the country will be tried.
+     * 
+     * @param city - City for the per diem
+     * @param country - Country for the per diem
+     * @return - The per diem for the incidentals in the given city/country or just the country
+     * @throws KeyNotFoundException - If there is no per diem listing for the given country
+     */
     public static Double getInternationalPerDiemIncidental(String city, String country)
             throws KeyNotFoundException
     {
@@ -139,8 +216,14 @@ public class PerDiemDBWrapper
         return perDiems.get(PerDiemDB.RATE_FIELDS.INCIDENTAL_CEILING.ordinal());
     }
 
+    /**
+     * Method that picks the specific meal per diem out of a list of per diems.
+     * 
+     * @param perDiems - The list of per diems taken from the underlying db
+     * @param meal - The specific meal type to get
+     * @return - The per diem for the meal type requested
+     */
     private static Double getPerDiemMeal(List<Double> perDiems, MealTypeEnum meal)
-            throws KeyNotFoundException
     {
         switch (meal)
         {

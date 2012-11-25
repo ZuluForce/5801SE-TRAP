@@ -16,23 +16,47 @@ package edu.umn.se.trap.db;
 import java.util.List;
 
 /**
+ * A wrapper around a source of user information. This provides information such as first names,
+ * last names, citizenship, and employment status given a username.
+ * 
  * @author andrewh
  * 
  */
 public class UserDBWrapper
 {
+    /** Underlying db that the wrapper will call */
     private static UserDB userDB;
 
+    /**
+     * Get a list of Strings from the db representing different things about the user.
+     * 
+     * @param userName - The username to get information for
+     * @return - A list of strings with information about the user. Use this list with the
+     *         UserDB.USER_FIELDS enum to extract information.
+     * @throws KeyNotFoundException If the user cannot be found in the db
+     */
     public static List<String> getUserInfo(String userName) throws KeyNotFoundException
     {
         return userDB.getUserInfo(userName);
     }
 
+    /**
+     * Set the underlying db that is to be called by this wrapper
+     * 
+     * @param db - The db implementation for the wrapper to call.
+     */
     public static void setUserDB(UserDB db)
     {
         userDB = db;
     }
 
+    /**
+     * Check if the given username is present in the db. Presence in the db is assumed to mean it is
+     * valid.
+     * 
+     * @param userName - The username to lookup in the db.
+     * @return - True if the username is in the db, false otherwise
+     */
     public static boolean isValidUser(String userName)
     {
         try

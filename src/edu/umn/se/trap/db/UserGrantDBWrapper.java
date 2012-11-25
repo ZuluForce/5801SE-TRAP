@@ -21,20 +21,41 @@ import java.util.List;
  */
 public class UserGrantDBWrapper
 {
+    /** Underlying db that the wrapper will call */
     private static UserGrantDB userGrantDB;
 
-    public static List<String> getUserGrantInfo(String accountName) throws KeyNotFoundException
+    /**
+     * Get user information about a particular grant.
+     * 
+     * @param accountName - The account name to get user information for
+     * @return - A list of strings representing user information about the grant. Use
+     *         UserGrantDB.USER_GRANT_FIELDS to extract informaiton from this.
+     * @throws KeyNotFoundException If the grant is not found in the db
+     */
+    private static List<String> getUserGrantInfo(String accountName) throws KeyNotFoundException
     {
         return userGrantDB.getUserGrantInfo(accountName);
     }
 
+    /**
+     * Get the admin for a particular account. This is the person who must sign off on
+     * 
+     * @param accountName - The name of the account to get the admin for
+     * @return - The admin for the grant with the specified accountName
+     * @throws KeyNotFoundException If the grant is not found in the db
+     */
     public static String getGrantAdmin(String accountName) throws KeyNotFoundException
     {
-        List<String> grantInfo = userGrantDB.getUserGrantInfo(accountName);
+        List<String> grantInfo = getUserGrantInfo(accountName);
 
         return grantInfo.get(UserGrantDB.USER_GRANT_FIELDS.GRANT_ADMIN.ordinal());
     }
 
+    /**
+     * Set the underlying db that is to be called by this wrapper
+     * 
+     * @param db - The db implementation for the wrapper to call.
+     */
     public static void setUserGrantDB(UserGrantDB db)
     {
         userGrantDB = db;
