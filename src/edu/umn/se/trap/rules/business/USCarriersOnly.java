@@ -1,6 +1,7 @@
 // USCarriersOnly.java
 package edu.umn.se.trap.rules.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -20,6 +21,10 @@ import edu.umn.se.trap.exception.TRAPException;
 public class USCarriersOnly extends BusinessLogicRule
 {
     private static Logger log = LoggerFactory.getLogger(USCarriersOnly.class);
+
+    List<String> USCarriers = new ArrayList<String>();
+    
+    USCarriers.add("Alaska Airlines");
 
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
