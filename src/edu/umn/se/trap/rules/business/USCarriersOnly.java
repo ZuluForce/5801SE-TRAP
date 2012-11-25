@@ -23,8 +23,11 @@ public class USCarriersOnly extends BusinessLogicRule
     private static Logger log = LoggerFactory.getLogger(USCarriersOnly.class);
 
     List<String> USCarriers = new ArrayList<String>();
-    
-    USCarriers.add("Alaska Airlines");
+
+    public USCarriersOnly()
+    {
+        USCarriers.add("Alaska Airlines");
+    }
 
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
