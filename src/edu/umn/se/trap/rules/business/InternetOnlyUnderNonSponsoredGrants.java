@@ -106,12 +106,6 @@ public class InternetOnlyUnderNonSponsoredGrants extends BusinessLogicRule
         }
 
         // Loop through the internet expenses and add up the total
-        for (OtherExpense expense : internetExpenses)
-        {
-            totalInternetCharge += expense.getExpenseAmount();
-        }
-
-        // Loop through the internet expenses and add up the total
         for (Grant grant : nonSponsoredGrants)
         {
             try
@@ -125,14 +119,19 @@ public class InternetOnlyUnderNonSponsoredGrants extends BusinessLogicRule
             }
         }
 
-        // If the total charge for internet expenses is greater than the amount available from
-        // non-sponsored grants, throw an error
-        if (totalInternetCharge > totalNonSponsoredAmount)
+        // Loop through the internet expenses and add up the total
+        for (OtherExpense expense : internetExpenses)
         {
-            throw new BusinessLogicException("Unable to fund internet expenses ($"
-                    + totalInternetCharge + ") with available non-sponsored grants");
+            if (expense.getExpenseAmount() > totalNonSponsoredAmount)
+            {
+                throw new BusinessLogicException("Internet related expense of $"
+                        + expense.getExpenseAmount() + " is not covered by $"
+                        + totalNonSponsoredAmount + " in Non-Sponsored grants");
+
+            }
         }
 
+        // Checks all passed, safe to continue processing
         return;
     }
 

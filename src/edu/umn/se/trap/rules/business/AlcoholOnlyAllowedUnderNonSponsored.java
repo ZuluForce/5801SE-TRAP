@@ -106,12 +106,6 @@ public class AlcoholOnlyAllowedUnderNonSponsored extends BusinessLogicRule
         }
 
         // Loop through the alcohol expenses and add up the total
-        for (OtherExpense expense : alcoholExpenses)
-        {
-            totalAlcoholCharge += expense.getExpenseAmount();
-        }
-
-        // Loop through the alcohol expenses and add up the total
         for (Grant grant : nonSponsoredGrants)
         {
             try
@@ -125,14 +119,18 @@ public class AlcoholOnlyAllowedUnderNonSponsored extends BusinessLogicRule
             }
         }
 
-        // If the total charge for alcohol expenses is greater than the amount available from
-        // non-sponsored grants, throw an error
-        if (totalAlcoholCharge > totalNonSponsoredAmount)
+        // Loop through the alcohol expenses and add up the total
+        for (OtherExpense expense : alcoholExpenses)
         {
-            throw new BusinessLogicException("Unable to fund alcohol expenses ($"
-                    + totalAlcoholCharge + ") with available non-sponsored grants");
+            if (expense.getExpenseAmount() > totalNonSponsoredAmount)
+            {
+                throw new BusinessLogicException("Alcohol expense of $"
+                        + expense.getExpenseAmount() + " is not covered by $"
+                        + totalNonSponsoredAmount + " in Non-Sponsored grants");
+            }
         }
 
+        // All checks passed, keep processing
         return;
     }
 }
