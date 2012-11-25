@@ -138,6 +138,7 @@ public class TRAPRuleRegistry
         addBusinessLogicRule(new NIHGrantRestrictions());
         addBusinessLogicRule(new DoDGrantRestrictions());
         addBusinessLogicRule(new FamilyMemberExpensesNotAllowed());
+        addBusinessLogicRule(new DomesticCarRentalRule());
 
         addBusinessLogicRule(new MealPerDiem());
         addBusinessLogicRule(new LodgingPerDiem());
