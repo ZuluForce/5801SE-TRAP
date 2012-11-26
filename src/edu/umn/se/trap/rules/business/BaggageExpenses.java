@@ -12,14 +12,24 @@ import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
+ * Add all baggage expenses to the total. This rule also checks that no baggage expense is greater
+ * than $25 and throws an error if it is.
+ * 
  * @author planeman
  * 
  */
 public class BaggageExpenses extends BusinessLogicRule
 {
+    /** Log for the BaggageExpenses rule class */
     private static final Logger log = LoggerFactory.getLogger(BaggageExpenses.class);
+
+    /** Constant representing the max allowable amount for a single baggage expense */
     private static final Double maxBaggageClaim = 25.0;
 
+    /**
+     * Add all baggage expenses to the total. This rule also checks that no baggage expense is
+     * greater than $25 and throws an error if it is.
+     */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {

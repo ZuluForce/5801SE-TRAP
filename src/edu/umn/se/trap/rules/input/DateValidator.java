@@ -27,6 +27,10 @@ import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.InputValidationException;
 
 /**
+ * Check that arrival and departure datetimes come in the correct order. Check that the reported
+ * number of days corresponds with the length between the departure and arrival datetimes
+ * (inclusive). Check that the trip arrival time is before the submission time for the trip.
+ * 
  * @author andrewh
  * 
  */
@@ -44,6 +48,11 @@ public class DateValidator extends InputValidationRule
     /** Used in finding the number of days in a range using the Date object */
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 
+    /**
+     * Check that arrival and departure datetimes come in the correct order. Check that the reported
+     * number of days corresponds with the length between the departure and arrival datetimes
+     * (inclusive). Check that the trip arrival time is before the submission time for the trip.
+     */
     @Override
     public void checkRule(ReimbursementApp app) throws InputValidationException,
             FormProcessorException
@@ -205,6 +214,12 @@ public class DateValidator extends InputValidationRule
         return cal.getTime();
     }
 
+    /**
+     * Get the start of the next day after d.
+     * 
+     * @param d - A date
+     * @return - The start of the day after the given day d
+     */
     public static Date getStartOfNextDay(Date d)
     {
         d = advanceDateInDays(d, 1);

@@ -10,13 +10,19 @@ import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
+ * Add all other expenses to the reimbursement total.
+ * 
  * @author planeman
  * 
  */
 public class AddOtherExpensesRule extends BusinessLogicRule
 {
+    /** Log for the AddOtherExpensesRule */
     private static final Logger log = LoggerFactory.getLogger(AddOtherExpensesRule.class);
 
+    /**
+     * Add all other expenses to the reimbursement total.
+     */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {

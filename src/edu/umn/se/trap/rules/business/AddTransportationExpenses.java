@@ -23,6 +23,10 @@ public class AddTransportationExpenses extends BusinessLogicRule
     /** Logger for the AddTransportationExpenses class */
     private static Logger log = LoggerFactory.getLogger(AddTransportationExpenses.class);
 
+    /**
+     * This rule adds all transportation expenses not covered elsewhere. The ones this rule does not
+     * handler are as follows: mileage and baggage.
+     */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {

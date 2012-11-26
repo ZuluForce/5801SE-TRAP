@@ -28,6 +28,9 @@ import edu.umn.se.trap.exception.TRAPRuntimeException;
 import edu.umn.se.trap.form.OutputFieldKeys;
 
 /**
+ * Finds all destinations in the application and adds them to the output. Destinations are found by
+ * looking at the locations for all per diem expenses (ie meal, incidental, and lodging)
+ * 
  * @author andrewh
  * 
  */
@@ -36,9 +39,9 @@ public class FindDestinationsRule extends BusinessLogicRule
     /** Logger for the FindDestinationsRule */
     private static Logger log = LoggerFactory.getLogger(FindDestinationsRule.class);
 
-    /*
-     * (non-Javadoc)
-     * @see edu.umn.se.trap.rules.TRAPRule#checkRule(edu.umn.se.trap.data.ReimbursementApp)
+    /**
+     * Finds all destinations in the application and adds them to the output. Destinations are found
+     * by looking at the locations for all per diem expenses (ie meal, incidental, and lodging)
      */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException

@@ -23,17 +23,33 @@ import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.rules.input.DateValidator;
 
 /**
+ * Checks that any foreign expenses are fundable under non DoD sources. Foreign expenses are found
+ * by looking at all per diem expenses and their locations. Any other or transportation expenses
+ * occurring on the same day as a foreign per diem are also considered foreign.
+ * 
  * @author planeman
  * 
  */
 public class DoDForeignExpenseRestriction extends BusinessLogicRule
 {
 
+    /**
+     * Checks that any foreign expenses are fundable under non DoD sources. Foreign expenses are
+     * found by looking at all per diem expenses and their locations. Any other or transportation
+     * expenses occurring on the same day as a foreign per diem are also considered foreign.
+     */
     @Override
     public void checkRule(ReimbursementApp app) throws TRAPException
     {
+        /*
+         * Dates that foreign per diem expenses have been found on. If any transportation or other
+         * expenses fall on one of these days then they too will be considered foreign.
+         */
         List<Date> foreignDates = new ArrayList<Date>();
 
+        /*
+         * All DoD grants listed by the user.
+         */
         List<Grant> dodGrants = null;
         try
         {
