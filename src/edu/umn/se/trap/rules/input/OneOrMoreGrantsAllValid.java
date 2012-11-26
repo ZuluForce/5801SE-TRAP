@@ -34,7 +34,7 @@ public class OneOrMoreGrantsAllValid extends InputValidationRule
 
         for (Grant grant : grants)
         {
-            if (GrantDBWrapper.isValidGrant(grant.getGrantAccount()))
+            if (!GrantDBWrapper.isValidGrant(grant.getGrantAccount()))
             {
                 throw new InputValidationException(String.format("Grant account %s is not valid",
                         grant.getGrantAccount()));

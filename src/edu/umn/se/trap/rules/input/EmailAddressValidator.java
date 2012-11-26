@@ -20,25 +20,13 @@ public class EmailAddressValidator extends InputValidationRule
     /** Logger for the EmailAddressValidator class */
     private static Logger log = LoggerFactory.getLogger(EmailAddressValidator.class);
 
-    /** TRAP format for an email address */
-    private final static String emailRegex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
-    private final Pattern pattern;
-
-    private Matcher matcher;
-
-    public EmailAddressValidator()
-    {
-        pattern = Pattern.compile(emailRegex);
-    }
-
     @Override
     public void checkRule(ReimbursementApp app) throws InputValidationException,
             FormProcessorException
     {
         // Make sure we have an email address for the user
-        CharSequence emailAddress = app.getUserInfo().getEmailAddress();
-        pattern.matcher(emailAddress);
+        String emailAddress = app.getUserInfo().getEmailAddress();
+        boolean isValid;
 
         // TODO Need to look up if this returns null or an empty string
         if (emailAddress == null)
@@ -46,12 +34,23 @@ public class EmailAddressValidator extends InputValidationRule
             throw new InputValidationException("Missing email address");
         }
 
+        isValid = isValidEmailAddress(emailAddress);
+
         // TODO Make a better error message
         // Make sure the email address entered matches the valid email address format
-        if (!matcher.matches())
+        if (isValid == false)
         {
             throw new InputValidationException(
                     "Email address is not valid. example@example.com is a valid email format.");
         }
+    }
+
+    public boolean isValidEmailAddress(String emailAddress)
+    {
+        String expression = "^[\\w\\-]([\\.\\w])+[\\w]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence input = emailAddress;
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
     }
 }
