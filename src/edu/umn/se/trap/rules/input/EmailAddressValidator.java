@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // EmailAddressValidator.java
 package edu.umn.se.trap.rules.input;
@@ -19,22 +17,23 @@ package edu.umn.se.trap.rules.input;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.InputValidationException;
 
 /**
+ * Check that email addresses are in a specific format (for consistency). This format is
+ * example@example.com.
+ * 
  * @author Dylan
  * 
  */
 public class EmailAddressValidator extends InputValidationRule
 {
-    /** Logger for the EmailAddressValidator class */
-    private static Logger log = LoggerFactory.getLogger(EmailAddressValidator.class);
-
+    /**
+     * Check that email addresses are in a specific format (for consistency). This format is
+     * example@example.com.
+     */
     @Override
     public void checkRule(ReimbursementApp app) throws InputValidationException,
             FormProcessorException
@@ -60,6 +59,12 @@ public class EmailAddressValidator extends InputValidationRule
         }
     }
 
+    /**
+     * Test the submitted email address against a regular expression to check for valid format.
+     * 
+     * @param emailAddress - email address associated with a trap user
+     * @return - a boolean representing if the email address format is valid or not
+     */
     public boolean isValidEmailAddress(String emailAddress)
     {
         String expression = "^[\\w\\-]([\\.\\w])+[\\w]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
