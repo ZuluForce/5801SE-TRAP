@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 package edu.umn.se.trap.form;
 
@@ -53,6 +51,26 @@ public class AllUserForms
         usersForms = new HashMap<String, Map<Integer, FormContainer>>();
 
         formId = 0;
+    }
+
+    /**
+     * Gets all of a user's forms. This method assumes addUser has already been called and therefore
+     * does not check for the existence of the user.
+     * 
+     * @param user - String id of the user
+     * @return - A map of form containers and the respective id's
+     * @throws FormStorageException - Thrown if a user does not have any forms
+     */
+    private Map<Integer, FormContainer> getUserForms(String user) throws FormStorageException
+    {
+        Map<Integer, FormContainer> returnMap = usersForms.get(user);
+
+        if (returnMap.size() == 0)
+        {
+            throw new FormStorageException("User " + user + " has no forms available");
+        }
+
+        return returnMap;
     }
 
     /**
@@ -160,8 +178,8 @@ public class AllUserForms
         addUser(user);
 
         // Temporary variable to hold the container of a user's saved forms.
-        Map<Integer, FormContainer> tempUsersForms = usersForms.get(user);
-
+        // Map<Integer, FormContainer> tempUsersForms = usersForms.get(user);
+        Map<Integer, FormContainer> tempUsersForms = getUserForms(user);
         // If the user has not saved the form previously
         if (!tempUsersForms.containsKey(id))
         {
@@ -196,8 +214,8 @@ public class AllUserForms
         addUser(user);
 
         // Temporary variable to hold the container of a user's saved forms.
-        Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
-
+        // Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
+        Map<Integer, FormContainer> tempUserForms = getUserForms(user);
         // If the user has not previously saved the form
         if (!tempUserForms.containsKey(id))
         {
@@ -225,7 +243,8 @@ public class AllUserForms
         addUser(user);
 
         // Temporary variable to hold the container of a user's saved forms.
-        Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
+        // Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
+        Map<Integer, FormContainer> tempUserForms = getUserForms(user);
 
         // Result map to return
         Map<Integer, TravelFormMetadata> resultForms = new HashMap<Integer, TravelFormMetadata>();
