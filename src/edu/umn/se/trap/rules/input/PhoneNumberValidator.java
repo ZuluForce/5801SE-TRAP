@@ -20,8 +20,6 @@ public class PhoneNumberValidator extends InputValidationRule
     /** Logger for the PhoneNumberValidator class */
     private static Logger log = LoggerFactory.getLogger(PhoneNumberValidator.class);
 
-    /** TRAP format for a phone number */
-
     @Override
     public void checkRule(ReimbursementApp app) throws InputValidationException,
             FormProcessorException
