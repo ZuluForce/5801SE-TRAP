@@ -23,15 +23,15 @@ import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.exception.TRAPException;
-import edu.umn.se.trap.rules.business.AddOtherExpensesRule;
+import edu.umn.se.trap.rules.business.AddOtherExpenses;
 import edu.umn.se.trap.rules.business.AddTransportationExpenses;
 import edu.umn.se.trap.rules.business.AlcoholOnlyAllowedUnderNonSponsored;
 import edu.umn.se.trap.rules.business.BaggageExpenses;
 import edu.umn.se.trap.rules.business.BusinessLogicRule;
 import edu.umn.se.trap.rules.business.DoDMealRestrictions;
-import edu.umn.se.trap.rules.business.DomesticCarRentalRule;
+import edu.umn.se.trap.rules.business.DomesticCarRental;
 import edu.umn.se.trap.rules.business.FamilyMemberExpensesNotAllowed;
-import edu.umn.se.trap.rules.business.FindDestinationsRule;
+import edu.umn.se.trap.rules.business.FindDestinations;
 import edu.umn.se.trap.rules.business.ForeignGrantsNoDomesticTravel;
 import edu.umn.se.trap.rules.business.GrantApproverName;
 import edu.umn.se.trap.rules.business.IncidentalPerDiem;
@@ -138,18 +138,18 @@ public class TRAPRuleRegistry
         addInputValidationRule(new PhoneNumberValidator());
 
         // Add BusinessLogicRules
-        addBusinessLogicRule(new FindDestinationsRule());
+        addBusinessLogicRule(new FindDestinations());
         addBusinessLogicRule(new GrantApproverName());
-        addBusinessLogicRule(new AddOtherExpensesRule());
+        addBusinessLogicRule(new AddOtherExpenses());
         addBusinessLogicRule(new AlcoholOnlyAllowedUnderNonSponsored());
         addBusinessLogicRule(new InternetOnlyUnderNonSponsoredGrants());
         addBusinessLogicRule(new NoExportGrantsOnlyForUSCitizens());
         addBusinessLogicRule(new ForeignGrantsNoDomesticTravel());
-        addBusinessLogicRule(new DomesticCarRentalRule());
+        addBusinessLogicRule(new DomesticCarRental());
         addBusinessLogicRule(new NIHGrantRestrictions());
         addBusinessLogicRule(new DoDMealRestrictions());
         addBusinessLogicRule(new FamilyMemberExpensesNotAllowed());
-        addBusinessLogicRule(new DomesticCarRentalRule());
+        addBusinessLogicRule(new DomesticCarRental());
 
         addBusinessLogicRule(new MealPerDiem());
         addBusinessLogicRule(new LodgingPerDiem());

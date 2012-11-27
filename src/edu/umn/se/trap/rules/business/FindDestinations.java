@@ -36,10 +36,10 @@ import edu.umn.se.trap.form.OutputFieldKeys;
  * @author andrewh
  * 
  */
-public class FindDestinationsRule extends BusinessLogicRule
+public class FindDestinations extends BusinessLogicRule
 {
     /** Logger for the FindDestinationsRule */
-    private static Logger log = LoggerFactory.getLogger(FindDestinationsRule.class);
+    private static Logger log = LoggerFactory.getLogger(FindDestinations.class);
 
     /**
      * Finds all destinations in the application and adds them to the output. Destinations are found

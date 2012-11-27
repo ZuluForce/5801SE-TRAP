@@ -40,7 +40,7 @@ public class DomesticCarRentalRuleTest extends TestCase
 
     ReimbursementApp testApp = new ReimbursementApp();
 
-    DomesticCarRentalRule rule = new DomesticCarRentalRule();
+    DomesticCarRental rule = new DomesticCarRental();
 
     @Override
     public void setUp()

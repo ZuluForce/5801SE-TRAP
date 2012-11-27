@@ -30,10 +30,10 @@ import edu.umn.se.trap.exception.TRAPException;
  * @author planeman
  * 
  */
-public class AddOtherExpensesRule extends BusinessLogicRule
+public class AddOtherExpenses extends BusinessLogicRule
 {
     /** Log for the AddOtherExpensesRule */
-    private static final Logger log = LoggerFactory.getLogger(AddOtherExpensesRule.class);
+    private static final Logger log = LoggerFactory.getLogger(AddOtherExpenses.class);
 
     /**
      * Add all other expenses to the reimbursement total.

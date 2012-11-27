@@ -37,7 +37,7 @@ import edu.umn.se.trap.exception.TRAPException;
  * @author planeman
  * 
  */
-public class DomesticCarRentalRule extends BusinessLogicRule
+public class DomesticCarRental extends BusinessLogicRule
 {
     /** List of accepted carriers for domestic car rental */
     public static final List<String> acceptedCarriers = new ArrayList<String>(
