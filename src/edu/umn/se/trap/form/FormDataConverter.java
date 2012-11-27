@@ -352,16 +352,16 @@ public class FormDataConverter
             try
             {
                 filledKey = String.format(InputFieldKeys.BREAKFAST_CITY_FMT, day);
-                value = getFormValue(data, filledKey);
+                value = getNonRequiredFormValue(data, filledKey);
                 mealExpense.setCity(value);
+
+                filledKey = String.format(InputFieldKeys.BREAKFAST_STATE_FMT, day);
+                value = getNonRequiredFormValue(data, filledKey);
+                mealExpense.setState(value);
 
                 filledKey = String.format(InputFieldKeys.BREAKFAST_COUNTRY_FMT, day);
                 value = getFormValue(data, filledKey);
                 mealExpense.setCountry(value);
-
-                filledKey = String.format(InputFieldKeys.BREAKFAST_STATE_FMT, day);
-                value = getFormValue(data, filledKey);
-                mealExpense.setState(value);
 
                 mealExpense.setType(MealTypeEnum.BREAKFAST);
 
@@ -390,16 +390,16 @@ public class FormDataConverter
             try
             {
                 filledKey = String.format(InputFieldKeys.LUNCH_CITY_FMT, day);
-                value = getFormValue(data, filledKey);
+                value = getNonRequiredFormValue(data, filledKey);
                 mealExpense.setCity(value);
+
+                filledKey = String.format(InputFieldKeys.LUNCH_STATE_FMT, day);
+                value = getNonRequiredFormValue(data, filledKey);
+                mealExpense.setState(value);
 
                 filledKey = String.format(InputFieldKeys.LUNCH_COUNTRY_FMT, day);
                 value = getFormValue(data, filledKey);
                 mealExpense.setCountry(value);
-
-                filledKey = String.format(InputFieldKeys.LUNCH_STATE_FMT, day);
-                value = getFormValue(data, filledKey);
-                mealExpense.setState(value);
 
                 mealExpense.setType(MealTypeEnum.LUNCH);
                 mealExpense.setExpenseDate(DateValidator.advanceDateInDays(
@@ -426,16 +426,16 @@ public class FormDataConverter
             try
             {
                 filledKey = String.format(InputFieldKeys.DINNER_CITY_FMT, day);
-                value = getFormValue(data, filledKey);
+                value = getNonRequiredFormValue(data, filledKey);
                 mealExpense.setCity(value);
+
+                filledKey = String.format(InputFieldKeys.DINNER_STATE_FMT, day);
+                value = getNonRequiredFormValue(data, filledKey);
+                mealExpense.setState(value);
 
                 filledKey = String.format(InputFieldKeys.DINNER_COUNTRY_FMT, day);
                 value = getFormValue(data, filledKey);
                 mealExpense.setCountry(value);
-
-                filledKey = String.format(InputFieldKeys.DINNER_STATE_FMT, day);
-                value = getFormValue(data, filledKey);
-                mealExpense.setState(value);
 
                 mealExpense.setType(MealTypeEnum.DINNER);
                 mealExpense.setExpenseDate(DateValidator.advanceDateInDays(
@@ -491,11 +491,11 @@ public class FormDataConverter
                 }
 
                 filledKey = String.format(InputFieldKeys.LODGING_CITY_FMT, day);
-                value = getFormValue(data, filledKey);
+                value = getNonRequiredFormValue(data, filledKey);
                 lodgingExpense.setCity(value);
 
                 filledKey = String.format(InputFieldKeys.LODGING_STATE_FMT, day);
-                value = getFormValue(data, filledKey);
+                value = getNonRequiredFormValue(data, filledKey);
                 lodgingExpense.setState(value);
 
                 filledKey = String.format(InputFieldKeys.LODGING_COUNTRY_FMT, day);
@@ -730,12 +730,12 @@ public class FormDataConverter
             {
                 // City
                 filledKey = String.format(InputFieldKeys.INCIDENTAL_CITY_FMT, day);
-                value = getFormValue(data, filledKey);
+                value = getNonRequiredFormValue(data, filledKey);
                 incidental.setCity(value);
 
                 // State
                 filledKey = String.format(InputFieldKeys.INCIDENTAL_STATE_FMT, day);
-                value = getFormValue(data, filledKey);
+                value = getNonRequiredFormValue(data, filledKey);
                 incidental.setState(value);
 
                 // Country
@@ -874,10 +874,28 @@ public class FormDataConverter
             throws MissingFieldException
     {
         String value = data.get(key);
-        if (value == null)
+        if (value == null || value.compareTo("") == 0)
         {
             throw new MissingFieldException(String.format("Missing %s field", key));
         }
+
+        return value;
+    }
+
+    /**
+     * Gets a key from the data map. If the key isn't present or is the empty string then null is
+     * returned.
+     * 
+     * @param data - The form data to check in for the key
+     * @param key - The key to get out of the data map
+     * @return - The value associated with the key in the data map or null if the key is not present
+     *         or is the empty string.
+     */
+    private static String getNonRequiredFormValue(Map<String, String> data, String key)
+    {
+        String value = data.get(key);
+        if (value != null && value.compareTo("") == 0)
+            value = null;
 
         return value;
     }

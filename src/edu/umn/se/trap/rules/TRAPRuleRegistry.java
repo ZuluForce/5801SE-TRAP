@@ -38,6 +38,7 @@ import edu.umn.se.trap.rules.business.LodgingPerDiem;
 import edu.umn.se.trap.rules.business.MealPerDiem;
 import edu.umn.se.trap.rules.business.NIHGrantRestrictions;
 import edu.umn.se.trap.rules.business.NoExportGrantsOnlyForUSCitizens;
+import edu.umn.se.trap.rules.business.OnlyOneCheckedLuggage;
 import edu.umn.se.trap.rules.business.PerDayCarExpenses;
 import edu.umn.se.trap.rules.business.TransportationMileageExpenses;
 import edu.umn.se.trap.rules.business.USCarriersOnly;
@@ -157,6 +158,7 @@ public class TRAPRuleRegistry
         addBusinessLogicRule(new PerDayCarExpenses());
         addBusinessLogicRule(new BaggageExpenses());
         addBusinessLogicRule(new AddTransportationExpenses());
+        addBusinessLogicRule(new OnlyOneCheckedLuggage());
 
         addBusinessLogicRule(new USCarriersOnly());
 

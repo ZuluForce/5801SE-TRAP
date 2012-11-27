@@ -19,6 +19,7 @@ import java.util.Map;
 import edu.umn.se.trap.TravelFormMetadata;
 import edu.umn.se.trap.TravelFormProcessorIntf;
 import edu.umn.se.trap.exception.FormStorageException;
+import edu.umn.se.trap.exception.InputValidationException;
 
 /**
  * This class manages all the users forms of the TRAP system. It holds both forms that are in
@@ -34,7 +35,6 @@ public class AllUserForms
      * Holds a user's saved forms. See class SavedForms for more information regarding an individual
      * user's forms.
      */
-    // private final Map<String, SavedForms> usersForms;
     private final Map<String, Map<Integer, FormContainer>> usersForms;
 
     /**
@@ -44,11 +44,17 @@ public class AllUserForms
     private int formId;
 
     /**
+     * an object for checking the validity of keys in saved form data.
+     */
+    private final UnknownKeyChecker validKeyChecker;
+
+    /**
      * Constructor for AllUserForms. Initializes the usersForms hash map; starts out empty.
      */
     public AllUserForms()
     {
         usersForms = new HashMap<String, Map<Integer, FormContainer>>();
+        validKeyChecker = new UnknownKeyChecker();
 
         formId = 0;
     }
@@ -93,6 +99,9 @@ public class AllUserForms
         // Make sure the user is in the system
         addUser(user);
 
+        // Make sure the formData doesn't contain invalid keys
+        checkValidKeys(formData);
+
         // Temporary variable to hold the container of a user's saved forms.
         Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
 
@@ -126,6 +135,9 @@ public class AllUserForms
     {
         // Make sure the user is in the system
         addUser(user);
+
+        // Make sure the formData doesn't contain invalid keys
+        checkValidKeys(formData);
 
         // New id to save the new form with
         int newId = generateNewId();
@@ -299,6 +311,25 @@ public class AllUserForms
         tempUserForms.clear();
 
         return;
+    }
+
+    /**
+     * Calls the form key checker and wraps any potential exception in a FormStorageException. This
+     * is a convenience method.
+     * 
+     * @param formData - form data map to check
+     * @throws FormStorageException - When there is an invalid key in the formData
+     */
+    private void checkValidKeys(Map<String, String> formData) throws FormStorageException
+    {
+        try
+        {
+            validKeyChecker.areFormKeysValid(formData);
+        }
+        catch (InputValidationException ive)
+        {
+            throw new FormStorageException(ive);
+        }
     }
 
     /**
