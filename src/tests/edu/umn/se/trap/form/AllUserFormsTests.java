@@ -25,6 +25,8 @@ import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.TravelFormMetadata;
 import edu.umn.se.trap.exception.FormStorageException;
+import edu.umn.se.trap.test.generate.TestDataGenerator;
+import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
  * @author nagell2008
@@ -132,13 +134,13 @@ public class AllUserFormsTests
         try
         {
             Map<String, String> temp = new HashMap<String, String>();
-            temp.put("test", "testValue");
+            temp.put(InputFieldKeys.NUM_DAYS, "5");
             id = allForms.saveFormData("test", temp, "This is a test");
 
             Map<String, String> form = allForms.getSavedFormData("test", id);
 
-            Assert.assertEquals(form.containsKey("test"), true);
-            Assert.assertEquals(form.get("test"), "testValue");
+            Assert.assertEquals(form.containsKey(InputFieldKeys.NUM_DAYS), true);
+            Assert.assertEquals(form.get(InputFieldKeys.NUM_DAYS), "5");
 
             log.info("Map:{}", form);
 
@@ -165,9 +167,7 @@ public class AllUserFormsTests
         int id = -1;
         int sameID = -1;
 
-        Map<String, String> temp = new HashMap<String, String>();
-
-        temp.put("test", "testValue");
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
 
         try
         {
@@ -180,7 +180,7 @@ public class AllUserFormsTests
             Assert.fail(f.getMessage());
         }
 
-        temp.put("test2", "test2Value");
+        temp.put(InputFieldKeys.NUM_DAYS, "4");
 
         try
         {
@@ -213,9 +213,7 @@ public class AllUserFormsTests
         int id = -1;
         int sameID = -1;
 
-        Map<String, String> temp = new HashMap<String, String>();
-
-        temp.put("test", "testValue");
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
 
         try
         {
@@ -243,9 +241,7 @@ public class AllUserFormsTests
 
         int id = -1;
 
-        Map<String, String> temp = new HashMap<String, String>();
-
-        temp.put("test", "testValue");
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
 
         try
         {
@@ -294,9 +290,7 @@ public class AllUserFormsTests
 
         int id = -1;
 
-        Map<String, String> temp = new HashMap<String, String>();
-
-        temp.put("test", "testValue");
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
 
         try
         {
@@ -329,11 +323,8 @@ public class AllUserFormsTests
         int idTemp = -1;
         int idTemp2 = -1;
 
-        Map<String, String> temp = new HashMap<String, String>();
-        Map<String, String> temp2 = new HashMap<String, String>();
-
-        temp.put("test", "testValue");
-        temp2.put("test2", "test2Value");
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
+        Map<String, String> temp2 = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
 
         try
         {
@@ -385,9 +376,7 @@ public class AllUserFormsTests
 
         int id = -1;
 
-        Map<String, String> temp = new HashMap<String, String>();
-
-        temp.put("test", "testValue");
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
 
         try
         {
@@ -436,11 +425,8 @@ public class AllUserFormsTests
         int idTemp = -1;
         int idTemp2 = -1;
 
-        Map<String, String> temp = new HashMap<String, String>();
-        Map<String, String> temp2 = new HashMap<String, String>();
-
-        temp.put("test", "testValue");
-        temp2.put("test2", "test2Value");
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
+        Map<String, String> temp2 = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
 
         try
         {
@@ -474,8 +460,6 @@ public class AllUserFormsTests
         }
         catch (FormStorageException f)
         {
-            Assert.assertTrue(1 == 1);
-
             log.info("The clearSavedForms test should fail by throwing an exception");
 
         }

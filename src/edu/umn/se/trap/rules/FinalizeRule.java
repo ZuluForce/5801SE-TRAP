@@ -200,18 +200,6 @@ public class FinalizeRule implements TRAPRule
 
     /**
      * Given a double this will return its string representation in a format how money is usually
-     * represented, with two decimal places and comma separators.
-     * 
-     * @param money - The Double to be formatted to a string.
-     * @return - A Double formatted as a string as "[0-9]+\.[0-9]{2}" to put it as a regex
-     */
-    public static String formatDoubleAsCurrency(Double money)
-    {
-        return String.format("%1$,.2f", money);
-    }
-
-    /**
-     * Given a double this will return its string representation in a format how money is usually
      * represented, with two decimal places but no comma separator.
      * 
      * @param money - The Double to be formatted to a string.
