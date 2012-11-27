@@ -42,7 +42,6 @@ public class EmailAddressValidator extends InputValidationRule
         String emailAddress = app.getUserInfo().getEmailAddress();
         boolean isValid;
 
-        // TODO Need to look up if this returns null or an empty string
         if (emailAddress == null)
         {
             throw new InputValidationException("Missing email address");
@@ -50,7 +49,6 @@ public class EmailAddressValidator extends InputValidationRule
 
         isValid = isValidEmailAddress(emailAddress);
 
-        // TODO Make a better error message
         // Make sure the email address entered matches the valid email address format
         if (isValid == false)
         {
