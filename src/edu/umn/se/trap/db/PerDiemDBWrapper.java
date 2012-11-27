@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.data.MealTypeEnum;
-import edu.umn.se.trap.exception.TRAPDatabaseException;
+import edu.umn.se.trap.exception.TRAPRuntimeException;
 
 /**
  * A wrapper around a source of expense per diem informaiton. This provides per diems for meals,
@@ -234,7 +234,7 @@ public class PerDiemDBWrapper
         case DINNER:
             return perDiems.get(PerDiemDB.RATE_FIELDS.DINNER_RATE.ordinal());
         default:
-            throw new TRAPDatabaseException("Unknown meal type: " + meal.toString());
+            throw new TRAPRuntimeException("Unknown meal type: " + meal.toString());
         }
     }
 

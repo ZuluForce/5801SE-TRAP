@@ -60,6 +60,26 @@ public class AllUserForms
     }
 
     /**
+     * Gets all of a user's forms. This method assumes addUser has already been called and therefore
+     * does not check for the existence of the user.
+     * 
+     * @param user - String id of the user
+     * @return - A map of form containers and the respective id's
+     * @throws FormStorageException - Thrown if a user does not have any forms
+     */
+    private Map<Integer, FormContainer> getUserForms(String user) throws FormStorageException
+    {
+        Map<Integer, FormContainer> returnMap = usersForms.get(user);
+
+        if (returnMap.size() == 0)
+        {
+            throw new FormStorageException("User " + user + " has no forms available");
+        }
+
+        return returnMap;
+    }
+
+    /**
      * Adds a user to the map (usersForms) to in order to save forms. If the user already exists
      * nothing will happen.
      * 
@@ -170,8 +190,8 @@ public class AllUserForms
         addUser(user);
 
         // Temporary variable to hold the container of a user's saved forms.
-        Map<Integer, FormContainer> tempUsersForms = usersForms.get(user);
-
+        // Map<Integer, FormContainer> tempUsersForms = usersForms.get(user);
+        Map<Integer, FormContainer> tempUsersForms = getUserForms(user);
         // If the user has not saved the form previously
         if (!tempUsersForms.containsKey(id))
         {
@@ -206,8 +226,8 @@ public class AllUserForms
         addUser(user);
 
         // Temporary variable to hold the container of a user's saved forms.
-        Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
-
+        // Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
+        Map<Integer, FormContainer> tempUserForms = getUserForms(user);
         // If the user has not previously saved the form
         if (!tempUserForms.containsKey(id))
         {
@@ -235,7 +255,8 @@ public class AllUserForms
         addUser(user);
 
         // Temporary variable to hold the container of a user's saved forms.
-        Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
+        // Map<Integer, FormContainer> tempUserForms = usersForms.get(user);
+        Map<Integer, FormContainer> tempUserForms = getUserForms(user);
 
         // Result map to return
         Map<Integer, TravelFormMetadata> resultForms = new HashMap<Integer, TravelFormMetadata>();

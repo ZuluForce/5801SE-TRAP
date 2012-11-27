@@ -57,8 +57,6 @@ public class DateValidator extends InputValidationRule
     public void checkRule(ReimbursementApp app) throws InputValidationException,
             FormProcessorException
     {
-        // TODO Auto-generated method stub
-
         // Make sure we have arrival and departure times
         Date arrival = app.getArrivalDatetime();
         Date departure = app.getDepartureDatetime();

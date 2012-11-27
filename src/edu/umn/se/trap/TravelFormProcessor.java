@@ -30,7 +30,6 @@ import edu.umn.se.trap.db.UserDBWrapper;
 import edu.umn.se.trap.db.UserGrantDB;
 import edu.umn.se.trap.db.UserGrantDBWrapper;
 import edu.umn.se.trap.exception.FormProcessorException;
-import edu.umn.se.trap.exception.InvalidUsernameException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.exception.TRAPRuntimeException;
 import edu.umn.se.trap.form.AllUserForms;
@@ -253,7 +252,7 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
         {
             if (!UserDBWrapper.isValidUser(user))
             {
-                throw new InvalidUsernameException(String.format("username '%s' is invalid", user));
+                throw new FormProcessorException(String.format("username '%s' is invalid", user));
             }
 
             log.info("Setting current user to {}", user);

@@ -30,7 +30,10 @@ import edu.umn.se.trap.form.OutputFieldKeys;
 import edu.umn.se.trap.rules.input.DateValidator;
 
 /**
- * TODO: Write description
+ * The finalize rule runs after all InputValidationRules and BusinessLogicRules. It takes the total
+ * reimbursement amount and attempts to split it amongst the specified grants. This rule also sets
+ * output fields which can only be set once the form has been processed such as the per day totals
+ * and the reimbursement total.
  * 
  * @author planeman
  * 
