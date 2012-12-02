@@ -169,7 +169,7 @@ public class AllUserFormsTests
         int id = -1;
         int sameID = -1;
 
-        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.DOMESTIC1);
 
         try
         {
@@ -215,7 +215,7 @@ public class AllUserFormsTests
         int id = -1;
         int sameID = -1;
 
-        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.DOMESTIC1);
 
         try
         {
@@ -243,7 +243,7 @@ public class AllUserFormsTests
 
         int id = -1;
 
-        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.DOMESTIC1);
 
         try
         {
@@ -292,7 +292,7 @@ public class AllUserFormsTests
 
         int id = -1;
 
-        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.DOMESTIC1);
 
         try
         {
@@ -325,8 +325,8 @@ public class AllUserFormsTests
         int idTemp = -1;
         int idTemp2 = -1;
 
-        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
-        Map<String, String> temp2 = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.DOMESTIC1);
+        Map<String, String> temp2 = TestDataGenerator.getSampleForm(SampleDataEnum.DOMESTIC1);
 
         try
         {
@@ -378,7 +378,7 @@ public class AllUserFormsTests
 
         int id = -1;
 
-        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.DOMESTIC1);
 
         try
         {
@@ -427,8 +427,8 @@ public class AllUserFormsTests
         int idTemp = -1;
         int idTemp2 = -1;
 
-        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
-        Map<String, String> temp2 = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
+        Map<String, String> temp = TestDataGenerator.getSampleForm(SampleDataEnum.DOMESTIC1);
+        Map<String, String> temp2 = TestDataGenerator.getSampleForm(SampleDataEnum.DOMESTIC1);
 
         try
         {

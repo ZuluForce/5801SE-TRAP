@@ -1,23 +1,21 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // TestDataGenerator.java
 package edu.umn.se.trap.test.generate;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,40 +26,52 @@ import org.slf4j.LoggerFactory;
  */
 public class TestDataGenerator
 {
+    /** Logger for the TestDataGenerator */
     private final static Logger log = LoggerFactory.getLogger(TestDataGenerator.class);
+
+    private static List<String> formNames;
 
     public enum SampleDataEnum
     {
-        SAMPLE1,
+        DOMESTIC1, // "sample1.properties" - Domestic trip
+        INTERNATIONAL1, // "international1.properties" - International trip to Brazil and PR
         RANDOM
     }
 
-    public static Map<String, String> getSampleForm(SampleDataEnum source)
+    public static void initialize()
     {
-        Map<String, String> formData = new HashMap<String, String>();
+        formNames = new ArrayList<String>();
+        formNames.add("data/sample1.properties"); // DOMESTIC1
+        formNames.add("data/international1.properties"); // INTERNATIONAL1
+    }
 
-        switch (source)
-        {
-        case SAMPLE1:
-            formData = new LoadedSampleForm("data/sample1.properties");
-            break;
-        case RANDOM:
-            // TODO: Actually implement random form generation
-            formData = new LoadedSampleForm("data/sample1.properties");
-            break;
-        }
+    public static LoadedSampleForm getSampleForm(SampleDataEnum source)
+    {
+        String filename = formNames.get(source.ordinal());
 
-        return formData;
+        return getSampleForm(filename);
+    }
+
+    public static LoadedSampleForm getSampleForm(String filename)
+    {
+        return new LoadedSampleForm(filename);
+    }
+
+    public static LoadedSampleForm getExpectedOutput(SampleDataEnum source)
+    {
+        String filename = formNames.get(source.ordinal());
+
+        return getExpectedOutput(filename + ".output");
     }
 
     /**
      * Load the expected output map associated with the provided sample form. There should exist a
      * properties file in the same directory as the input file that has ".output" appended.
      * 
-     * @param input - The loaded input form for which we should retreive the expected output.
+     * @param input - The loaded input form for which we should retrieve the expected output.
      * @return - The expected output for the given input form data.
      */
-    public static Map<String, String> getExpectedOutput(LoadedSampleForm input)
+    public static LoadedSampleForm getExpectedOutput(LoadedSampleForm input)
     {
         String propFile = input.inputFile + ".output";
         log.info("Loading expected output file: " + propFile);
@@ -77,7 +87,7 @@ public class TestDataGenerator
      * @return - A LoadedSampleForm object containing the loaded key:value pairs contained in the
      *         file
      */
-    public static Map<String, String> getExpectedOutput(String fileName)
+    public static LoadedSampleForm getExpectedOutput(String fileName)
     {
         return new LoadedSampleForm(fileName);
     }

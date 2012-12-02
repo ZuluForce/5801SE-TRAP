@@ -43,7 +43,7 @@ public class InsufficientFundsTest extends TrapTestFramework
     public void testExtremelyLargeExpense() throws TRAPException
     {
         setValidUser(); // Sets a known user as the current one in TRAP
-        Map<String, String> form = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
+        Map<String, String> form = TestDataGenerator.getSampleForm(SampleDataEnum.DOMESTIC1);
         form.put("OTHER2_AMOUNT", new Double(Double.MAX_VALUE).toString());
 
         Integer id = this.saveFormData(form, "a very expensive trip");

@@ -40,7 +40,7 @@ public class FormDataConverterTest
     @Test
     public void testSampleForm1()
     {
-        Map<String, String> form = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
+        Map<String, String> form = TestDataGenerator.getSampleForm(SampleDataEnum.DOMESTIC1);
         try
         {
             ReimbursementApp app = FormDataConverter.formToReimbursementApp(form);

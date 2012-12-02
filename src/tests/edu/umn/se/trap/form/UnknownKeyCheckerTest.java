@@ -45,7 +45,7 @@ public class UnknownKeyCheckerTest
     {
         checker = new UnknownKeyChecker();
 
-        fullValidForm = TestDataGenerator.getSampleForm(SampleDataEnum.SAMPLE1);
+        fullValidForm = TestDataGenerator.getSampleForm(SampleDataEnum.DOMESTIC1);
 
         invalidForm = new HashMap<String, String>();
         invalidForm.put("bacon", "secretsauce");
