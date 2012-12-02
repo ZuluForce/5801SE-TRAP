@@ -47,13 +47,14 @@ import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
  */
 public class TrapTestFramework
 {
+    /** Logger for the TrapTestFramework */
     private static final Logger log = LoggerFactory.getLogger(TrapTestFramework.class);
 
-    private final CurrencyDB currencyDB = new CurrencyDB();
-    private final GrantDB grantDB = new GrantDB();
-    private final PerDiemDB perDiemDB = new PerDiemDB();
-    private final UserDB userDB = new UserDB();
-    private final UserGrantDB userGrantDB = new UserGrantDB();
+    public final CurrencyDB currencyDB = new TestCurrencyDB();
+    public final GrantDB grantDB = new TestGrantDB();
+    public final PerDiemDB perDiemDB = new PerDiemDB();
+    public final UserDB userDB = new UserDB();
+    public final UserGrantDB userGrantDB = new UserGrantDB();
 
     private final TravelFormProcessor trapProcessor;
     private final Map<Integer, LoadedSampleForm> savedForms;
