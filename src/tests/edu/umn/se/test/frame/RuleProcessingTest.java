@@ -59,7 +59,7 @@ public class RuleProcessingTest extends TrapTestFramework
 
             if (expected.size() != output.size())
             {
-                Assert.fail(String.format("Output is not expected size. output={}  expected={}",
+                Assert.fail(String.format("Output is not expected size. output=%d  expected=%d",
                         output.size(), expected.size()));
             }
 
@@ -92,7 +92,8 @@ public class RuleProcessingTest extends TrapTestFramework
 
             if (expected.size() != output.size())
             {
-                Assert.fail(String.format("Output is not expected size. output={}  expected={}",
+                log.error("expected to actual difference: {}", mapDifference(expected, output));
+                Assert.fail(String.format("Output is not expected size. output=%d  expected=%d",
                         output.size(), expected.size()));
             }
 

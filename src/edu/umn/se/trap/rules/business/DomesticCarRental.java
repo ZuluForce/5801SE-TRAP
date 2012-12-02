@@ -26,6 +26,7 @@ import edu.umn.se.trap.data.TransportationTypeEnum;
 import edu.umn.se.trap.db.GrantDBWrapper;
 import edu.umn.se.trap.db.KeyNotFoundException;
 import edu.umn.se.trap.exception.BusinessLogicException;
+import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
@@ -64,7 +65,7 @@ public class DomesticCarRental extends BusinessLogicRule
         for (TransportationExpense expense : app.getTransportationExpenseList())
         {
             // Check if it is domestic by looking at the currency
-            String currency = expense.getExpenseCurrency();
+            String currency = expense.getOriginalCurrency();
             if (currency.compareToIgnoreCase(TRAPConstants.USD) != 0)
                 continue;
 
@@ -74,7 +75,7 @@ public class DomesticCarRental extends BusinessLogicRule
 
             if (rental)
             {
-                // Make sure it is under a car expense type. This is check in other places as
+                // Make sure it is under a car expense type. This is checked in other places as
                 // well but it doesn't hurt to do it again
                 TransportationTypeEnum type = expense.getTransportationType();
                 if (type != TransportationTypeEnum.CAR)
@@ -87,14 +88,11 @@ public class DomesticCarRental extends BusinessLogicRule
                 String carrier = expense.getTransportationCarrier();
                 if (!isCarrierAccepted(carrier))
                 {
-                    throw new BusinessLogicException("Carrier not accept for domestic car rental: "
-                            + carrier);
-                }
+                    if (!isDODCarrierAccepted(carrier, dodGrants, expense))
+                        continue;
 
-                if (!isDODCarrierAccepted(carrier, dodGrants, expense))
-                {
-                    throw new BusinessLogicException("Carrier not accept for DOD car rental: "
-                            + carrier);
+                    throw new BusinessLogicException(
+                            "Carrier not accepted for domestic car rental: " + carrier);
                 }
             }
         }
@@ -133,28 +131,32 @@ public class DomesticCarRental extends BusinessLogicRule
      * @return - True if the carrier is allowed by the DoD, False otherwise
      * @throws BusinessLogicException - When a carrier is not accepted by a DoD grant, or relative
      *             database information could not be found
+     * @throws FormProcessorException
      */
     private boolean isDODCarrierAccepted(String carrier, List<Grant> dodGrants,
-            TransportationExpense expense) throws BusinessLogicException
+            TransportationExpense expense) throws BusinessLogicException, FormProcessorException
     {
+        // Check if it is Hertz
+        if (dodAllowedCarRental.compareToIgnoreCase(carrier) != 0)
+        {
+            return false;
+        }
+
+        // If it is DoD accepted then make sure the DoD grant/s have enough to pay for it
+
         // Running total of available funds in DoD grants
         double dodGrantTotal = 0;
 
         // Loop through all the grants and check that the carrier
         for (Grant grant : dodGrants)
         {
-            if (dodAllowedCarRental.compareToIgnoreCase(carrier) != 0)
-            {
-                return false;
-            }
-
             try
             {
                 dodGrantTotal += GrantDBWrapper.getGrantBalance(grant.getGrantAccount());
             }
             catch (KeyNotFoundException e)
             {
-                throw new BusinessLogicException("Unable to find the account balance for grant: "
+                throw new FormProcessorException("Unable to find the account balance for grant: "
                         + grant.getGrantAccount(), e);
             }
 

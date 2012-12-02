@@ -253,7 +253,7 @@ public class TestGrantDB extends GrantDB
     {
         log.info("Updating balance for account: {} to ${}", accountName, newBalance);
 
-        List<Object> grantInfo = this.grantInfo.get(accountName);
+        List<Object> grantInfo = this.grantInfo.get(accountName.toLowerCase());
         if (grantInfo == null)
         {
             throw new KeyNotFoundException("Could not find funding source, " + accountName

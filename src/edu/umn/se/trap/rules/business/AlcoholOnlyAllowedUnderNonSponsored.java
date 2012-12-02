@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // AlcoholOnlyAllowedUnderNonSponsored.java
 package edu.umn.se.trap.rules.business;
@@ -19,6 +17,9 @@ package edu.umn.se.trap.rules.business;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.data.Grant;
 import edu.umn.se.trap.data.IncidentalExpense;
@@ -39,11 +40,15 @@ import edu.umn.se.trap.exception.TRAPException;
 public class AlcoholOnlyAllowedUnderNonSponsored extends BusinessLogicRule
 {
 
+    /** Logger for this rule class */
+    private static final Logger log = LoggerFactory
+            .getLogger(AlcoholOnlyAllowedUnderNonSponsored.class);
+
     /**
      * List of keywords to look for that relate to alcohol.
      */
     private static final Pattern ALCOHOL_PATTERN = Pattern.compile(
-            "(alcohol|whiskey|rum|vodka|tequila|beer|wine)", Pattern.CASE_INSENSITIVE);
+            "\b(alcohol|whiskey|rum|vodka|tequila|beer|wine)\b", Pattern.CASE_INSENSITIVE);
 
     /**
      * This class checks that any alcohol related expenses that are claimed have available
@@ -109,6 +114,10 @@ public class AlcoholOnlyAllowedUnderNonSponsored extends BusinessLogicRule
             // If a match is found, see if the expense is greater than the available amount
             if (alcoholMatch.find())
             {
+                log.info("Found alcohol related word in justification: {}",
+                        expense.getExpenseJustification());
+                log.info("Matched word: {}", alcoholMatch.group());
+
                 if (expense.getExpenseAmount() > totalNonSponsoredAmount)
                 {
                     throw new BusinessLogicException("Alcohol expense of $"
