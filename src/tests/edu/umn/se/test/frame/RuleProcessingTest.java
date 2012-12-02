@@ -42,7 +42,7 @@ public class RuleProcessingTest extends TrapTestFramework
      * processed and its saved output is compared to the expected, nothing more.
      */
     @Test
-    public void fullFormProcessTest()
+    public void fullDomesticFormProcessTest()
     {
         try
         {
@@ -73,6 +73,39 @@ public class RuleProcessingTest extends TrapTestFramework
 
             expected = getExpectedOutput(SampleDataEnum.INTERNATIONAL1);
             output = getCompletedForm(id);
+            log.info("\nOutput map: {}", PrettyPrint.prettyMap(output));
+
+            if (expected.size() != output.size())
+            {
+                Assert.fail(String.format("Output is not expected size. output={}  expected={}",
+                        output.size(), expected.size()));
+            }
+
+            Assert.assertTrue("Output map not equal to expected", doOutputsMatch(output, expected));
+        }
+        catch (TRAPException e)
+        {
+            e.printStackTrace();
+            fail("Unexpected exception: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void fullInternationalFormProcessTest()
+    {
+        try
+        {
+            // Try with the sample domestic app
+            setValidUser();
+
+            // Try it for the sample international app
+            Map<String, String> form = getLoadableForm(SampleDataEnum.INTERNATIONAL1);
+
+            int id = this.saveFormData(form, "test international form");
+            submitFormData(id);
+
+            Map<String, String> expected = getExpectedOutput(SampleDataEnum.INTERNATIONAL1);
+            Map<String, String> output = getCompletedForm(id);
             log.info("\nOutput map: {}", PrettyPrint.prettyMap(output));
 
             if (expected.size() != output.size())

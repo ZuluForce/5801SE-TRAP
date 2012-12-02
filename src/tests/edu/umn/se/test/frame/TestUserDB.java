@@ -212,6 +212,7 @@ public class TestUserDB extends UserDB
         user.add(builder.getEmail());
         user.add(builder.getId());
         user.add(builder.getCitizenship());
+        user.add(builder.getVisaStatus());
         user.add(builder.getPaidByUniversity());
 
         userInfo.put(builder.getUsername(), user);
@@ -236,6 +237,7 @@ public class TestUserDB extends UserDB
      *         invalid user name.
      * @throws KeyNotFoundException if the specified user name could not be found in the database.
      */
+    @Override
     public List<String> getUserInfo(String userName) throws KeyNotFoundException
     {
         List<String> userInfo = this.userInfo.get(userName.toLowerCase());
