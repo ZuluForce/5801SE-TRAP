@@ -52,9 +52,9 @@ public class TrapTestFramework
 
     public final CurrencyDB currencyDB = new TestCurrencyDB();
     public final GrantDB grantDB = new TestGrantDB();
-    public final PerDiemDB perDiemDB = new PerDiemDB();
-    public final UserDB userDB = new UserDB();
-    public final UserGrantDB userGrantDB = new UserGrantDB();
+    public final PerDiemDB perDiemDB = new TestPerDiemDB();
+    public final UserDB userDB = new TestUserDB();
+    public final UserGrantDB userGrantDB = new TestUserGrantDB();
 
     private final TravelFormProcessor trapProcessor;
     private final Map<Integer, LoadedSampleForm> savedForms;
