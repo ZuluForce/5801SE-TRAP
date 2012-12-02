@@ -112,6 +112,78 @@ public class TestPerDiemDB extends PerDiemDB
 
     }
 
+    public class PerDiemBuilder
+    {
+        private final List<Double> rates;
+        String city = "";
+        String state = "";
+        String country = "";
+
+        public PerDiemBuilder()
+        {
+            rates = new ArrayList<Double>();
+        }
+
+        public void setCity(String city)
+        {
+            this.city = city;
+        }
+
+        public void setState(String state)
+        {
+            this.state = state;
+        }
+
+        public void setCountry(String country)
+        {
+            this.country = country;
+        }
+
+        public Location getLocation()
+        {
+            return new Location(city, state, country);
+        }
+
+        public void addRate(RATE_FIELDS field, Double rate)
+        {
+            while (rates.size() < field.ordinal())
+            {
+                rates.add(0.0);
+            }
+            rates.set(field.ordinal(), rate);
+        }
+
+        public void addBreakfastRate(Double rate)
+        {
+            addRate(RATE_FIELDS.BREAKFAST_RATE, rate);
+        }
+
+        public void addLunchRate(Double rate)
+        {
+            addRate(RATE_FIELDS.LUNCH_RATE, rate);
+        }
+
+        public void addDinnerRate(Double rate)
+        {
+            addRate(RATE_FIELDS.DINNER_RATE, rate);
+        }
+
+        public void addIncidentalRate(Double rate)
+        {
+            addRate(RATE_FIELDS.INCIDENTAL_CEILING, rate);
+        }
+
+        public void addLodgingRate(Double rate)
+        {
+            addRate(RATE_FIELDS.LODGING_CEILING, rate);
+        }
+
+        public List<Double> getRates()
+        {
+            return rates;
+        }
+    }
+
     /**
      * Constructor. Sets up the object.
      */
@@ -211,6 +283,11 @@ public class TestPerDiemDB extends PerDiemDB
         rates.add(0.0); /* Incidental ceiling in USD */
         rates.add(120.0); /* Hotel ceiling in USD */
         perDiemInfo.put(location9, rates9);
+    }
+
+    public void addRateToDB(PerDiemBuilder builder)
+    {
+        perDiemInfo.put(builder.getLocation(), builder.getRates());
     }
 
     /**
