@@ -41,8 +41,8 @@ public class TestDataGenerator
     public static void initialize()
     {
         formNames = new ArrayList<String>();
-        formNames.add("data/sample1.properties"); // DOMESTIC1
-        formNames.add("data/international1.properties"); // INTERNATIONAL1
+        formNames.add("data/domestic1.properties");
+        formNames.add("data/international1.properties");
     }
 
     public static LoadedSampleForm getSampleForm(SampleDataEnum source)

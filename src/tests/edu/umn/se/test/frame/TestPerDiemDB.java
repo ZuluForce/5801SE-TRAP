@@ -28,6 +28,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.umn.se.trap.db.KeyNotFoundException;
 import edu.umn.se.trap.db.PerDiemDB;
 
@@ -39,6 +42,8 @@ import edu.umn.se.trap.db.PerDiemDB;
  */
 public class TestPerDiemDB extends PerDiemDB
 {
+    private static Logger log = LoggerFactory.getLogger(TestPerDiemDB.class);
+
     /**
      * This type enumerates the fields of the {@link ArrayList} with the per diem information.
      */
@@ -87,6 +92,17 @@ public class TestPerDiemDB extends PerDiemDB
                 return false;
             Location l = Location.class.cast(o);
             return city.equals(l.city) && state.equals(l.state) && country.equals(l.country);
+        }
+
+        /**
+         * Check the hashcode of a Location object for equality purposes
+         * 
+         * @return integer hashcode for this Location object.
+         */
+        @Override
+        public int hashCode()
+        {
+            return city.hashCode() * 3 + state.hashCode() * 5 + country.hashCode() * 7;
         }
 
         /**
@@ -207,11 +223,11 @@ public class TestPerDiemDB extends PerDiemDB
 
         Location location2 = new Location("zurich", "", "switzerland");
         ArrayList<Double> rates2 = new ArrayList<Double>();
-        rates.add(12.0); /* Breakfast rate in USD */
-        rates.add(25.0); /* Lunch rate in USD */
-        rates.add(50.0); /* Dinner rate in USD */
-        rates.add(20.0); /* Incidental ceiling in USD */
-        rates.add(225.0); /* Lodging ceiling in USD */
+        rates2.add(12.0); /* Breakfast rate in USD */
+        rates2.add(25.0); /* Lunch rate in USD */
+        rates2.add(50.0); /* Dinner rate in USD */
+        rates2.add(20.0); /* Incidental ceiling in USD */
+        rates2.add(225.0); /* Lodging ceiling in USD */
 
         perDiemInfo.put(location2, rates2);
 
@@ -219,21 +235,21 @@ public class TestPerDiemDB extends PerDiemDB
 
         Location location3 = new Location("", "", "switzerland");
         ArrayList<Double> rates3 = new ArrayList<Double>();
-        rates.add(10.0); /* Breakfast rate in USD */
-        rates.add(20.0); /* Lunch rate in USD */
-        rates.add(40.0); /* Dinner rate in USD */
-        rates.add(20.0); /* Incidental ceiling in USD */
-        rates.add(250.0); /* Hotel ceiling in USD */
+        rates3.add(10.0); /* Breakfast rate in USD */
+        rates3.add(20.0); /* Lunch rate in USD */
+        rates3.add(40.0); /* Dinner rate in USD */
+        rates3.add(20.0); /* Incidental ceiling in USD */
+        rates3.add(250.0); /* Hotel ceiling in USD */
 
         perDiemInfo.put(location3, rates3);
 
         Location location4 = new Location("des moines", "ia", "united states");
         ArrayList<Double> rates4 = new ArrayList<Double>();
-        rates.add(7.0); /* Breakfast rate in USD */
-        rates.add(11.0); /* Lunch rate in USD */
-        rates.add(23.0); /* Dinner rate in USD */
-        rates.add(0.0); /* Incidental ceiling in USD */
-        rates.add(150.0); /* Hotel ceiling in USD */
+        rates4.add(7.0); /* Breakfast rate in USD */
+        rates4.add(11.0); /* Lunch rate in USD */
+        rates4.add(23.0); /* Dinner rate in USD */
+        rates4.add(0.0); /* Incidental ceiling in USD */
+        rates4.add(150.0); /* Hotel ceiling in USD */
 
         perDiemInfo.put(location4, rates4);
 
@@ -250,39 +266,39 @@ public class TestPerDiemDB extends PerDiemDB
 
         Location location7 = new Location("sao paulo", "", "brazil");
         ArrayList<Double> rates7 = new ArrayList<Double>();
-        rates.add(15.0); /* Breakfast rate in USD */
-        rates.add(20.0); /* Lunch rate in USD */
-        rates.add(25.0); /* Dinner rate in USD */
-        rates.add(20.0); /* Incidental ceiling in USD */
-        rates.add(175.0); /* Hotel ceiling in USD */
+        rates7.add(15.0); /* Breakfast rate in USD */
+        rates7.add(20.0); /* Lunch rate in USD */
+        rates7.add(25.0); /* Dinner rate in USD */
+        rates7.add(20.0); /* Incidental ceiling in USD */
+        rates7.add(175.0); /* Hotel ceiling in USD */
         perDiemInfo.put(location7, rates7);
 
         Location location8 = new Location("", "", "brazil");
         ArrayList<Double> rates8 = new ArrayList<Double>();
-        rates.add(12.0); /* Breakfast rate in USD */
-        rates.add(25.0); /* Lunch rate in USD */
-        rates.add(40.0); /* Dinner rate in USD */
-        rates.add(20.0); /* Incidental ceiling in USD */
-        rates.add(125.0); /* Hotel ceiling in USD */
+        rates8.add(12.0); /* Breakfast rate in USD */
+        rates8.add(25.0); /* Lunch rate in USD */
+        rates8.add(40.0); /* Dinner rate in USD */
+        rates8.add(20.0); /* Incidental ceiling in USD */
+        rates8.add(125.0); /* Hotel ceiling in USD */
         perDiemInfo.put(location8, rates8);
 
         Location location9 = new Location("", "", "puerto rico");
         ArrayList<Double> rates9 = new ArrayList<Double>();
-        rates.add(15.0); /* Breakfast rate in USD */
-        rates.add(25.0); /* Lunch rate in USD */
-        rates.add(40.0); /* Dinner rate in USD */
-        rates.add(10.0); /* Incidental ceiling in USD */
-        rates.add(200.0); /* Hotel ceiling in USD */
+        rates9.add(15.0); /* Breakfast rate in USD */
+        rates9.add(25.0); /* Lunch rate in USD */
+        rates9.add(40.0); /* Dinner rate in USD */
+        rates9.add(10.0); /* Incidental ceiling in USD */
+        rates9.add(200.0); /* Hotel ceiling in USD */
         perDiemInfo.put(location9, rates9);
 
         Location location10 = new Location("jacksonville", "fl", "united states");
         ArrayList<Double> rates10 = new ArrayList<Double>();
-        rates.add(10.0); /* Breakfast rate in USD */
-        rates.add(22.0); /* Lunch rate in USD */
-        rates.add(35.0); /* Dinner rate in USD */
-        rates.add(0.0); /* Incidental ceiling in USD */
-        rates.add(120.0); /* Hotel ceiling in USD */
-        perDiemInfo.put(location9, rates9);
+        rates10.add(10.0); /* Breakfast rate in USD */
+        rates10.add(22.0); /* Lunch rate in USD */
+        rates10.add(35.0); /* Dinner rate in USD */
+        rates10.add(0.0); /* Incidental ceiling in USD */
+        rates10.add(120.0); /* Hotel ceiling in USD */
+        perDiemInfo.put(location10, rates10);
     }
 
     public void addRateToDB(PerDiemBuilder builder)
@@ -304,6 +320,8 @@ public class TestPerDiemDB extends PerDiemDB
     @Override
     public List<Double> getDomesticPerDiem(String city, String state) throws KeyNotFoundException
     {
+        log.info("Request for domestic per diem. city={}, state={}", city, state);
+
         Location location = new Location(city.toLowerCase(), state.toLowerCase(), "united states");
         List<Double> rateInfo = perDiemInfo.get(location);
         if (rateInfo == null)
@@ -326,6 +344,8 @@ public class TestPerDiemDB extends PerDiemDB
     @Override
     public List<Double> getDomesticPerDiem(String state) throws KeyNotFoundException
     {
+        log.info("Request for domestic per diem. state={}", state);
+
         Location location = new Location("", state.toLowerCase(), "united states");
         List<Double> rateInfo = perDiemInfo.get(location);
         if (rateInfo == null)
@@ -351,6 +371,7 @@ public class TestPerDiemDB extends PerDiemDB
     public List<Double> getInternationalPerDiem(String city, String country)
             throws KeyNotFoundException
     {
+        log.info("Request for international per diem. city={}, country={}", city, country);
         Location location = new Location(city.toLowerCase(), "", country.toLowerCase());
         List<Double> rateInfo = perDiemInfo.get(location);
         if (rateInfo == null)
@@ -373,6 +394,8 @@ public class TestPerDiemDB extends PerDiemDB
     @Override
     public List<Double> getInternationalPerDiem(String country) throws KeyNotFoundException
     {
+        log.info("Request for international per diem. country={}", country);
+
         Location location = new Location("", "", country.toLowerCase());
         List<Double> rateInfo = perDiemInfo.get(location);
         if (rateInfo == null)

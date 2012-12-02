@@ -28,6 +28,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.umn.se.trap.db.KeyNotFoundException;
 import edu.umn.se.trap.db.UserGrantDB;
 
@@ -40,6 +43,9 @@ import edu.umn.se.trap.db.UserGrantDB;
 
 public class TestUserGrantDB extends UserGrantDB
 {
+    /** Logger for the TestUserGrantDB */
+    private static final Logger log = LoggerFactory.getLogger(TestUserGrantDB.class);
+
     /**
      * This type enumerates the fields of the {@link ArrayList} with the user information.
      */
@@ -67,6 +73,7 @@ public class TestUserGrantDB extends UserGrantDB
         public UserGrantBuilder()
         {
             authorizedPayees = new ArrayList<String>();
+            account = admin = "";
         }
 
         /**
@@ -149,7 +156,7 @@ public class TestUserGrantDB extends UserGrantDB
         userInfo.put(user.get(USER_GRANT_FIELDS.ACCOUNT_NUMBER.ordinal()), user);
 
         UserGrantBuilder builder = new UserGrantBuilder();
-        builder.setAccount("UMN_SUPER_PAC");
+        builder.setAccount("umn_super_pac");
         builder.setAdmin("helge206");
         addUserGrantInfo(builder);
     }
@@ -178,6 +185,8 @@ public class TestUserGrantDB extends UserGrantDB
     @Override
     public List<String> getUserGrantInfo(String accountName) throws KeyNotFoundException
     {
+        log.info("User grant info request for account {}", accountName);
+
         List<String> userInfo = this.userInfo.get(accountName.toLowerCase());
         if (userInfo == null)
         {

@@ -28,6 +28,7 @@ import edu.umn.se.trap.data.MealExpense;
 import edu.umn.se.trap.data.MealTypeEnum;
 import edu.umn.se.trap.data.OtherExpense;
 import edu.umn.se.trap.data.ReimbursementApp;
+import edu.umn.se.trap.data.TRAPConstants;
 import edu.umn.se.trap.data.TransportationExpense;
 import edu.umn.se.trap.data.TransportationTypeEnum;
 import edu.umn.se.trap.data.UserInfo;
@@ -580,7 +581,7 @@ public class FormDataConverter
             // Transportation Type
             filledKey = String.format(InputFieldKeys.TRANSPORTATION_TYPE_FMT, i);
             value = getFormValue(data, filledKey);
-            TransportationTypeEnum type = TransportationTypeEnum.valueOf(value);
+            TransportationTypeEnum type = TransportationTypeEnum.valueOf(value.toUpperCase());
             if (type == null)
                 throw new InputValidationException("Invalid type for transportation expense " + i);
 
@@ -596,27 +597,30 @@ public class FormDataConverter
             {
                 value = "no";
             }
-            if (checkYesNo(value))
-            {
-                throw new InputValidationException("TRANSPORTATION_RENTAL field should be yes/no");
-            }
+            checkYesNo(value, filledKey);
             transportExpense.setTransportationRental(value);
 
             switch (type)
             {
             case CAR:
-                // Miles Traveled
-                filledKey = String.format(InputFieldKeys.TRANSPORTATION_MILES_FMT, i);
-                value = getFormValue(data, filledKey);
-                try
+                // Don't count mileage for rental car
+                if (transportExpense.getTransportationRental().compareToIgnoreCase(
+                        TRAPConstants.STR_YES) != 0)
                 {
-                    transportExpense.setTransportationMilesTraveled(Integer.parseInt(value));
-                }
-                catch (NumberFormatException nfe)
-                {
-                    throw new InputValidationException(
-                            "Transportation miles traveled field is not an integer for expense "
-                                    + i);
+
+                    // Miles Traveled
+                    filledKey = String.format(InputFieldKeys.TRANSPORTATION_MILES_FMT, i);
+                    value = getFormValue(data, filledKey);
+                    try
+                    {
+                        transportExpense.setTransportationMilesTraveled(Integer.parseInt(value));
+                    }
+                    catch (NumberFormatException nfe)
+                    {
+                        throw new InputValidationException(
+                                "Transportation miles traveled field is not an integer for expense "
+                                        + i);
+                    }
                 }
             case AIR:
             case RAIL:
@@ -854,11 +858,17 @@ public class FormDataConverter
      * either "yes" or "no" but it could be expanded in the future.
      * 
      * @param value - string to check for yes/no
-     * @return - true if it is yes/no, otherwise false
+     * @throws InputValidationException - If the value isn't yes/no
      */
-    private static boolean checkYesNo(String value)
+    private static void checkYesNo(String value, String keyName) throws InputValidationException
     {
-        return (value.compareTo("yes") == 0 || value.compareTo("yes") == 0);
+        boolean valid = (value.compareToIgnoreCase(TRAPConstants.STR_YES) == 0);
+        valid = valid || (value.compareToIgnoreCase(TRAPConstants.STR_NO) == 0);
+
+        if (!valid)
+        {
+            throw new InputValidationException(keyName + " field should be yes/no");
+        }
     }
 
     /**
@@ -895,7 +905,7 @@ public class FormDataConverter
     {
         String value = data.get(key);
         if (value != null && value.compareTo("") == 0)
-            value = null;
+            value = "";
 
         return value;
     }

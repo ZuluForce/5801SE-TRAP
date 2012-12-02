@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.umn.se.trap.db.CurrencyDB;
 import edu.umn.se.trap.db.KeyNotFoundException;
 
@@ -39,6 +42,9 @@ import edu.umn.se.trap.db.KeyNotFoundException;
  */
 public class TestCurrencyDB extends CurrencyDB
 {
+    /** Logger for the TestCurrencyDB */
+    private static Logger log = LoggerFactory.getLogger(TestCurrencyDB.class);
+
     /**
      * This type enumerates the fields of the {@link ArrayList} with the conversion information.
      */
@@ -82,6 +88,17 @@ public class TestCurrencyDB extends CurrencyDB
                 return false;
             Currency c = Currency.class.cast(o);
             return currencyCode.equals(c.currencyCode) && date.equals(c.date);
+        }
+
+        /**
+         * Check the hashcode of a Currency object for equality purposes
+         * 
+         * @return integer hashcode for this Currency object.
+         */
+        @Override
+        public int hashCode()
+        {
+            return currencyCode.hashCode() * 3 + date.hashCode() * 5;
         }
 
         /**
@@ -341,9 +358,9 @@ public class TestCurrencyDB extends CurrencyDB
     @Override
     public Double getConversion(String currency, String date) throws KeyNotFoundException
     {
-        ArrayList<String> conversion = new ArrayList<String>();
-        conversion.add(currency.toLowerCase());
-        conversion.add(date);
+        log.info("Request for conversion rate. Currency={}, Date={}", currency, date);
+
+        Currency conversion = new Currency(currency.toLowerCase(), date);
         Double value = currencyInfo.get(conversion);
         if (value == null)
         {

@@ -64,24 +64,6 @@ public class RuleProcessingTest extends TrapTestFramework
             }
 
             Assert.assertTrue("Output map not equal to expected", doOutputsMatch(output, expected));
-
-            // Try it for the sample international app
-            form = getLoadableForm(SampleDataEnum.INTERNATIONAL1);
-
-            id = this.saveFormData(form, "test international form");
-            submitFormData(id);
-
-            expected = getExpectedOutput(SampleDataEnum.INTERNATIONAL1);
-            output = getCompletedForm(id);
-            log.info("\nOutput map: {}", PrettyPrint.prettyMap(output));
-
-            if (expected.size() != output.size())
-            {
-                Assert.fail(String.format("Output is not expected size. output={}  expected={}",
-                        output.size(), expected.size()));
-            }
-
-            Assert.assertTrue("Output map not equal to expected", doOutputsMatch(output, expected));
         }
         catch (TRAPException e)
         {

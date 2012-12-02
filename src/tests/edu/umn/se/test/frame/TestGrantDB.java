@@ -29,6 +29,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.umn.se.trap.db.GrantDB;
 import edu.umn.se.trap.db.KeyNotFoundException;
 
@@ -40,6 +43,9 @@ import edu.umn.se.trap.db.KeyNotFoundException;
  */
 public class TestGrantDB extends GrantDB
 {
+    /** Logger for the TestGrantDB */
+    private static final Logger log = LoggerFactory.getLogger(TestGrantDB.class);
+
     /**
      * This type enumerates the fields of the {@link ArrayList} with the grant information.
      */
@@ -57,10 +63,16 @@ public class TestGrantDB extends GrantDB
     public static class GrantBuilder
     {
         String account;
-        String acctype;
+        String accType;
         String orgType;
         String funder;
         Double balance;
+
+        public GrantBuilder()
+        {
+            account = accType = orgType = funder = "";
+            balance = 0.0;
+        }
 
         /**
          * @return the account
@@ -83,7 +95,7 @@ public class TestGrantDB extends GrantDB
          */
         public String getAcctype()
         {
-            return acctype;
+            return accType;
         }
 
         /**
@@ -91,7 +103,7 @@ public class TestGrantDB extends GrantDB
          */
         public void setAcctype(String acctype)
         {
-            this.acctype = acctype;
+            accType = acctype;
         }
 
         /**
@@ -173,7 +185,7 @@ public class TestGrantDB extends GrantDB
         grantInfo.put((String) grant2.get(GRANT_FIELDS.ACCOUNT_NUMBER.ordinal()), grant2);
 
         GrantBuilder builder = new GrantBuilder();
-        builder.setAccount("UMN_SUPER_PAC");
+        builder.setAccount("umn_super_pac");
         builder.setAcctype("non-sponsored");
         builder.setFunder(null);
         builder.setOrgType("mixed");
@@ -217,6 +229,8 @@ public class TestGrantDB extends GrantDB
     public List<Object> getGrantInfo(String accountName) throws KeyNotFoundException
     {
 
+        log.info("GrantInfo request for account {}", accountName);
+
         List<Object> grantInfo = this.grantInfo.get(accountName.toLowerCase());
         if (grantInfo == null)
         {
@@ -237,6 +251,8 @@ public class TestGrantDB extends GrantDB
     public void updateAccountBalance(String accountName, Double newBalance)
             throws KeyNotFoundException
     {
+        log.info("Updating balance for account: {} to ${}", accountName, newBalance);
+
         List<Object> grantInfo = this.grantInfo.get(accountName);
         if (grantInfo == null)
         {

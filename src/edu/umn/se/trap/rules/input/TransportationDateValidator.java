@@ -1,23 +1,24 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // TransportationDateValidator.java
 package edu.umn.se.trap.rules.input;
 
 import java.util.Date;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.data.TransportationExpense;
@@ -35,6 +36,9 @@ import edu.umn.se.trap.exception.TRAPException;
  */
 public class TransportationDateValidator extends InputValidationRule
 {
+
+    /** Logger for this class */
+    private static final Logger log = LoggerFactory.getLogger(TransportationDateValidator.class);
 
     /**
      * Verifies the date of all transportation expenses. All transportation expenses must occur from
@@ -64,9 +68,11 @@ public class TransportationDateValidator extends InputValidationRule
             if (expense.getTransportationType() != TransportationTypeEnum.AIR
                     && expenseDate.before(departure))
             {
+                log.debug("Transportation {} (type: {}) comes before departure date {}", i + 1,
+                        expense.getTransportationType(), departure);
                 throw new InputValidationException(
                         String.format(
-                                "Transportation expense %d comes before departure datetime and isn't air travel",
+                                "Transportation expense %d comes before departure date and isn't air travel",
                                 i + 1));
             }
 
