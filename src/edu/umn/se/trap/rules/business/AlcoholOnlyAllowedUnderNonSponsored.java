@@ -48,7 +48,7 @@ public class AlcoholOnlyAllowedUnderNonSponsored extends BusinessLogicRule
      * List of keywords to look for that relate to alcohol.
      */
     private static final Pattern ALCOHOL_PATTERN = Pattern.compile(
-            "\b(alcohol|whiskey|rum|vodka|tequila|beer|wine)\b", Pattern.CASE_INSENSITIVE);
+            "(alcohol|whiskey|rum|vodka|tequila|beer|wine)", Pattern.CASE_INSENSITIVE);
 
     /**
      * This class checks that any alcohol related expenses that are claimed have available

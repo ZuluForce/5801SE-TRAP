@@ -202,6 +202,16 @@ public class TestUserDB extends UserDB
         builder.setPaidByUniversity("No");
 
         addUser(builder);
+
+        UserEntryBuilder anotherBuilder = new UserEntryBuilder();
+        anotherBuilder.setUsername("heimd001");
+        anotherBuilder.setFullname("Heimdahl, Mats");
+        anotherBuilder.setEmail("blah@blah.com");
+        anotherBuilder.setCitizenship("United States");
+        anotherBuilder.setPaidByUniversity("Yes");
+
+        addUser(anotherBuilder);
+
     }
 
     public void addUser(UserEntryBuilder builder)
