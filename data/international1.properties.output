@@ -1,5 +1,5 @@
 NAME=Helgeson, Andrew
-USERNAME=helge206
+USER_NAME=helge206
 EMAIL=helge206@umn.edu
 CITIZENSHIP=UNITED STATES
 FORM_SUBMISSION_DATETIME=It Depends...
@@ -58,15 +58,15 @@ TRANSPORTATION8_TOTAL=725.50
 
 NUM_DAYS=6
 
-# (Meal + incidentals) * .75 = 29.25
-# Lodging = 77.277 (converted)
+# (Meal + incidentals) * .75 = 25.5
+# Lodging = 77.28 (converted)
 DAY1_DATE=20121125
-DAY1_TOTAL=106.52
+DAY1_TOTAL=102.78
 
 # Meal totals = 80
-# Lodging = 68.308 (Converted)
+# Lodging = 68.31 (Converted)
 DAY2_DATE=20121126
-DAY2_TOTAL=148.30
+DAY2_TOTAL=148.31
 
 # Meals = 65
 # Lodging = 65.02 (Converted)
@@ -74,9 +74,10 @@ DAY3_DATE=20121127
 DAY3_TOTAL=130.02
 
 # Meals = 72
+# Incidental = 2.347 (Converted)
 # Lodging = 110.00
 DAY4_DATE=20121128
-DAY4_TOTAL=182.00
+DAY4_TOTAL=184.35
 
 # Meals = 65
 # Lodging = 110

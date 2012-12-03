@@ -143,12 +143,12 @@ public class FormDataConverter
 
         log.info("Collection user information");
 
-        // (Input) Username
+        // Username
         username = getFormValue(data, InputFieldKeys.USER_NAME);
         userInfo.setUsername(username);
         app.setOutputField(OutputFieldKeys.USER_NAME, username);
 
-        // (Input) Emergency contact name/phone
+        // Emergency contact name/phone
         value = getFormValue(data, InputFieldKeys.EMERGENCY_NAME);
         userInfo.setEmergencyContactName(value);
         app.setOutputField(OutputFieldKeys.EMERGENCY_NAME, value);
