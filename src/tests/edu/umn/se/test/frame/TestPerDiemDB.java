@@ -128,7 +128,7 @@ public class TestPerDiemDB extends PerDiemDB
 
     }
 
-    public class PerDiemBuilder
+    public static class PerDiemBuilder
     {
         private final List<Double> rates;
         String city = "";

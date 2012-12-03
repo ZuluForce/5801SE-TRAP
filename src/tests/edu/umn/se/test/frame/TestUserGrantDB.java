@@ -64,7 +64,7 @@ public class TestUserGrantDB extends UserGrantDB
 
     Map<String, List<String>> userInfo = new HashMap<String, List<String>>();
 
-    public class UserGrantBuilder
+    public static class UserGrantBuilder
     {
         private String account;
         private String admin;

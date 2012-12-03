@@ -55,7 +55,7 @@ public class TestUserDB extends UserDB
 
     Map<String, List<String>> userInfo = new HashMap<String, List<String>>();
 
-    public class UserEntryBuilder
+    public static class UserEntryBuilder
     {
         private String username;
         private String fullname;
