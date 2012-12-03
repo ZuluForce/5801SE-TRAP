@@ -61,7 +61,7 @@ public class TestPerDiemDB extends PerDiemDB
     /**
      * This type combines the city, state, and country into a single key for indexing purposes.
      */
-    public class Location implements Comparable<Location>
+    public static class Location implements Comparable<Location>
     {
         public String city;
         public String state;
