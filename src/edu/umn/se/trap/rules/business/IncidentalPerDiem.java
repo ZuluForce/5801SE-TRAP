@@ -87,12 +87,13 @@ public class IncidentalPerDiem extends BusinessLogicRule
             }
 
             // Only 75% on the first and last days
+            Double amountToGive = expense.getExpenseAmount();
             if (day.getDayNumber() == 1 || day.getDayNumber() == app.getNumDays())
             {
-                perDiem *= 0.75;
+                amountToGive *= 0.75;
             }
 
-            app.addtoPerDiemTotal(perDiem, day.getDayNumber());
+            app.addtoPerDiemTotal(amountToGive, day.getDayNumber());
             incidentalTotal += perDiem;
         }
 
