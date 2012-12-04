@@ -492,7 +492,7 @@ public class FormDataConverter
                 catch (NumberFormatException nfe)
                 {
                     throw new InputValidationException(String.format(
-                            "Lodging%d amount is not a valid decimal digit number", day));
+                            "Lodging%d amount is not a real number", day));
                 }
 
                 filledKey = String.format(InputFieldKeys.LODGING_CITY_FMT, day);
@@ -568,8 +568,7 @@ public class FormDataConverter
             catch (NumberFormatException nfe)
             {
                 throw new InputValidationException(
-                        "Transportation amount field not a correct decimal digit number in expense "
-                                + i);
+                        "Transportation amount field not a real number in expense " + i);
             }
 
             // Transportation Currency
@@ -900,8 +899,8 @@ public class FormDataConverter
     }
 
     /**
-     * Gets a key from the data map. If the key isn't present or is the empty string then null is
-     * returned.
+     * Gets a key from the data map. If the key isn't present or is the empty string then the empty
+     * string is returned
      * 
      * @param data - The form data to check in for the key
      * @param key - The key to get out of the data map
@@ -911,7 +910,7 @@ public class FormDataConverter
     private static String getNonRequiredFormValue(Map<String, String> data, String key)
     {
         String value = data.get(key);
-        if (value != null && value.compareTo("") == 0)
+        if (value == null)
             value = "";
 
         return value;
