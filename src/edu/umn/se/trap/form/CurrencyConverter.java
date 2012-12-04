@@ -20,6 +20,7 @@ import edu.umn.se.trap.data.ExpenseWithCurrencyIface;
 import edu.umn.se.trap.data.TRAPConstants;
 import edu.umn.se.trap.db.CurrencyDBWrapper;
 import edu.umn.se.trap.db.KeyNotFoundException;
+import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.exception.TRAPRuntimeException;
 import edu.umn.se.trap.rules.input.DateValidator;
 
@@ -90,13 +91,20 @@ public class CurrencyConverter
      * the internal currency to USD and reset the fields in the expense appropriately.
      * 
      * @param expense - expense to convert currency
+     * @throws InputValidationException
      */
     public static void convertExpenseCurrency(ExpenseWithCurrencyIface expense)
+            throws InputValidationException
     {
         // Get data required for conversion
         Double amount = expense.getExpenseAmount();
         String currency = expense.getExpenseCurrency();
         Date date = expense.getExpenseDate();
+
+        if (currency == null)
+        {
+            throw new InputValidationException("Invalid null currency");
+        }
 
         if (currency.compareToIgnoreCase(TRAPConstants.USD) == 0)
         {

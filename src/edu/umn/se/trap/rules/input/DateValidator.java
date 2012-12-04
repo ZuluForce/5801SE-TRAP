@@ -108,6 +108,7 @@ public class DateValidator extends InputValidationRule
     {
         try
         {
+            dateFormat.setLenient(false);
             return dateFormat.parse(rawDate);
         }
         catch (ParseException pe)
@@ -127,6 +128,7 @@ public class DateValidator extends InputValidationRule
     {
         try
         {
+            datetimeFormat.setLenient(false);
             return datetimeFormat.parse(rawDatetime);
         }
         catch (ParseException pe)
@@ -158,6 +160,7 @@ public class DateValidator extends InputValidationRule
      */
     public static String dateToString(Date date)
     {
+        dateFormat.setLenient(false);
         return dateFormat.format(date);
     }
 
@@ -169,6 +172,7 @@ public class DateValidator extends InputValidationRule
      */
     public static String datetimeToString(Date datetime)
     {
+        datetimeFormat.setLenient(false);
         return datetimeFormat.format(datetime);
     }
 
