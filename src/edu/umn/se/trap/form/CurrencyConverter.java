@@ -39,20 +39,6 @@ public class CurrencyConverter
      * @return - The amount converted to USD according to the conversion rate for currency on the
      *         given date.
      */
-    public static Double convertToUSD(String amount, String currency, Date date)
-    {
-        return convertToUSD(Double.parseDouble(amount), currency, DateValidator.dateToString(date));
-    }
-
-    /**
-     * Convert the given amount of money to USD from the specified currency on the date provided.
-     * 
-     * @param amount - The amount to convert
-     * @param currency - The currency for the amount
-     * @param date - The date to use when looking up the conversion rate
-     * @return - The amount converted to USD according to the conversion rate for currency on the
-     *         given date.
-     */
     public static Double convertToUSD(Double amount, String currency, Date date)
     {
         return convertToUSD(amount, currency, DateValidator.dateToString(date));
@@ -103,13 +89,7 @@ public class CurrencyConverter
 
         if (currency == null)
         {
-            throw new InputValidationException("Invalid null currency");
-        }
-
-        if (currency.compareToIgnoreCase(TRAPConstants.USD) == 0)
-        {
-            expense.setOriginalCurrency(currency);
-            return;
+            throw new InputValidationException("Missing currency in expense");
         }
 
         // Find converted amount and change values in the expense
