@@ -59,7 +59,43 @@ public class NIHGrantRestrictionsTest extends TrapTestFramework
         allowedTravelNIHGrant.put("GRANT2_PERCENT", "20");
         allowedTravelNIHGrant.put("GRANT1_PERCENT", "80");
         allowedTravelNIHGrant.put("NUM_GRANTS", "2");
-        // allowedTravelNIHGrant.put("", "");
+        allowedTravelNIHGrant.put("USER_NAME", "linc001");
+
+        unallowedTravelNIHGrant = getLoadableForm(SampleDataEnum.INTERNATIONAL1);
+        unallowedTravelNIHGrant.put("GRANT1_ACCOUNT", "654321");
+        unallowedTravelNIHGrant.put("GRANT1_PERCENT", "100");
+        unallowedTravelNIHGrant.put("NUM_GRANTS", "1");
+        unallowedTravelNIHGrant.remove("GRANT2_ACCOUNT");
+        unallowedTravelNIHGrant.remove("GRANT2_PERCENT");
+        unallowedTravelNIHGrant.put("USER_NAME", "linc001");
+
+        unallowedTravelNIHGrant.remove("DAY1_BREAKFAST_CITY");
+        unallowedTravelNIHGrant.remove("DAY1_BREAKFAST_STATE");
+        unallowedTravelNIHGrant.remove("DAY1_BREAKFAST_COUNTRY");
+        unallowedTravelNIHGrant.remove("DAY1_LUNCH_CITY");
+        unallowedTravelNIHGrant.remove("DAY1_LUNCH_STATE");
+        unallowedTravelNIHGrant.remove("DAY1_LUNCH_COUNTRY");
+        unallowedTravelNIHGrant.remove("DAY2_BREAKFAST_CITY");
+        unallowedTravelNIHGrant.remove("DAY2_BREAKFAST_COUNTRY");
+        unallowedTravelNIHGrant.remove("DAY2_LUNCH_CITY");
+        unallowedTravelNIHGrant.remove("DAY2_LUNCH_COUNTRY");
+        unallowedTravelNIHGrant.remove("DAY2_DINNER_COUNTRY");
+        unallowedTravelNIHGrant.remove("DAY3_LUNCH_CITY");
+        unallowedTravelNIHGrant.remove("DAY3_LUNCH_COUNTRY");
+        unallowedTravelNIHGrant.remove("DAY3_DINNER_CITY");
+        unallowedTravelNIHGrant.remove("DAY3_DINNER_COUNTRY");
+        unallowedTravelNIHGrant.remove("DAY4_BREAKFAST_CITY");
+        unallowedTravelNIHGrant.remove("DAY4_BREAKFAST_COUNTRY");
+        unallowedTravelNIHGrant.remove("DAY4_LUNCH_CITY");
+        unallowedTravelNIHGrant.remove("DAY4_LUNCH_COUNTRY");
+        unallowedTravelNIHGrant.remove("DAY4_DINNER_CITY");
+        unallowedTravelNIHGrant.remove("DAY4_DINNER_COUNTRY");
+        unallowedTravelNIHGrant.remove("DAY5_LUNCH_CITY");
+        unallowedTravelNIHGrant.remove("DAY5_LUNCH_COUNTRY");
+        unallowedTravelNIHGrant.remove("DAY5_DINNER_CITY");
+        unallowedTravelNIHGrant.remove("DAY5_DINNER_COUNTRY");
+        unallowedTravelNIHGrant.remove("DAY6_BREAKFAST_CITY");
+        unallowedTravelNIHGrant.remove("DAY6_BREAKFAST_COUNTRY");
 
     }
 
@@ -176,7 +212,37 @@ public class NIHGrantRestrictionsTest extends TrapTestFramework
     @Test
     public void unallowedTravelNIHGrant()
     {
-        Assert.fail();
+        try
+        {
+            setUser("linc001");
+        }
+        catch (TRAPException e1)
+        {
+            e1.printStackTrace();
+            Assert.fail("Failed to set user: " + e1.getMessage());
+        }
+        int id = -1;
+
+        try
+        {
+            id = this.saveFormData(unallowedTravelNIHGrant, "a test form");
+        }
+        catch (TRAPException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Failed to save form: " + e.getMessage());
+        }
+
+        try
+        {
+            submitFormData(id);
+        }
+        catch (TRAPException e)
+        {
+            e.printStackTrace();
+            Assert.assertEquals("Transportation expense of $25.0 cannont be funded with $0.0",
+                    e.getMessage());
+        }
     }
 
 }
