@@ -65,7 +65,7 @@ public class AlcoholOnlyFundedByNonSponsoredGrantTest extends TrapTestFramework
         exception.expect(BusinessLogicException.class);
         exception.expectMessage("Alcohol expense of");
 
-        testFormData.put(otherJustField, "A martini shaken and not stired");
+        testFormData.put(otherJustField, "A martini shaken and not stirred");
         testFormData.put(otherAmntField, "100000000.00");
 
         saveAndSubmitTestForm();

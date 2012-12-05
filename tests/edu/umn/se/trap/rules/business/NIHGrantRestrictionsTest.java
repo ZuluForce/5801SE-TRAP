@@ -96,7 +96,6 @@ public class NIHGrantRestrictionsTest extends TrapTestFramework
         unallowedTravelNIHGrant.remove("DAY5_DINNER_COUNTRY");
         unallowedTravelNIHGrant.remove("DAY6_BREAKFAST_CITY");
         unallowedTravelNIHGrant.remove("DAY6_BREAKFAST_COUNTRY");
-
     }
 
     @Test
