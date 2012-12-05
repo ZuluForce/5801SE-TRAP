@@ -14,210 +14,119 @@
 // FamilyMemberExpensesTest.java
 package edu.umn.se.trap.rules.business;
 
-import junit.framework.Assert;
-
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
-import edu.umn.se.trap.data.IncidentalExpense;
-import edu.umn.se.trap.data.OtherExpense;
-import edu.umn.se.trap.data.ReimbursementApp;
+import edu.umn.se.test.frame.FormDataQuerier;
+import edu.umn.se.test.frame.TrapTestFramework;
 import edu.umn.se.trap.exception.BusinessLogicException;
+import edu.umn.se.trap.exception.TRAPException;
+import edu.umn.se.trap.form.InputFieldKeys;
+import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
  * @author planeman
  * 
  */
-public class FamilyMemberExpensesNotAllowedTest
+public class FamilyMemberExpensesNotAllowedTest extends TrapTestFramework
 {
-    IncidentalExpense nonFamilyIncidental;
-    IncidentalExpense nonFamilyIncidental2;
-    IncidentalExpense familyIncidental;
-    OtherExpense nonFamilyOther;
-    OtherExpense familyOther;
+    String incidentalJustField;
+    String otherJustField;
 
-    ReimbursementApp testApp;
-
-    public FamilyMemberExpensesNotAllowedTest()
+    @Before
+    public void setup() throws TRAPException
     {
-        nonFamilyIncidental = new IncidentalExpense();
-        nonFamilyIncidental.setExpenseJustification("Tipped the pretty waitress");
+        super.setup(SampleDataEnum.INTERNATIONAL1);
+        incidentalJustField = FormDataQuerier.buildFieldStrForAnIncidental(testFormData,
+                InputFieldKeys.INCIDENTAL_JUSTIFICATION_FMT);
 
-        nonFamilyIncidental2 = new IncidentalExpense();
-        nonFamilyIncidental2.setExpenseJustification("Tipped person at the restaurant");
-
-        familyIncidental = new IncidentalExpense();
-        familyIncidental.setExpenseJustification("Bought a doorag for my brother");
-
-        nonFamilyOther = new OtherExpense();
-        nonFamilyOther.setExpenseJustification("Bought myself a maserati");
-
-        familyOther = new OtherExpense();
-        familyOther.setExpenseJustification("Bought my sister a maserati");
-
-        testApp = new ReimbursementApp();
-        testApp.setNumDays(4); // So that we can add the incidentals
-        // testApp.addIncidentalExpense(nonFamilyIncidental, 1);
-        // testApp.addIncidentalExpense(familyIncidental, 2);
-        // testApp.addOtherExpense(nonFamilyOther);
-        // testApp.addOtherExpense(familyOther);
+        otherJustField = String.format(InputFieldKeys.OTHER_JUSTIFICATION_FMT, 1);
     }
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     @Test
     public void nonFamilyIncidentalTest() throws Exception
     {
-        FamilyMemberExpensesNotAllowed testRule = new FamilyMemberExpensesNotAllowed();
-
-        try
-        {
-            testApp.addIncidentalExpense(nonFamilyIncidental, 1);
-            testRule.checkRule(testApp);
-        }
-        catch (BusinessLogicException ble)
-        {
-            ble.printStackTrace();
-            Assert.fail("non family incidental should have been accepted");
-        }
+        testFormData.put(incidentalJustField, "Tipped the pretty waitress");
+        saveAndSubmitTestForm();
     }
 
     @Test
     public void familyIncidentalTest() throws Exception
     {
-        FamilyMemberExpensesNotAllowed testRule = new FamilyMemberExpensesNotAllowed();
+        exception.expect(BusinessLogicException.class);
+        exception.expectMessage("Family expenses not allowed for reimbursement.");
 
-        try
-        {
-            testApp.addIncidentalExpense(familyIncidental, 1);
-            testRule.checkRule(testApp);
-            Assert.fail("family incidental should not have been accepted");
-        }
-        catch (BusinessLogicException ble)
-        {
-            ; // Good
-        }
+        testFormData.put(incidentalJustField, "Bought a doorag for my brother");
+        saveAndSubmitTestForm();
     }
 
     @Test
     public void nonFamilyOtherTest() throws Exception
     {
-        FamilyMemberExpensesNotAllowed testRule = new FamilyMemberExpensesNotAllowed();
-
-        try
-        {
-            testApp.addOtherExpense(nonFamilyOther);
-            testRule.checkRule(testApp);
-        }
-        catch (BusinessLogicException ble)
-        {
-            ble.printStackTrace();
-            Assert.fail("non family other should have been accepted");
-        }
+        testFormData.put(otherJustField, "Bought myself a maserati");
+        saveAndSubmitTestForm();
     }
 
     @Test
     public void familyOtherTest() throws Exception
     {
-        FamilyMemberExpensesNotAllowed testRule = new FamilyMemberExpensesNotAllowed();
+        exception.expect(BusinessLogicException.class);
+        exception.expectMessage("Family expenses not allowed for reimbursement.");
 
-        try
-        {
-            testApp.addOtherExpense(familyOther);
-            testRule.checkRule(testApp);
-            Assert.fail("family other should not have been accepted");
-        }
-        catch (BusinessLogicException ble)
-        {
-            ; // Good
-        }
+        testFormData.put(otherJustField, "Bought my sister a maserati");
+        saveAndSubmitTestForm();
     }
 
     @Test
     public void goodIncidentalBadOther() throws Exception
     {
-        FamilyMemberExpensesNotAllowed testRule = new FamilyMemberExpensesNotAllowed();
+        exception.expect(BusinessLogicException.class);
+        exception.expectMessage("Family expenses not allowed for reimbursement.");
 
-        // Good incidental, Bad other
-        try
-        {
-            testApp.addOtherExpense(familyOther);
-            testApp.addIncidentalExpense(nonFamilyIncidental, 1);
-            testRule.checkRule(testApp);
-            Assert.fail("Family other expense allowed");
-        }
-        catch (BusinessLogicException ble)
-        {
-            ; // Good
-        }
+        testFormData.put(incidentalJustField, "Tipped the pretty waitress");
+        testFormData.put(otherJustField, "Bought my sister a maserati");
+        saveAndSubmitTestForm();
     }
 
     @Test
     public void badIncidentalGoodOther() throws Exception
     {
-        FamilyMemberExpensesNotAllowed testRule = new FamilyMemberExpensesNotAllowed();
+        exception.expect(BusinessLogicException.class);
+        exception.expectMessage("Family expenses not allowed for reimbursement.");
 
-        // Bad incidental, Good other
-        try
-        {
-            testApp.addOtherExpense(nonFamilyOther);
-            testApp.addIncidentalExpense(familyIncidental, 1);
-            testRule.checkRule(testApp);
-            Assert.fail("Family incidental expense allowed");
-        }
-        catch (BusinessLogicException ble)
-        {
-            ; // Good
-        }
+        testFormData.put(otherJustField, "Bought myself a maserati");
+        testFormData.put(incidentalJustField, "Bought a doorag for my brother");
+        saveAndSubmitTestForm();
     }
 
     @Test
     public void badIncidentalBadOther() throws Exception
     {
-        FamilyMemberExpensesNotAllowed testRule = new FamilyMemberExpensesNotAllowed();
+        exception.expect(BusinessLogicException.class);
+        exception.expectMessage("Family expenses not allowed for reimbursement.");
 
-        // Bad both
-        try
-        {
-            testApp.addOtherExpense(familyOther);
-            testApp.addIncidentalExpense(familyIncidental, 1);
-            testRule.checkRule(testApp);
-            Assert.fail("Family incidental expense allowed");
-        }
-        catch (BusinessLogicException ble)
-        {
-            ; // Good
-        }
+        testFormData.put(otherJustField, "Bought my sister a maserati");
+        testFormData.put(incidentalJustField, "Bought a doorag for my brother");
+        saveAndSubmitTestForm();
     }
 
     @Test
     public void goodIncidentalGoodOther() throws Exception
     {
-        FamilyMemberExpensesNotAllowed testRule = new FamilyMemberExpensesNotAllowed();
-
-        // Good both
-        try
-        {
-            testApp.addOtherExpense(nonFamilyOther);
-            testApp.addIncidentalExpense(nonFamilyIncidental, 1);
-            testRule.checkRule(testApp);
-        }
-        catch (BusinessLogicException ble)
-        {
-            Assert.fail("Both good expenses should have been accepted");
-        }
+        testFormData.put(incidentalJustField, "Tipped the pretty waitress");
+        testFormData.put(otherJustField, "Bought myself a maserati");
+        saveAndSubmitTestForm();
     }
 
     @Test
     public void testOnlyMatchAtWordBoundary() throws Exception
     {
-        FamilyMemberExpensesNotAllowed testRule = new FamilyMemberExpensesNotAllowed();
-
-        try
-        {
-            testApp.addIncidentalExpense(nonFamilyIncidental2, 1);
-            testRule.checkRule(testApp);
-        }
-        catch (BusinessLogicException ble)
-        {
-            Assert.fail("Non-Family incidental with non word boundary match was rejected");
-        }
+        testFormData.put(otherJustField, "Tipped person at the restaurant");
+        saveAndSubmitTestForm();
     }
 }

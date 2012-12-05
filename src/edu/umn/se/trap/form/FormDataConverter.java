@@ -480,18 +480,6 @@ public class FormDataConverter
 
             try
             {
-                filledKey = String.format(InputFieldKeys.LODGING_AMOUNT_FMT, day);
-                value = getFormValue(data, filledKey);
-                try
-                {
-                    lodgingExpense.setExpenseAmount(Double.parseDouble(value));
-                }
-                catch (NumberFormatException nfe)
-                {
-                    throw new InputValidationException(String.format(
-                            "Lodging%d amount is not a real number", day));
-                }
-
                 filledKey = String.format(InputFieldKeys.LODGING_CITY_FMT, day);
                 value = getNonRequiredFormValue(data, filledKey);
                 lodgingExpense.setCity(value);
@@ -503,6 +491,18 @@ public class FormDataConverter
                 filledKey = String.format(InputFieldKeys.LODGING_COUNTRY_FMT, day);
                 value = getFormValue(data, filledKey);
                 lodgingExpense.setCountry(value);
+
+                filledKey = String.format(InputFieldKeys.LODGING_AMOUNT_FMT, day);
+                value = getFormValue(data, filledKey);
+                try
+                {
+                    lodgingExpense.setExpenseAmount(Double.parseDouble(value));
+                }
+                catch (NumberFormatException nfe)
+                {
+                    throw new InputValidationException(String.format(
+                            "Lodging%d amount is not a real number", day));
+                }
 
                 filledKey = String.format(InputFieldKeys.LODGING_CURRENCY_FMT, day);
                 value = getFormValue(data, filledKey);

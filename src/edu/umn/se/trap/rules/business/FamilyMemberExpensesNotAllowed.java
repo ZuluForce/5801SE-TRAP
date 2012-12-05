@@ -41,7 +41,7 @@ public class FamilyMemberExpensesNotAllowed extends BusinessLogicRule
     /** Pattern used to search for family expenses in justifications */
     private static final Pattern FAMILY_PATTERN = Pattern
             .compile(
-                    "\b(father|mother|brother|sister|child|son|daughter|wife|spouse|cousin|aunt|uncle|in-law)\b",
+                    "\\b(father|mother|brother|sister|child|son|daughter|wife|spouse|cousin|aunt|uncle|in-law)\\b",
                     Pattern.CASE_INSENSITIVE);
 
     /**

@@ -17,6 +17,8 @@ import edu.umn.se.trap.test.generate.TestDataGenerator;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
+ * Tests for requirement 1.n
+ * 
  * @author planeman
  * 
  */
@@ -34,6 +36,11 @@ public class VisaStatusOutputTest extends TrapTestFramework
                 .getUserForForm(SampleDataEnum.INTERNATIONAL1));
     }
 
+    /**
+     * Test that no visa status is added to the output when the submitting user is a US citizen.
+     * 
+     * @throws TRAPException
+     */
     @Test
     public void noStatusForUSCitizen() throws TRAPException
     {
@@ -44,6 +51,11 @@ public class VisaStatusOutputTest extends TrapTestFramework
                 output.containsKey(OutputFieldKeys.VISA_STATUS));
     }
 
+    /**
+     * Test that a visa status is added to the output when the submitting user is not a US citizen.
+     * 
+     * @throws TRAPException
+     */
     @Test
     public void statusForNonCitizen() throws TRAPException
     {
@@ -61,6 +73,12 @@ public class VisaStatusOutputTest extends TrapTestFramework
         Assert.assertEquals(status, "A OK");
     }
 
+    /**
+     * This is a strange case but test that no visa status is outputted when the user is a us
+     * citizen but there is a visa status listed in the db.
+     * 
+     * @throws TRAPException
+     */
     @Test
     public void statusAvailableButIsUSCitizen() throws TRAPException
     {

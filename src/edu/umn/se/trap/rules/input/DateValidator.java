@@ -177,7 +177,7 @@ public class DateValidator extends InputValidationRule
     }
 
     /**
-     * Get the number of days between start and end with the option of rounding up.
+     * Get the number of days between start and end.
      * 
      * @param start - The start date for the range
      * @param end - The end date for the range
