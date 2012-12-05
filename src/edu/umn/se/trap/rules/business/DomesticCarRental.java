@@ -27,6 +27,7 @@ import edu.umn.se.trap.db.GrantDBWrapper;
 import edu.umn.se.trap.db.KeyNotFoundException;
 import edu.umn.se.trap.exception.BusinessLogicException;
 import edu.umn.se.trap.exception.FormProcessorException;
+import edu.umn.se.trap.exception.InsufficientFundsException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
@@ -88,7 +89,7 @@ public class DomesticCarRental extends BusinessLogicRule
                 String carrier = expense.getTransportationCarrier();
                 if (!isCarrierAccepted(carrier))
                 {
-                    if (!isDODCarrierAccepted(carrier, dodGrants, expense))
+                    if (isDODCarrierAccepted(carrier, dodGrants, expense))
                         continue;
 
                     throw new BusinessLogicException(
@@ -106,11 +107,6 @@ public class DomesticCarRental extends BusinessLogicRule
      */
     private boolean isCarrierAccepted(String carrier)
     {
-        if (carrier == null)
-        {
-            return false;
-        }
-
         for (String acceptedCarrier : acceptedCarriers)
         {
             if (acceptedCarrier.compareToIgnoreCase(carrier) == 0)
@@ -132,9 +128,11 @@ public class DomesticCarRental extends BusinessLogicRule
      * @throws BusinessLogicException - When a carrier is not accepted by a DoD grant, or relative
      *             database information could not be found
      * @throws FormProcessorException
+     * @throws InsufficientFundsException
      */
     private boolean isDODCarrierAccepted(String carrier, List<Grant> dodGrants,
-            TransportationExpense expense) throws BusinessLogicException, FormProcessorException
+            TransportationExpense expense) throws FormProcessorException,
+            InsufficientFundsException
     {
         // Check if it is Hertz
         if (dodAllowedCarRental.compareToIgnoreCase(carrier) != 0)
@@ -165,9 +163,9 @@ public class DomesticCarRental extends BusinessLogicRule
         // The expense amount is greater than the total amount in the DoD grants
         if (expense.getExpenseAmount() > dodGrantTotal)
         {
-            throw new BusinessLogicException("Car rental expense of $" + expense.getExpenseAmount()
-                    + " cannot be reimbursed using DoD grants with $" + dodGrantTotal
-                    + " available funds.");
+            throw new InsufficientFundsException("Car rental expense of $"
+                    + expense.getExpenseAmount() + " cannot be reimbursed using DoD grants with $"
+                    + dodGrantTotal + " available funds.");
         }
 
         return true;

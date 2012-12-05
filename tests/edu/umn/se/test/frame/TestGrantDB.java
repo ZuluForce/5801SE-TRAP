@@ -217,6 +217,20 @@ public class TestGrantDB extends GrantDB
         }
     }
 
+    public GrantBuilder fillBulderWithGrantInfo(String accountName) throws KeyNotFoundException
+    {
+        List<Object> grantInfo = getGrantInfo(accountName);
+        GrantBuilder builder = new GrantBuilder();
+
+        builder.setAccount(accountName);
+        builder.setAcctype((String) grantInfo.get(GRANT_FIELDS.ACCOUNT_TYPE.ordinal()));
+        builder.setFunder((String) grantInfo.get(GRANT_FIELDS.FUNDING_ORGANIZATION.ordinal()));
+        builder.setOrgType((String) grantInfo.get(GRANT_FIELDS.ORGANIZATION_TYPE.ordinal()));
+        builder.setBalance((Double) grantInfo.get(GRANT_FIELDS.ACCOUNT_BALANCE.ordinal()));
+
+        return builder;
+    }
+
     /**
      * Gets the grant information as a list of strings.
      * 

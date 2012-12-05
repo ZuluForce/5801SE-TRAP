@@ -7,6 +7,7 @@ import java.util.Map;
 
 import edu.umn.se.trap.data.IncidentalExpense;
 import edu.umn.se.trap.data.ReimbursementApp;
+import edu.umn.se.trap.data.TRAPConstants;
 import edu.umn.se.trap.data.TransportationExpense;
 import edu.umn.se.trap.data.TransportationTypeEnum;
 import edu.umn.se.trap.data.TripDay;
@@ -54,6 +55,63 @@ public class FormDataQuerier
         }
 
         return incidentalDays;
+    }
+
+    /**
+     * Get the transportation expense number for all rental expenses.
+     * 
+     * @param formData - Form data
+     * @return - The expense number for all transportation rental expenses
+     * @throws TRAPException
+     */
+    public static List<Integer> findRentalExpenses(Map<String, String> formData)
+            throws TRAPException
+    {
+        return findRentalExpenses(formData, null);
+    }
+
+    /**
+     * Get the transportation expense number for rental expenses.
+     * 
+     * @param formData - Form data
+     * @param domestic - If true, return only domestic rentals. If false, return only foreign
+     *            rentals, If null, return all.
+     * @return - The expense number for all transportation rental expenses
+     * @throws TRAPException
+     */
+    public static List<Integer> findRentalExpenses(Map<String, String> formData, Boolean domestic)
+            throws TRAPException
+    {
+        ReimbursementApp app = FormDataConverter.formToReimbursementApp(formData);
+
+        TransportationExpense texpense;
+
+        List<TransportationExpense> texpenses = app.getTransportationExpenseList();
+        List<Integer> rentalExpenses = new ArrayList<Integer>();
+        for (int i = 0; i < texpenses.size(); ++i)
+        {
+            texpense = texpenses.get(i);
+            if (texpense.isRentalCar())
+            {
+                if (domestic == null)
+                {
+                    rentalExpenses.add(i + 1);
+                    continue;
+                }
+                if (texpense.getOriginalCurrency().compareToIgnoreCase(TRAPConstants.USD) == 0)
+                {
+                    if (domestic)
+                        rentalExpenses.add(i + 1);
+                }
+                else
+                {
+                    if (!domestic)
+                        rentalExpenses.add(i + 1);
+                }
+            }
+        }
+
+        return rentalExpenses;
     }
 
     public static List<Integer> findTransportExpenses(Map<String, String> formData,

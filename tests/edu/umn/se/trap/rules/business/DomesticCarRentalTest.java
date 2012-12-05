@@ -14,114 +14,101 @@
 // DomesticCarRentalRuleTest.java
 package edu.umn.se.trap.rules.business;
 
-import junit.framework.TestCase;
+import java.util.List;
 
-import org.junit.Assert;
+import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
-import edu.umn.se.trap.data.ReimbursementApp;
-import edu.umn.se.trap.data.TRAPConstants;
-import edu.umn.se.trap.data.TransportationExpense;
-import edu.umn.se.trap.data.TransportationTypeEnum;
-import edu.umn.se.trap.exception.InputValidationException;
+import edu.umn.se.test.frame.FormDataQuerier;
+import edu.umn.se.test.frame.TestGrantDB;
+import edu.umn.se.test.frame.TrapTestFramework;
+import edu.umn.se.trap.db.KeyNotFoundException;
+import edu.umn.se.trap.exception.BusinessLogicException;
+import edu.umn.se.trap.exception.InsufficientFundsException;
 import edu.umn.se.trap.exception.TRAPException;
-import edu.umn.se.trap.form.CurrencyConverter;
+import edu.umn.se.trap.form.InputFieldKeys;
+import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
  * @author planeman
  * 
  */
-public class DomesticCarRentalTest extends TestCase
+public class DomesticCarRentalTest extends TrapTestFramework
 {
-    TransportationExpense foreignRental;
-    TransportationExpense goodDomestic;
-    TransportationExpense badDomestic;
-    TransportationExpense otherExpense;
 
-    ReimbursementApp testApp = new ReimbursementApp();
+    List<Integer> domesticRentalIndexes;
+    List<Integer> intlRentalIndexes;
 
-    DomesticCarRental rule = new DomesticCarRental();
+    String domesticCarrierField;
+    String intlCarrierField;
 
-    @Override
-    public void setUp()
+    TestGrantDB.GrantBuilder grantModifier;
+
+    @Before
+    public void setUp() throws TRAPException, KeyNotFoundException
     {
-        foreignRental = new TransportationExpense();
-        foreignRental.setExpenseCurrency("EUR");
-        foreignRental.setTransportationRental(TRAPConstants.STR_YES);
-        foreignRental.setTransportationType(TransportationTypeEnum.CAR);
+        super.setup(SampleDataEnum.INTERNATIONAL1);
 
-        goodDomestic = new TransportationExpense();
-        goodDomestic.setExpenseCurrency(TRAPConstants.USD);
-        goodDomestic.setTransportationCarrier("National Travel");
-        goodDomestic.setTransportationRental(TRAPConstants.STR_YES);
-        goodDomestic.setTransportationType(TransportationTypeEnum.CAR);
+        domesticRentalIndexes = FormDataQuerier.findRentalExpenses(testFormData, true);
+        intlRentalIndexes = FormDataQuerier.findRentalExpenses(testFormData, false);
 
-        badDomestic = new TransportationExpense();
-        badDomestic.setExpenseCurrency(TRAPConstants.USD);
-        badDomestic.setTransportationCarrier("Bob's car rental");
-        badDomestic.setTransportationRental(TRAPConstants.STR_YES);
-        badDomestic.setTransportationType(TransportationTypeEnum.CAR);
+        Assert.assertTrue(domesticRentalIndexes.size() > 0);
+        Assert.assertTrue(intlRentalIndexes.size() > 0);
 
-        otherExpense = new TransportationExpense();
-        otherExpense.setTransportationType(TransportationTypeEnum.BAGGAGE);
-        otherExpense.setExpenseCurrency(TRAPConstants.USD);
+        domesticCarrierField = String.format(InputFieldKeys.TRANSPORTATION_CARRIER_FMT,
+                domesticRentalIndexes.get(0));
 
-        // testApp.addTransportationExpense(foreignRental);
-        // testApp.addTransportationExpense(goodDomestic);
-        // testApp.addTransportationExpense(badDomestic);
-        // testApp.addTransportationExpense(otherExpense);
+        intlCarrierField = String.format(InputFieldKeys.TRANSPORTATION_CARRIER_FMT,
+                intlRentalIndexes.get(0));
 
+        grantModifier = grantDB.fillBulderWithGrantInfo("010101010101");
         return;
     }
 
     @Test
-    public void goodForeignRental() throws InputValidationException
+    public void goodDomesticAndForeignRental() throws TRAPException
     {
-        CurrencyConverter.convertExpenseCurrency(foreignRental);
+        // The international sample form has a foreign and domestic (Puerto Rico) rental
+        saveAndSubmitTestForm();
+    }
 
-        testApp.addTransportationExpense(foreignRental);
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
-        try
-        {
-            rule.checkRule(testApp);
-        }
-        catch (TRAPException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Exception: " + e.getMessage());
-        }
+    @Test
+    public void badDomestic() throws TRAPException
+    {
+        exception.expect(BusinessLogicException.class);
+        exception.expectMessage("Carrier not accepted for domestic car rental");
+        testFormData.put(domesticCarrierField, "Charlie Car Rental");
+
+        saveAndSubmitTestForm();
     }
 
     @Test
-    public void testGoodDomestic() throws InputValidationException
+    public void domesticDoDOverrideRule() throws TRAPException
     {
-        CurrencyConverter.convertExpenseCurrency(goodDomestic);
-        testApp.addTransportationExpense(goodDomestic);
-        try
-        {
-            rule.checkRule(testApp);
-        }
-        catch (TRAPException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Exception: " + e.getMessage());
-        }
+        testFormData.put(domesticCarrierField, "Hertz");
+        grantModifier.setFunder("DOD");
+        grantDB.addGrant(grantModifier);
+
+        saveAndSubmitTestForm();
     }
 
     @Test
-    public void testBadDomestic() throws InputValidationException
+    public void domesticDoDOverrideNotEnoughMoney() throws TRAPException
     {
-        CurrencyConverter.convertExpenseCurrency(badDomestic);
-        testApp.addTransportationExpense(badDomestic);
+        exception.expect(InsufficientFundsException.class);
+        exception.expectMessage("cannot be reimbursed using DoD grants with");
+        testFormData.put(domesticCarrierField, "Hertz");
+        grantModifier.setFunder("DOD");
+        grantModifier.setBalance(10.0);
+        grantDB.addGrant(grantModifier);
 
-        try
-        {
-            rule.checkRule(testApp);
-            Assert.fail("Rule passes with bad domestic car rental");
-        }
-        catch (TRAPException e)
-        {
-            ; // Good
-        }
+        saveAndSubmitTestForm();
     }
 }
