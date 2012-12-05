@@ -196,7 +196,7 @@ public class TestUserDB extends UserDB
 
         UserEntryBuilder builder = new UserEntryBuilder();
         builder.setUsername("helge206");
-        builder.setFullname("Helgeson, Andrew");
+        builder.setFullname("Helgeson, Andrew William");
         builder.setEmail("helge206@umn.edu");
         builder.setCitizenship("United States");
         builder.setPaidByUniversity("No");
