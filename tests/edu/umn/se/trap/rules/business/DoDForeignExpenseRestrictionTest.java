@@ -28,7 +28,7 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
 
     public DoDForeignExpenseRestrictionTest()
     {
-        foreignExpenses = getLoadableForm(SampleDataEnum.FOREIGNEXPENSES);
+        foreignExpenses = getLoadableForm(SampleDataEnum.SHORT_INTL);
 
         TestUserGrantDB.UserGrantBuilder ugBuilder = new TestUserGrantDB.UserGrantBuilder();
         ugBuilder.setAccount("8675309");
@@ -44,7 +44,7 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
         grantBuilder.setOrgType("government");
         grantDB.addGrant(grantBuilder);
 
-        noForeignExpenses = getLoadableForm(SampleDataEnum.FOREIGNEXPENSES);
+        noForeignExpenses = getLoadableForm(SampleDataEnum.SHORT_INTL);
         noForeignExpenses.put("DAY1_LODGING_CITY", "des moines");
         noForeignExpenses.put("DAY1_LODGING_STATE", "ia");
         noForeignExpenses.put("DAY1_LODGING_COUNTRY", "USA");
