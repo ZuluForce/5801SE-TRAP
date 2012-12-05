@@ -36,7 +36,7 @@ public class TestDataGenerator
     {
         DOMESTIC1, // "sample1.properties" - Domestic trip
         INTERNATIONAL1, // "international1.properties" - International trip to Brazil and PR
-        SHORT_INTL, // "foreignexpenses.properties" - Only has 1 foreign expense
+        SHORT_INTL, // "short_international1.properties" - Only has 1 foreign expense
         RANDOM
     }
 
