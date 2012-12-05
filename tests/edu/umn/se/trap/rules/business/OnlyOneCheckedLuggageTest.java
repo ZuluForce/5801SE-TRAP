@@ -11,7 +11,6 @@ import org.junit.rules.ExpectedException;
 import edu.umn.se.test.frame.TrapTestFramework;
 import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.exception.TRAPException;
-import edu.umn.se.trap.test.generate.LoadedSampleForm;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
@@ -20,9 +19,6 @@ import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
  */
 public class OnlyOneCheckedLuggageTest extends TrapTestFramework
 {
-    LoadedSampleForm formData;
-    Integer formId;
-
     // luggage1Name =
 
     @Rule
