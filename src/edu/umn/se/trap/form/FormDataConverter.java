@@ -76,10 +76,7 @@ public class FormDataConverter
 
         log.info("Started form data conversion: {}", new Date());
 
-        // The (Input) or (Output) preceeding comments means that the data being collected
-        // is either coming from input into the RApp or going to the output map respectively.
-
-        // (Input/Output) Start with datetimes
+        // Start with datetimes
         value = getFormValue(data, InputFieldKeys.ARRIVAL_DATETIME);
         app.setArrivalDatetime(DateValidator.convertToDatetime(value));
         app.setOutputField(OutputFieldKeys.ARRIVAL_DATETIME, value);
@@ -92,34 +89,34 @@ public class FormDataConverter
 
         log.info("Trip Departure Datetime: {}", DateValidator.convertToDatetime(value));
 
-        // (Input/Output) Build/Add the UserInfo data object
+        // Build/Add the UserInfo data object
         addUserInfo(app, data);
 
-        // (Input/Output) Build/Add the ConferenceInfo data object
+        // Build/Add the ConferenceInfo data object
         addConferenceInfo(app, data);
 
-        // (Input/Output) Num Days
+        // Num Days
         value = getFormValue(data, InputFieldKeys.NUM_DAYS);
         int numDays = Integer.parseInt(value);
         app.setNumDays(numDays);
         app.setOutputField(OutputFieldKeys.NUM_DAYS, value);
 
-        // (Input/Output) Add all meal expenses
+        // Add all meal expenses
         addMealExpenses(app, data);
 
-        // (Input/Output) Add all lodging expenses
+        // Add all lodging expenses
         addLodgingExpenses(app, data);
 
-        // (Input/Output) Add all transportation expenses
+        // Add all transportation expenses
         addTransportationExpenses(app, data);
 
-        // (Input/Output) Add all incidental expenses
+        // Add all incidental expenses
         addIncidentalExpenses(app, data);
 
-        // (Input/Output) Add all other expenses
+        // Add all other expenses
         addOtherExpenses(app, data);
 
-        // (Input/Output) Add grants
+        // Add grants
         addGrants(app, data);
 
         // Set form submission time to now

@@ -137,21 +137,31 @@ public class TrapTestFramework
     public Pair<Integer, LoadedSampleForm> basicTrapSetup(SampleDataEnum formType)
             throws TRAPException
     {
-        setValidUser();
+        setValidUser(formType);
         LoadedSampleForm formData = getLoadableForm(formType);
         Integer formId = this.saveFormData(formData, "A test form of type " + formType.toString());
 
         return new Pair<Integer, LoadedSampleForm>(formId, formData);
     }
 
-    public String getValidTestUser()
+    public String getValidTestUser(SampleDataEnum whichForm)
     {
-        return testUser1;
+        return TestDataGenerator.getUserForForm(whichForm);
     }
 
     public void setValidUser() throws TRAPException
     {
-        trapProcessor.setUser(getValidTestUser());
+        setValidUser(SampleDataEnum.DOMESTIC1);
+    }
+
+    public void setValidUser(SampleDataEnum formType) throws TRAPException
+    {
+        trapProcessor.setUser(getValidTestUser(formType));
+    }
+
+    public void setValidUser(String user) throws TRAPException
+    {
+        trapProcessor.setUser(user);
     }
 
     public Integer addRandomForm() throws TRAPException

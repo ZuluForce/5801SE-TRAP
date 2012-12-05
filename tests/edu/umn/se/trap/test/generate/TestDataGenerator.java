@@ -30,6 +30,7 @@ public class TestDataGenerator
     private final static Logger log = LoggerFactory.getLogger(TestDataGenerator.class);
 
     private static List<String> formNames;
+    private static List<String> formUsers;
 
     public enum SampleDataEnum
     {
@@ -43,6 +44,10 @@ public class TestDataGenerator
         formNames = new ArrayList<String>();
         formNames.add("data/domestic1.properties");
         formNames.add("data/international1.properties");
+
+        formUsers = new ArrayList<String>();
+        formUsers.add("linc001");
+        formUsers.add("helge206");
     }
 
     public static LoadedSampleForm getSampleForm(SampleDataEnum source)
@@ -90,5 +95,10 @@ public class TestDataGenerator
     public static LoadedSampleForm getExpectedOutput(String fileName)
     {
         return new LoadedSampleForm(fileName);
+    }
+
+    public static String getUserForForm(SampleDataEnum whichForm)
+    {
+        return TestDataGenerator.formUsers.get(whichForm.ordinal());
     }
 }

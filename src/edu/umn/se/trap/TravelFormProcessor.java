@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 package edu.umn.se.trap;
 
@@ -289,6 +287,14 @@ public class TravelFormProcessor implements TravelFormProcessorIntf
             Map<String, String> data = formStorage.getSavedFormData(user, id);
 
             ReimbursementApp app = FormDataConverter.formToReimbursementApp(data);
+
+            String userOnForm = app.getUserInfo().getUsername();
+            if (userOnForm.compareToIgnoreCase(user) != 0)
+            {
+                throw new FormProcessorException(String.format(
+                        "Username %s on submitted form does not match current user %s", userOnForm,
+                        user));
+            }
 
             ruleRegistry.processApp(app);
 

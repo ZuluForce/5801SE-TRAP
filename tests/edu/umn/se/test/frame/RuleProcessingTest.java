@@ -78,7 +78,7 @@ public class RuleProcessingTest extends TrapTestFramework
         try
         {
             // Try with the sample domestic app
-            setValidUser();
+            setValidUser(SampleDataEnum.INTERNATIONAL1);
 
             // Try it for the sample international app
             Map<String, String> form = getLoadableForm(SampleDataEnum.INTERNATIONAL1);

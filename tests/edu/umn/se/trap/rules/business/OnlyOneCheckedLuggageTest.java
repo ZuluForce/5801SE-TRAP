@@ -1,6 +1,8 @@
 // OnlyOneCheckedLuggageTest.java
 package edu.umn.se.trap.rules.business;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,9 +31,7 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
     @Before
     public void setup() throws TRAPException
     {
-        setValidUser();
-        formData = getLoadableForm(SampleDataEnum.INTERNATIONAL1);
-        formId = this.saveFormData(formData, "test form");
+        super.setup(SampleDataEnum.INTERNATIONAL1);
     }
 
     @Test
@@ -41,24 +41,25 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
         exception.expectMessage("Cannot have negative luggage amount");
 
         // formData.put(key, value);
+        Assert.fail();
     }
 
     @Test
     public void zeroCheckedLuggage() throws TRAPException
     {
-
+        Assert.fail();
     }
 
     @Test
     public void oneCheckedLuggage() throws TRAPException
     {
-
+        Assert.fail();
     }
 
     @Test
     public void twoCheckedLuggage() throws TRAPException
     {
-
+        Assert.fail();
     }
 
 }
