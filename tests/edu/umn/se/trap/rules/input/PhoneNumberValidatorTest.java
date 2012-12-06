@@ -134,4 +134,14 @@ public class PhoneNumberValidatorTest extends TrapTestFramework
         this.saveFormData(formData, formId);
         submitFormData(formId);
     }
+
+    @Test
+    public void emptyPhoneNumber() throws TRAPException
+    {
+        exception.expect(InputValidationException.class);
+        exception.expectMessage("is not formatted correctly");
+        formData.put(InputFieldKeys.EMERGENCY_PHONE, " ");
+        this.saveFormData(formData, formId);
+        submitFormData(formId);
+    }
 }
