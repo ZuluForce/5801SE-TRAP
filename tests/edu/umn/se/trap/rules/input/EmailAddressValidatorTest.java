@@ -118,6 +118,18 @@ public class EmailAddressValidatorTest extends TrapTestFramework
     }
 
     @Test
+    public void invalidEmailName() throws TRAPException
+    {
+        exception.expect(InputValidationException.class);
+        exception.expectMessage("Email address is not valid");
+
+        builder.setEmail("#%helge206@umn.edu");
+        userDB.addUser(builder);
+
+        submitFormData(formId);
+    }
+
+    @Test
     public void emptyEmail() throws TRAPException
     {
         exception.expect(InputValidationException.class);

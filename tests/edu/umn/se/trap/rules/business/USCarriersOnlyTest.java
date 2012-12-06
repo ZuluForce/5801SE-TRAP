@@ -8,6 +8,7 @@ import org.junit.rules.ExpectedException;
 
 import edu.umn.se.test.frame.TrapTestFramework;
 import edu.umn.se.trap.exception.TRAPException;
+import edu.umn.se.trap.test.generate.LoadedSampleForm;
 
 /**
  * @author Dylan
@@ -15,6 +16,8 @@ import edu.umn.se.trap.exception.TRAPException;
  */
 public class USCarriersOnlyTest extends TrapTestFramework
 {
+    LoadedSampleForm formData;
+    Integer formId;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
