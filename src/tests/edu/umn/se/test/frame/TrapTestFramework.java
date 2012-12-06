@@ -27,11 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import edu.umn.se.trap.TravelFormMetadata;
 import edu.umn.se.trap.TravelFormProcessor;
-import edu.umn.se.trap.db.CurrencyDB;
-import edu.umn.se.trap.db.GrantDB;
-import edu.umn.se.trap.db.PerDiemDB;
-import edu.umn.se.trap.db.UserDB;
-import edu.umn.se.trap.db.UserGrantDB;
 import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.exception.TRAPRuntimeException;
@@ -40,6 +35,7 @@ import edu.umn.se.trap.rules.input.DateValidator;
 import edu.umn.se.trap.test.generate.LoadedSampleForm;
 import edu.umn.se.trap.test.generate.TestDataGenerator;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
+import edu.umn.se.trap.util.Pair;
 
 /**
  * @author andrewh
@@ -50,11 +46,11 @@ public class TrapTestFramework
     /** Logger for the TrapTestFramework */
     private static final Logger log = LoggerFactory.getLogger(TrapTestFramework.class);
 
-    public final CurrencyDB currencyDB = new TestCurrencyDB();
-    public final GrantDB grantDB = new TestGrantDB();
-    public final PerDiemDB perDiemDB = new TestPerDiemDB();
-    public final UserDB userDB = new TestUserDB();
-    public final UserGrantDB userGrantDB = new TestUserGrantDB();
+    public final TestCurrencyDB currencyDB = new TestCurrencyDB();
+    public final TestGrantDB grantDB = new TestGrantDB();
+    public final TestPerDiemDB perDiemDB = new TestPerDiemDB();
+    public final TestUserDB userDB = new TestUserDB();
+    public final TestUserGrantDB userGrantDB = new TestUserGrantDB();
 
     private final TravelFormProcessor trapProcessor;
     private final Map<Integer, LoadedSampleForm> savedForms;
@@ -116,6 +112,16 @@ public class TrapTestFramework
     }
 
     // Helper methods for tests
+
+    public Pair<Integer, LoadedSampleForm> basicTrapSetup(SampleDataEnum formType)
+            throws TRAPException
+    {
+        setValidUser();
+        LoadedSampleForm formData = getLoadableForm(formType);
+        Integer formId = this.saveFormData(formData, "A test form of type " + formType.toString());
+
+        return new Pair<Integer, LoadedSampleForm>(formId, formData);
+    }
 
     public String getValidTestUser()
     {

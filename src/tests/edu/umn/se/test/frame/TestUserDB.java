@@ -228,6 +228,22 @@ public class TestUserDB extends UserDB
         userInfo.put(builder.getUsername(), user);
     }
 
+    public UserEntryBuilder fillBuilderWithUserInfo(String username)
+    {
+        List<String> info = userInfo.get(username);
+
+        UserEntryBuilder builder = new UserEntryBuilder();
+        builder.setUsername(username);
+        builder.setCitizenship(info.get(USER_FIELDS.CITIZENSHIP.ordinal()));
+        builder.setEmail(info.get(USER_FIELDS.EMAIL.ordinal()));
+        builder.setFullname(info.get(USER_FIELDS.FULL_NAME.ordinal()));
+        builder.setId(info.get(USER_FIELDS.EMPLOYEE_ID.ordinal()));
+        builder.setPaidByUniversity(info.get(USER_FIELDS.PAID_BY_UNIVERSITY.ordinal()));
+        builder.setVisaStatus(info.get(USER_FIELDS.VISA_STATUS.ordinal()));
+
+        return builder;
+    }
+
     public void removeUser(String username) throws KeyNotFoundException
     {
         List<String> user = userInfo.remove(username);
