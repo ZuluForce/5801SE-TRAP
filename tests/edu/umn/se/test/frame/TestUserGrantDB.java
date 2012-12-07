@@ -159,6 +159,12 @@ public class TestUserGrantDB extends UserGrantDB
         builder.setAccount("umn_super_pac");
         builder.setAdmin("helge206");
         addUserGrantInfo(builder);
+
+        UserGrantBuilder newBuilder = new UserGrantBuilder();
+        newBuilder.setAccount("99999");
+        newBuilder.setAdmin("linc001");
+        addUserGrantInfo(newBuilder);
+
     }
 
     public void addUserGrantInfo(UserGrantBuilder builder)

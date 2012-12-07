@@ -1,16 +1,14 @@
 // InternetOnlyUnderNonSponsoredGrants.java
 package edu.umn.se.trap.rules.business;
 
+import java.util.Map;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import edu.umn.se.test.frame.TrapTestFramework;
-import edu.umn.se.trap.data.Grant;
-import edu.umn.se.trap.data.IncidentalExpense;
-import edu.umn.se.trap.data.OtherExpense;
 import edu.umn.se.trap.data.ReimbursementApp;
-import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
@@ -21,48 +19,77 @@ import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
 {
 
-    OtherExpense internetOther;
-    IncidentalExpense internetIncidental;
-
     ReimbursementApp testApp = new ReimbursementApp();
 
-    InternetOnlyUnderNonSponsoredGrants rule = new InternetOnlyUnderNonSponsoredGrants();
+    Map<String, String> goodInternetOther = null;
+    Map<String, String> badInternetOther = null;
+
+    Map<String, String> goodInternetIncidental = null;
+    Map<String, String> badInternetIncidental = null;
 
     public InternetOnlyUnderNonSponsoredGrant()
     {
-        internetOther = new OtherExpense();
+        goodInternetOther = getLoadableForm(SampleDataEnum.DOMESTIC1);
+        goodInternetOther.put("OTHER3_DATE", "20121003");
+        goodInternetOther.put("OTHER3_JUSTIFICATION", "Purchased some wifi");
+        goodInternetOther.put("OTHER3_AMOUNT", "23.00");
+        goodInternetOther.put("OTHER3_CURRENCY", "USD");
 
-        internetOther.setExpenseJustification("Purchased some wifi");
-        internetOther.setExpenseCurrency("USD");
-        internetOther.setExpenseAmount(23.00);
+        badInternetOther = getLoadableForm(SampleDataEnum.DOMESTIC1);
+        badInternetOther.put("OTHER3_DATE", "20121003");
+        badInternetOther.put("OTHER3_JUSTIFICATION", "Purchased some wifi");
+        badInternetOther.put("OTHER3_AMOUNT", "23.00");
+        badInternetOther.put("OTHER3_CURRENCY", "USD");
 
-        internetIncidental = new IncidentalExpense();
+        goodInternetIncidental = getLoadableForm(SampleDataEnum.DOMESTIC1);
+        goodInternetIncidental.put("DAY1_INCIDENTAL_CITY", "Minneapolis");
+        goodInternetIncidental.put("DAY1_INCIDENTAL_STATE", "MN");
+        goodInternetIncidental.put("DAY1_INCIDENTAL_COUNTRY", "USA");
+        goodInternetIncidental.put("DAY1_INCIDENTAL_JUSTIFICATION", "Purchased some wifi");
+        goodInternetIncidental.put("DAY1_INCIDENTAL_AMOUNT", "4.00");
+        goodInternetIncidental.put("DAY1_INCIDENTAL_CURRENCY", "USD");
 
-        internetIncidental.setCity("Minneapolis");
-        internetIncidental.setState("MN");
-        internetIncidental.setCountry("USA");
-        internetIncidental.setExpenseAmount(23.00);
-        internetIncidental.setExpenseCurrency("USD");
-        internetIncidental.setExpenseJustification("Purchased some wifi");
+        badInternetIncidental = getLoadableForm(SampleDataEnum.DOMESTIC1);
+        badInternetIncidental.put("DAY1_INCIDENTAL_CITY", "Minneapolis");
+        badInternetIncidental.put("DAY1_INCIDENTAL_STATE", "MN");
+        badInternetIncidental.put("DAY1_INCIDENTAL_COUNTRY", "USA");
+        badInternetIncidental.put("DAY1_INCIDENTAL_JUSTIFICATION", "Purchased some wifi");
+        badInternetIncidental.put("DAY1_INCIDENTAL_AMOUNT", "4.00");
+        badInternetIncidental.put("DAY1_INCIDENTAL_CURRENCY", "USD");
 
     }
 
     @Test
     public void testBadInternetOtherExpense()
     {
-        getLoadableForm(SampleDataEnum.DOMESTIC1);
-
-        testApp.addOtherExpense(internetOther);
+        try
+        {
+            setUser("linc001");
+        }
+        catch (TRAPException e1)
+        {
+            e1.printStackTrace();
+            Assert.fail("Failed to set user: " + e1.getMessage());
+        }
+        int id = -1;
 
         try
         {
-            rule.checkRule(testApp);
-            Assert.fail("Internet expense accepted when no non-sponsored grant present");
+            id = this.saveFormData(badInternetOther, "a test form");
         }
         catch (TRAPException e)
         {
-            // e.printStackTrace();
-            // The test has passed, exception thrown when a non-sponsored grant is not present.
+            e.printStackTrace();
+            Assert.fail("Failed to save form: " + e.getMessage());
+        }
+
+        try
+        {
+            submitFormData(id);
+        }
+        catch (TRAPException e)
+        {
+            e.printStackTrace();
             Assert.assertEquals(true, true);
         }
 
@@ -71,55 +98,78 @@ public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
     @Test
     public void testGoodInternetOtherExpense()
     {
-        getLoadableForm(SampleDataEnum.DOMESTIC1);
-
-        Grant nonSponsored = new Grant();
-
-        nonSponsored.setGrantAccount("99999");
-        nonSponsored.setGrantPercentage(23);
-
-        testApp.addGrant(nonSponsored);
-
-        testApp.addOtherExpense(internetOther);
+        goodInternetOther.put("NUM_GRANTS", "2");
+        goodInternetOther.put("GRANT2_ACCOUNT", "99999");
+        goodInternetOther.put("GRANT2_PERCENT", "23");
+        goodInternetOther.put("GRANT1_PERCENT", "77");
 
         try
         {
-            rule.checkRule(testApp);
+            setUser("linc001");
+        }
+        catch (TRAPException e1)
+        {
+            e1.printStackTrace();
+            Assert.fail("Failed to set user: " + e1.getMessage());
+        }
+        int id = -1;
+
+        try
+        {
+            id = this.saveFormData(goodInternetOther, "a test form");
         }
         catch (TRAPException e)
         {
             e.printStackTrace();
-            Assert.fail("Message: " + e.getMessage());
+            Assert.fail("Failed to save form: " + e.getMessage());
         }
+
+        try
+        {
+            submitFormData(id);
+        }
+        catch (TRAPException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Failed to submit form: " + e.getMessage());
+        }
+
+        Assert.assertEquals(true, true);
 
     }
 
     @Test
     public void testBadAlcoholIncidentalExpense()
     {
-        getLoadableForm(SampleDataEnum.DOMESTIC1);
-
         try
         {
-            testApp.setNumDays(5);
-            testApp.addIncidentalExpense(internetIncidental, 2);
+            setUser("linc001");
         }
-        catch (InputValidationException e1)
+        catch (TRAPException e1)
         {
             e1.printStackTrace();
-            Assert.fail("Failed to add incidental expense: " + e1.getMessage());
+            Assert.fail("Failed to set user: " + e1.getMessage());
         }
+        int id = -1;
 
         try
         {
-            rule.checkRule(testApp);
-            Assert.fail("Internet expense accepted when no non-sponsored grant present");
+            id = this.saveFormData(badInternetIncidental, "a test form");
         }
         catch (TRAPException e)
         {
-            // e.printStackTrace();
-            // The test has passed, exception thrown when a non-sponsored grant is not present.
-            Assert.assertEquals(true, true);
+            e.printStackTrace();
+            Assert.fail("Failed to save form: " + e.getMessage());
+        }
+
+        try
+        {
+            submitFormData(id);
+        }
+        catch (TRAPException e)
+        {
+            e.printStackTrace();
+            Assert.assertEquals(e.getMessage(), true, true);
         }
 
     }
@@ -128,33 +178,45 @@ public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
     public void testGoodInternetIncidentalExpense()
     {
 
-        Grant nonSponsored = new Grant();
+        goodInternetIncidental.put("NUM_GRANTS", "2");
+        goodInternetIncidental.put("GRANT2_ACCOUNT", "99999");
+        goodInternetIncidental.put("GRANT2_PERCENT", "23");
+        goodInternetIncidental.put("GRANT1_PERCENT", "77");
 
-        nonSponsored.setGrantAccount("99999");
-        nonSponsored.setGrantPercentage(23);
-
-        testApp.addGrant(nonSponsored);
+        testApp.setNumDays(5);
 
         try
         {
-            testApp.setNumDays(5);
-            testApp.addIncidentalExpense(internetIncidental, 2);
+            setUser("linc001");
         }
-        catch (InputValidationException e1)
+        catch (TRAPException e1)
         {
             e1.printStackTrace();
-            Assert.fail("Failed to add incidental expense: " + e1.getMessage());
+            Assert.fail("Failed to set user: " + e1.getMessage());
         }
+        int id = -1;
 
         try
         {
-            rule.checkRule(testApp);
+            id = this.saveFormData(goodInternetIncidental, "a test form");
         }
         catch (TRAPException e)
         {
             e.printStackTrace();
-            Assert.fail("Message: " + e.getMessage());
+            Assert.fail("Failed to save form: " + e.getMessage());
         }
+
+        try
+        {
+            submitFormData(id);
+        }
+        catch (TRAPException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Failed to submit form: " + e.getMessage());
+        }
+
+        Assert.assertEquals(true, true);
 
     }
 

@@ -1,16 +1,14 @@
 // AlcoholOnlyAllowedUnderNonSponsoredGrant.java
 package edu.umn.se.trap.rules.business;
 
+import java.util.Map;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import edu.umn.se.test.frame.TrapTestFramework;
-import edu.umn.se.trap.data.Grant;
-import edu.umn.se.trap.data.IncidentalExpense;
-import edu.umn.se.trap.data.OtherExpense;
 import edu.umn.se.trap.data.ReimbursementApp;
-import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
@@ -21,48 +19,79 @@ import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 public class AlcoholOnlyAllowedUnderNonSponsoredGrant extends TrapTestFramework
 {
 
-    OtherExpense alcoholOther;
-    IncidentalExpense alcoholIncidental;
-
     ReimbursementApp testApp = new ReimbursementApp();
 
-    AlcoholOnlyAllowedUnderNonSponsored rule = new AlcoholOnlyAllowedUnderNonSponsored();
+    Map<String, String> goodAlcoholOther = null;
+    Map<String, String> badAlcoholOther = null;
+
+    Map<String, String> goodAlcoholIncidental = null;
+    Map<String, String> badAlcoholIncidental = null;
 
     public AlcoholOnlyAllowedUnderNonSponsoredGrant()
     {
-        alcoholOther = new OtherExpense();
 
-        alcoholOther.setExpenseJustification("Purchased some whiskey");
-        alcoholOther.setExpenseCurrency("USD");
-        alcoholOther.setExpenseAmount(23.00);
+        goodAlcoholOther = getLoadableForm(SampleDataEnum.DOMESTIC1);
+        goodAlcoholOther.put("OTHER3_DATE", "20121003");
+        goodAlcoholOther.put("OTHER3_JUSTIFICATION", "Purchased some whiskey");
+        goodAlcoholOther.put("OTHER3_AMOUNT", "23.00");
+        goodAlcoholOther.put("OTHER3_CURRENCY", "USD");
 
-        alcoholIncidental = new IncidentalExpense();
+        badAlcoholOther = getLoadableForm(SampleDataEnum.DOMESTIC1);
+        badAlcoholOther.put("OTHER3_DATE", "20121003");
+        badAlcoholOther.put("OTHER3_JUSTIFICATION", "Purchased some whiskey");
+        badAlcoholOther.put("OTHER3_AMOUNT", "23.00");
+        badAlcoholOther.put("OTHER3_CURRENCY", "USD");
 
-        alcoholIncidental.setCity("Minneapolis");
-        alcoholIncidental.setState("MN");
-        alcoholIncidental.setCountry("USA");
-        alcoholIncidental.setExpenseAmount(23.00);
-        alcoholIncidental.setExpenseCurrency("USD");
-        alcoholIncidental.setExpenseJustification("Purchased some whiskey");
+        goodAlcoholIncidental = getLoadableForm(SampleDataEnum.DOMESTIC1);
+        goodAlcoholIncidental.put("DAY1_INCIDENTAL_CITY", "Minneapolis");
+        goodAlcoholIncidental.put("DAY1_INCIDENTAL_STATE", "MN");
+        goodAlcoholIncidental.put("DAY1_INCIDENTAL_COUNTRY", "USA");
+        goodAlcoholIncidental.put("DAY1_INCIDENTAL_JUSTIFICATION", "Purchased some whiskey");
+        goodAlcoholIncidental.put("DAY1_INCIDENTAL_AMOUNT", "4.00");
+        goodAlcoholIncidental.put("DAY1_INCIDENTAL_CURRENCY", "USD");
+
+        badAlcoholIncidental = getLoadableForm(SampleDataEnum.DOMESTIC1);
+        badAlcoholIncidental.put("DAY1_INCIDENTAL_CITY", "Minneapolis");
+        badAlcoholIncidental.put("DAY1_INCIDENTAL_STATE", "MN");
+        badAlcoholIncidental.put("DAY1_INCIDENTAL_COUNTRY", "USA");
+        badAlcoholIncidental.put("DAY1_INCIDENTAL_JUSTIFICATION", "Purchased some whiskey");
+        badAlcoholIncidental.put("DAY1_INCIDENTAL_AMOUNT", "23.00");
+        badAlcoholIncidental.put("DAY1_INCIDENTAL_CURRENCY", "USD");
 
     }
 
     @Test
     public void testBadAlcoholOtherExpense()
     {
-        getLoadableForm(SampleDataEnum.DOMESTIC1);
-
-        testApp.addOtherExpense(alcoholOther);
 
         try
         {
-            rule.checkRule(testApp);
-            Assert.fail("Alcohol expense accepted when no non-sponsored grant present");
+            setUser("linc001");
+        }
+        catch (TRAPException e1)
+        {
+            e1.printStackTrace();
+            Assert.fail("Failed to set user: " + e1.getMessage());
+        }
+        int id = -1;
+
+        try
+        {
+            id = this.saveFormData(badAlcoholOther, "a test form");
         }
         catch (TRAPException e)
         {
-            // e.printStackTrace();
-            // The test has passed, exception thrown when a non-sponsored grant is not present.
+            e.printStackTrace();
+            Assert.fail("Failed to save form: " + e.getMessage());
+        }
+
+        try
+        {
+            submitFormData(id);
+        }
+        catch (TRAPException e)
+        {
+            e.printStackTrace();
             Assert.assertEquals(true, true);
         }
 
@@ -71,55 +100,79 @@ public class AlcoholOnlyAllowedUnderNonSponsoredGrant extends TrapTestFramework
     @Test
     public void testGoodAlcoholOtherExpense()
     {
-        getLoadableForm(SampleDataEnum.DOMESTIC1);
-
-        Grant nonSponsored = new Grant();
-
-        nonSponsored.setGrantAccount("99999");
-        nonSponsored.setGrantPercentage(23);
-
-        testApp.addGrant(nonSponsored);
-
-        testApp.addOtherExpense(alcoholOther);
+        goodAlcoholOther.put("NUM_GRANTS", "2");
+        goodAlcoholOther.put("GRANT2_ACCOUNT", "99999");
+        goodAlcoholOther.put("GRANT2_PERCENT", "23");
+        goodAlcoholOther.put("GRANT1_PERCENT", "77");
 
         try
         {
-            rule.checkRule(testApp);
+            setUser("linc001");
+        }
+        catch (TRAPException e1)
+        {
+            e1.printStackTrace();
+            Assert.fail("Failed to set user: " + e1.getMessage());
+        }
+        int id = -1;
+
+        try
+        {
+            id = this.saveFormData(goodAlcoholOther, "a test form");
         }
         catch (TRAPException e)
         {
             e.printStackTrace();
-            Assert.fail("Message: " + e.getMessage());
+            Assert.fail("Failed to save form: " + e.getMessage());
         }
+
+        try
+        {
+            submitFormData(id);
+        }
+        catch (TRAPException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Failed to submit form: " + e.getMessage());
+        }
+
+        Assert.assertEquals(true, true);
 
     }
 
     @Test
     public void testBadAlcoholIncidentalExpense()
     {
-        getLoadableForm(SampleDataEnum.DOMESTIC1);
 
         try
         {
-            testApp.setNumDays(5);
-            testApp.addIncidentalExpense(alcoholIncidental, 2);
+            setUser("linc001");
         }
-        catch (InputValidationException e1)
+        catch (TRAPException e1)
         {
             e1.printStackTrace();
-            Assert.fail("Failed to add incidental expense: " + e1.getMessage());
+            Assert.fail("Failed to set user: " + e1.getMessage());
         }
+        int id = -1;
 
         try
         {
-            rule.checkRule(testApp);
-            Assert.fail("Alcohol expense accepted when no non-sponsored grant present");
+            id = this.saveFormData(badAlcoholIncidental, "a test form");
         }
         catch (TRAPException e)
         {
-            // e.printStackTrace();
-            // The test has passed, exception thrown when a non-sponsored grant is not present.
-            Assert.assertEquals(true, true);
+            e.printStackTrace();
+            Assert.fail("Failed to save form: " + e.getMessage());
+        }
+
+        try
+        {
+            submitFormData(id);
+        }
+        catch (TRAPException e)
+        {
+            e.printStackTrace();
+            Assert.assertEquals(e.getMessage(), true, true);
         }
 
     }
@@ -128,34 +181,45 @@ public class AlcoholOnlyAllowedUnderNonSponsoredGrant extends TrapTestFramework
     public void testGoodAlcoholIncidentalExpense()
     {
 
-        Grant nonSponsored = new Grant();
+        goodAlcoholIncidental.put("NUM_GRANTS", "2");
+        goodAlcoholIncidental.put("GRANT2_ACCOUNT", "99999");
+        goodAlcoholIncidental.put("GRANT2_PERCENT", "23");
+        goodAlcoholIncidental.put("GRANT1_PERCENT", "77");
 
-        nonSponsored.setGrantAccount("99999");
-        nonSponsored.setGrantPercentage(23);
-
-        testApp.addGrant(nonSponsored);
+        testApp.setNumDays(5);
 
         try
         {
-            testApp.setNumDays(5);
-            testApp.addIncidentalExpense(alcoholIncidental, 2);
+            setUser("linc001");
         }
-        catch (InputValidationException e1)
+        catch (TRAPException e1)
         {
             e1.printStackTrace();
-            Assert.fail("Failed to add incidental expense: " + e1.getMessage());
+            Assert.fail("Failed to set user: " + e1.getMessage());
         }
+        int id = -1;
 
         try
         {
-            rule.checkRule(testApp);
+            id = this.saveFormData(goodAlcoholIncidental, "a test form");
         }
         catch (TRAPException e)
         {
             e.printStackTrace();
-            Assert.fail("Message: " + e.getMessage());
+            Assert.fail("Failed to save form: " + e.getMessage());
         }
 
+        try
+        {
+            submitFormData(id);
+        }
+        catch (TRAPException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Failed to submit form: " + e.getMessage());
+        }
+
+        Assert.assertEquals(true, true);
     }
 
 }
