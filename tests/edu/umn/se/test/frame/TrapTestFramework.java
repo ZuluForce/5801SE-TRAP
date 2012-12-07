@@ -57,6 +57,16 @@ public class TrapTestFramework
 
     final String testUser1 = "linc001";
 
+    protected LoadedSampleForm testFormData;
+    protected Integer testFormId;
+
+    public void setup(SampleDataEnum formType) throws TRAPException
+    {
+        Pair<Integer, LoadedSampleForm> formInfo = basicTrapSetup(SampleDataEnum.DOMESTIC1);
+        testFormData = formInfo.getRight();
+        testFormId = formInfo.getLeft();
+    }
+
     public TrapTestFramework()
     {
         trapProcessor = new TravelFormProcessor(userDB, perDiemDB, grantDB, userGrantDB, currencyDB);
