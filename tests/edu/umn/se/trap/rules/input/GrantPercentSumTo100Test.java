@@ -75,7 +75,7 @@ public class GrantPercentSumTo100Test extends TrapTestFramework
     }
 
     @Test
-    public void singleGrantGreatherThan100() throws TRAPException
+    public void singleGrantGreaterThan100() throws TRAPException
     {
         exception.expect(InputValidationException.class);
         exception.expectMessage("Grant percentages do not sum to 100%");
