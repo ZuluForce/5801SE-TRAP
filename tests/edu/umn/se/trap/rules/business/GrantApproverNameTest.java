@@ -53,7 +53,7 @@ public class GrantApproverNameTest extends TrapTestFramework
     {
         Map<String, String> form = getLoadableForm(SampleDataEnum.DOMESTIC1);
 
-        testApp.setUserInfo(user);
+        // testApp.setUserInfo(user);
         form.put("USER_NAME", "heimd001");
 
         try
