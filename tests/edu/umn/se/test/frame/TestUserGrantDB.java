@@ -129,7 +129,7 @@ public class TestUserGrantDB extends UserGrantDB
                 sb.append(payee + ",");
             }
 
-            sb.deleteCharAt(sb.length());
+            sb.deleteCharAt(sb.length() - 1);
             return sb.toString();
         }
 
