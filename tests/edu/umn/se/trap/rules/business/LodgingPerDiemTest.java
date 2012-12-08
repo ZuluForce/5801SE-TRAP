@@ -38,7 +38,7 @@ public class LodgingPerDiemTest extends TrapTestFramework
         formData = setupData.getRight();
         formId = setupData.getLeft();
 
-        // builder = perDiemDB.
+        // builder = perDiemDB.getInternationalPerDiem(country);
 
         // lodging1Name = String.format(InputFieldKeys.LODGING_CURRENCY_FMT, 1);
         lodging1Amount = String.format(InputFieldKeys.LODGING_AMOUNT_FMT, 1);
@@ -48,12 +48,29 @@ public class LodgingPerDiemTest extends TrapTestFramework
 
     // One day - under per diem amount
     @Test
-    public void singleLodgingExpenseLessThanPerDiemLimit() throws TRAPException
+    public void oneLodgingExpenseLessThanLimit() throws TRAPException
     {
         // formData.put(lodging1Amount, value)
     }
 
     // Two days - under per diem amount
+    @Test
+    public void twoLodgingExpensesLessThanLimit() throws TRAPException
+    {
+
+    }
+
     // One day - over per diem amount
+    @Test
+    public void oneLodgingExpenseMoreThanLimit() throws TRAPException
+    {
+
+    }
+
     // Two days - over per diem amount
+    @Test
+    public void twoLodgingExpensesMoreThanLimit() throws TRAPException
+    {
+
+    }
 }

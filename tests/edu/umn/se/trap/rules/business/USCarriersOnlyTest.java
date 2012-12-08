@@ -31,7 +31,7 @@ public class USCarriersOnlyTest extends TrapTestFramework
     public void setup() throws TRAPException
     {
         setValidUser();
-        formData = getLoadableForm(SampleDataEnum.DOMESTIC1);
+        formData = getLoadableForm(SampleDataEnum.INTERNATIONAL1);
         formId = this.saveFormData(formData, "test form");
 
         airCarrier = String.format(InputFieldKeys.TRANSPORTATION_CARRIER_FMT, 1);
