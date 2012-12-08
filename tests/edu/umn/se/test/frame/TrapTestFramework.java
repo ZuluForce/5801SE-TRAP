@@ -62,9 +62,20 @@ public class TrapTestFramework
 
     public void setup(SampleDataEnum formType) throws TRAPException
     {
-        Pair<Integer, LoadedSampleForm> formInfo = basicTrapSetup(SampleDataEnum.DOMESTIC1);
+        Pair<Integer, LoadedSampleForm> formInfo = basicTrapSetup(formType);
         testFormData = formInfo.getRight();
         testFormId = formInfo.getLeft();
+    }
+
+    public void resaveTestForm() throws TRAPException
+    {
+        this.saveFormData(testFormData, testFormId);
+    }
+
+    public void saveAndSubmitTestForm() throws TRAPException
+    {
+        resaveTestForm();
+        submitFormData(testFormId);
     }
 
     public TrapTestFramework()

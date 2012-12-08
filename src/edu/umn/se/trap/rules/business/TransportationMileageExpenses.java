@@ -22,6 +22,7 @@ import edu.umn.se.trap.data.TRAPConstants;
 import edu.umn.se.trap.data.TransportationExpense;
 import edu.umn.se.trap.data.TransportationTypeEnum;
 import edu.umn.se.trap.exception.BusinessLogicException;
+import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.exception.TRAPException;
 
 /**
@@ -73,6 +74,13 @@ public class TransportationMileageExpenses extends BusinessLogicRule
                     log.error("Missing miles traveld on car expense:\n{}", expense);
                     throw new BusinessLogicException(
                             "Missing miles traveled for car transportation expense");
+                }
+
+                if (milesTraveled < 0)
+                {
+                    log.error("Negative value for miles traveled:\n{}", expense);
+                    throw new InputValidationException(
+                            "Miles traveled must be positive for transportation expense");
                 }
 
                 // Otherwise we can charge it

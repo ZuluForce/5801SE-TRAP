@@ -84,9 +84,13 @@ public class FormDataConverter
         app.setArrivalDatetime(DateValidator.convertToDatetime(value));
         app.setOutputField(OutputFieldKeys.ARRIVAL_DATETIME, value);
 
+        log.info("Trip Arrival Datetime: {}", DateValidator.convertToDatetime(value));
+
         value = getFormValue(data, InputFieldKeys.DEPARTURE_DATETIME);
         app.setDepartureDatetime(DateValidator.convertToDatetime(value));
         app.setOutputField(OutputFieldKeys.DEPARTURE_DATETIME, value);
+
+        log.info("Trip Departure Datetime: {}", DateValidator.convertToDatetime(value));
 
         // (Input/Output) Build/Add the UserInfo data object
         addUserInfo(app, data);
@@ -556,7 +560,7 @@ public class FormDataConverter
 
             // Transportation Amount
             filledKey = String.format(InputFieldKeys.TRANSPORTATION_AMOUNT_FMT, i);
-            value = getFormValue(data, filledKey);
+            value = getNonRequiredFormValue(data, filledKey);
             try
             {
                 transportExpense.setExpenseAmount(Double.parseDouble(value));
@@ -570,7 +574,7 @@ public class FormDataConverter
 
             // Transportation Currency
             filledKey = String.format(InputFieldKeys.TRANSPORTATION_CURRENCY_FMT, i);
-            value = getFormValue(data, filledKey);
+            value = getNonRequiredFormValue(data, filledKey);
             transportExpense.setExpenseCurrency(value);
 
             // Transportation Date
@@ -621,7 +625,10 @@ public class FormDataConverter
                                 "Transportation miles traveled field is not an integer for expense "
                                         + i);
                     }
+
+                    break;
                 }
+                // Continue since the rental car needs a carrier
             case AIR:
             case RAIL:
                 // Carrier

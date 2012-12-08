@@ -45,7 +45,6 @@ public class EmailAddressValidatorTest extends TrapTestFramework
         formData = setupData.getRight();
         formId = setupData.getLeft();
 
-        // builder = new TestUserDB.UserEntryBuilder();
         builder = userDB.fillBuilderWithUserInfo("helge206");
     }
 

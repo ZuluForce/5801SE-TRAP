@@ -80,7 +80,8 @@ public class TransportationDateValidator extends InputValidationRule
             if (expenseDate.after(arrival))
             {
                 throw new InputValidationException(String.format(
-                        "Transportation expense %d is after trip arrival time", i + 1, expenseDate));
+                        "Transportation expense %d (on %s) is after trip arrival time %s", i + 1,
+                        expenseDate.toString(), arrival.toString()));
             }
         }
     }
