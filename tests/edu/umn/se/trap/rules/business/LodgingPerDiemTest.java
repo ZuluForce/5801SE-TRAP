@@ -12,6 +12,7 @@ import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.form.InputFieldKeys;
 import edu.umn.se.trap.test.generate.LoadedSampleForm;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
+import edu.umn.se.trap.util.Pair;
 
 /**
  * @author Dylan
@@ -33,9 +34,11 @@ public class LodgingPerDiemTest extends TrapTestFramework
     @Before
     public void setup() throws TRAPException
     {
-        setValidUser();
-        formData = getLoadableForm(SampleDataEnum.DOMESTIC1);
-        formId = this.saveFormData(formData, "test form");
+        Pair<Integer, LoadedSampleForm> setupData = basicTrapSetup(SampleDataEnum.INTERNATIONAL1);
+        formData = setupData.getRight();
+        formId = setupData.getLeft();
+
+        // builder = perDiemDB.
 
         // lodging1Name = String.format(InputFieldKeys.LODGING_CURRENCY_FMT, 1);
         lodging1Amount = String.format(InputFieldKeys.LODGING_AMOUNT_FMT, 1);
