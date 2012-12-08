@@ -36,6 +36,7 @@ public class TestDataGenerator
     {
         DOMESTIC1, // "sample1.properties" - Domestic trip
         INTERNATIONAL1, // "international1.properties" - International trip to Brazil and PR
+        FOREIGNEXPENSES, // "foreignexpenses.properties" - Only has 1 foreign expense
         RANDOM
     }
 
@@ -44,6 +45,7 @@ public class TestDataGenerator
         formNames = new ArrayList<String>();
         formNames.add("data/domestic1.properties");
         formNames.add("data/international1.properties");
+        formNames.add("data/foreignexpenses.properties");
 
         formUsers = new ArrayList<String>();
         formUsers.add("linc001");
