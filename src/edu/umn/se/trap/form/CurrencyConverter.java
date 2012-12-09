@@ -25,6 +25,8 @@ import edu.umn.se.trap.exception.TRAPRuntimeException;
 import edu.umn.se.trap.rules.input.DateValidator;
 
 /**
+ * This class manages conversions to expenses to USD.
+ * 
  * @author andrewh
  * 
  */
@@ -77,7 +79,7 @@ public class CurrencyConverter
      * the internal currency to USD and reset the fields in the expense appropriately.
      * 
      * @param expense - expense to convert currency
-     * @throws InputValidationException
+     * @throws InputValidationException - When the currency is missing for the expense.
      */
     public static void convertExpenseCurrency(ExpenseWithCurrencyIface expense)
             throws InputValidationException

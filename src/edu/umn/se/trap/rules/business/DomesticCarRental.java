@@ -125,10 +125,9 @@ public class DomesticCarRental extends BusinessLogicRule
      * @param dodGrants - List of only DoD grants
      * @param expense - The current expense to check
      * @return - True if the carrier is allowed by the DoD, False otherwise
-     * @throws BusinessLogicException - When a carrier is not accepted by a DoD grant, or relative
-     *             database information could not be found
-     * @throws FormProcessorException
-     * @throws InsufficientFundsException
+     * @throws FormProcessorException - If the balance cannot be found for a grant
+     * @throws InsufficientFundsException - If there are not enough funds in DoD grants to cover
+     *             this restricted expense
      */
     private boolean isDODCarrierAccepted(String carrier, List<Grant> dodGrants,
             TransportationExpense expense) throws FormProcessorException,

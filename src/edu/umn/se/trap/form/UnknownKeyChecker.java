@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // UnknownKeyChecker.java
 package edu.umn.se.trap.form;
@@ -131,9 +129,7 @@ public class UnknownKeyChecker
      * pattern for a know key name.
      * 
      * @param formData - the map to check
-     * @return - True if every key matched a pattern and false if at least one key did not match a
-     *         pattern.
-     * @throws InputValidationException
+     * @throws InputValidationException - If an unknown input key is found
      */
     public void areFormKeysValid(Map<String, String> formData) throws InputValidationException
     {
@@ -146,7 +142,7 @@ public class UnknownKeyChecker
             // Each one must be checked against all patterns until a match is found
             for (Pattern fieldPattern : validKeyPatterns)
             {
-                // Run the regex pattern agains the key
+                // Run the regex pattern against the key
                 keyMatcher = fieldPattern.matcher(formPair.getKey());
                 if (keyMatcher.find())
                 {
@@ -159,6 +155,6 @@ public class UnknownKeyChecker
                 throw new InputValidationException("Unkown key in form data: " + formPair.getKey());
         }
 
-        // All keys matched a pattern
+        // All keys matched a pattern if we make it here
     }
 }
