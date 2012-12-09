@@ -53,9 +53,9 @@ public class LodgingPerDiemTest extends TrapTestFramework
         // formData.put(lodging1Amount, value)
     }
 
-    // Two days - under per diem amount
+    // One day - equal to per diem amount
     @Test
-    public void twoLodgingExpensesLessThanLimit() throws TRAPException
+    public void oneLodgingExpenseEqualToLimit() throws TRAPException
     {
 
     }
@@ -67,10 +67,4 @@ public class LodgingPerDiemTest extends TrapTestFramework
 
     }
 
-    // Two days - over per diem amount
-    @Test
-    public void twoLodgingExpensesMoreThanLimit() throws TRAPException
-    {
-
-    }
 }
