@@ -50,6 +50,7 @@ public class TestDataGenerator
         formUsers = new ArrayList<String>();
         formUsers.add("linc001");
         formUsers.add("helge206");
+        formUsers.add("linc001");
     }
 
     public static LoadedSampleForm getSampleForm(SampleDataEnum source)
