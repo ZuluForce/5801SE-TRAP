@@ -39,7 +39,7 @@ public class FamilyMemberExpensesNotAllowedTest extends TrapTestFramework
     public void setup() throws TRAPException
     {
         super.setup(SampleDataEnum.INTERNATIONAL1);
-        incidentalJustField = FormDataQuerier.buildFieldStrForAnIncidental(testFormData,
+        incidentalJustField = FormDataQuerier.buildFieldStrForFirstIncidental(testFormData,
                 InputFieldKeys.INCIDENTAL_JUSTIFICATION_FMT);
 
         otherJustField = String.format(InputFieldKeys.OTHER_JUSTIFICATION_FMT, 1);

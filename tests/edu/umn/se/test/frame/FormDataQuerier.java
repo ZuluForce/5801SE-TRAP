@@ -33,7 +33,29 @@ public class FormDataQuerier
      *         the first incidental
      * @throws TRAPException - When the form data cannot be converted to an app.
      */
-    public static String buildFieldStrForAnIncidental(Map<String, String> formData,
+    public static String buildFieldStrForLastIncidental(Map<String, String> formData,
+            String fieldFormat) throws TRAPException
+    {
+        List<Integer> incidentalDays = findIncidentalDays(formData);
+
+        if (incidentalDays.size() == 0)
+        {
+            return null;
+        }
+
+        return String.format(fieldFormat, incidentalDays.get(incidentalDays.size() - 1));
+    }
+
+    /**
+     * Given a format string fill it with the day number for the day number of the first incidental.
+     * 
+     * @param formData - the form data to search for the incidental in
+     * @param fieldFormat - the format string to fill with the day number
+     * @return - a string that is the result of formatting the given string with the day number for
+     *         the first incidental
+     * @throws TRAPException - When the form data cannot be converted to an app.
+     */
+    public static String buildFieldStrForFirstIncidental(Map<String, String> formData,
             String fieldFormat) throws TRAPException
     {
         List<Integer> incidentalDays = findIncidentalDays(formData);

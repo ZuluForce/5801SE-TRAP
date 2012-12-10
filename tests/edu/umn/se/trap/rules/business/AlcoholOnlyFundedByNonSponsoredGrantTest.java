@@ -38,9 +38,9 @@ public class AlcoholOnlyFundedByNonSponsoredGrantTest extends TrapTestFramework
     {
         super.setup(SampleDataEnum.INTERNATIONAL1);
 
-        incidentalJustField = FormDataQuerier.buildFieldStrForAnIncidental(testFormData,
+        incidentalJustField = FormDataQuerier.buildFieldStrForFirstIncidental(testFormData,
                 InputFieldKeys.INCIDENTAL_JUSTIFICATION_FMT);
-        incidentalAmntField = FormDataQuerier.buildFieldStrForAnIncidental(testFormData,
+        incidentalAmntField = FormDataQuerier.buildFieldStrForFirstIncidental(testFormData,
                 InputFieldKeys.INCIDENTAL_AMOUNT_FMT);
 
         otherJustField = String.format(InputFieldKeys.OTHER_JUSTIFICATION_FMT, 1);
