@@ -25,7 +25,7 @@ import edu.umn.se.trap.exception.InputValidationException;
 /**
  * This class checks form data (a map) for any unknown keys.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class UnknownKeyChecker

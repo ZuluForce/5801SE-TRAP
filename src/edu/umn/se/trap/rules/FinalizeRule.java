@@ -37,7 +37,7 @@ import edu.umn.se.trap.rules.input.DateValidator;
  * output fields which can only be set once the form has been processed such as the per day totals
  * and the reimbursement total.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class FinalizeRule implements TRAPRule

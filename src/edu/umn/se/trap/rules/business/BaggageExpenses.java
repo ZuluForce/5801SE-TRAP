@@ -30,7 +30,7 @@ import edu.umn.se.trap.exception.TRAPException;
  * Add all baggage expenses to the total. This rule also checks that no baggage expense is greater
  * than $25 and throws an error if it is.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class BaggageExpenses extends BusinessLogicRule

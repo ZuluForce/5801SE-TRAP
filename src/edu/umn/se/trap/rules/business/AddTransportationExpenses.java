@@ -30,7 +30,7 @@ import edu.umn.se.trap.exception.TRAPException;
  * This rule adds all transportation expenses not covered elsewhere. The ones this rule does not
  * handler are as follows: mileage and baggage.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class AddTransportationExpenses extends BusinessLogicRule

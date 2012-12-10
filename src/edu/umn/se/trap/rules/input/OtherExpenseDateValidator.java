@@ -28,7 +28,7 @@ import edu.umn.se.trap.exception.TRAPException;
  * Validate the date of other expenses. Other expenses may occur any time during or before the trip
  * but not after the arrival day.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class OtherExpenseDateValidator extends InputValidationRule

@@ -43,7 +43,7 @@ import edu.umn.se.trap.rules.input.DateValidator;
  * by looking at all per diem expenses and their locations. Any other or transportation expenses
  * occurring on the same day as a foreign per diem are also considered foreign.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class DoDForeignExpenseRestriction extends BusinessLogicRule

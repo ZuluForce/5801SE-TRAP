@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * A class to provide some prettier print formatting for certain datatypes.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class PrettyPrint

@@ -27,7 +27,7 @@ import edu.umn.se.trap.exception.TRAPException;
 /**
  * Add all other expenses to the reimbursement total.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class AddOtherExpenses extends BusinessLogicRule

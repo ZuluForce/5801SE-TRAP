@@ -31,7 +31,7 @@ import edu.umn.se.trap.exception.TRAPException;
  * day of departure to the day of arrival. Only air travel expenses may occur before the departure
  * day of the trip.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class TransportationDateValidator extends InputValidationRule

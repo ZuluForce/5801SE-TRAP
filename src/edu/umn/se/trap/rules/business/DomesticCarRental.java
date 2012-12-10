@@ -34,7 +34,7 @@ import edu.umn.se.trap.exception.TRAPException;
  * Checks that all domestic transportation expenses for rental cars use an accepted carrier.
  * Currently the list of accepted carriers is just 'National Travel'.
  * 
- * @author planeman
+ * @author andrewh
  * 
  */
 public class DomesticCarRental extends BusinessLogicRule
