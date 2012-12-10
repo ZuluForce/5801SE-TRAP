@@ -14,6 +14,8 @@ import edu.umn.se.trap.form.InputFieldKeys;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
+ * TODO: Requirement
+ * 
  * @author planeman
  * 
  */
@@ -22,6 +24,11 @@ public class CurrencyAbbreviationTest extends TrapTestFramework
 
     String incidental1CurrencyField;
 
+    /**
+     * Load a sample form and build the currency field string that we will have to modify.
+     * 
+     * @throws TRAPException When saving the form fails
+     */
     @Before
     public void setup() throws TRAPException
     {
@@ -30,6 +37,11 @@ public class CurrencyAbbreviationTest extends TrapTestFramework
         incidental1CurrencyField = String.format(InputFieldKeys.INCIDENTAL_CURRENCY_FMT, 1);
     }
 
+    /**
+     * Verify that a valid currency is accepted in processing.
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void validCurrency() throws TRAPException
     {
@@ -37,9 +49,15 @@ public class CurrencyAbbreviationTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    @SuppressWarnings("javadoc")
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /**
+     * Verify that form processing fails when the currency is missing.
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void missingCurrency() throws TRAPException
     {
@@ -49,6 +67,11 @@ public class CurrencyAbbreviationTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Verify that form processing fails when the code for a currency is incomplete/truncated.
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void truncatedCurrency() throws TRAPException
     {
@@ -58,6 +81,12 @@ public class CurrencyAbbreviationTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Verify that form processing fails when there is an extra character in the currency code. In
+     * this case the extra character is a space.
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void extraCharacterSpace() throws TRAPException
     {
@@ -67,6 +96,12 @@ public class CurrencyAbbreviationTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Verify that form processing fails when there is an extra character in the currency code. In
+     * this case the extra character is an alpha-numeric.
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void extraCharacter() throws TRAPException
     {

@@ -23,34 +23,41 @@ import edu.umn.se.test.frame.TrapTestFramework;
 import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.form.InputFieldKeys;
-import edu.umn.se.trap.test.generate.LoadedSampleForm;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
-import edu.umn.se.trap.util.Pair;
 
 /**
+ * TODO: Requirement<br/>
+ * Test for requirement 1.*
+ * 
  * @author andrewh
  * 
  */
 public class OneOrMoreGrantsAllValidTest extends TrapTestFramework
 {
-    LoadedSampleForm formData;
-    Integer formId;
-
+    /**
+     * Load a sample form.
+     * 
+     * @throws TRAPException When the form cannot be saved
+     */
     @Before
     public void setup() throws TRAPException
     {
-        Pair<Integer, LoadedSampleForm> setupData = basicTrapSetup(SampleDataEnum.DOMESTIC1);
-        formData = setupData.getRight();
-        formId = setupData.getLeft();
+        this.setup(SampleDataEnum.DOMESTIC1);
     }
 
+    @SuppressWarnings("javadoc")
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /**
+     * Test that one valid grant with 100% is not rejected.
+     * 
+     * @throws TRAPException When form submission fails
+     */
     @Test
     public void oneValidGrant() throws TRAPException
     {
-        submitFormData(formId);
+        saveAndSubmitTestForm();
     }
 
     // Currently this cannot be tested because the rule for checking that all grants sum to 100%
@@ -65,6 +72,11 @@ public class OneOrMoreGrantsAllValidTest extends TrapTestFramework
     // submitFormData(formId);
     // }
 
+    /**
+     * Test that one valid and one invalid grant gets rejected.
+     * 
+     * @throws TRAPException When form submission fails
+     */
     @Test
     public void oneValidOneInvalid() throws TRAPException
     {
@@ -73,14 +85,18 @@ public class OneOrMoreGrantsAllValidTest extends TrapTestFramework
 
         String newGrantName = String.format(InputFieldKeys.GRANT_ACCOUNT_FMT, 2);
         String newGrantPercent = String.format(InputFieldKeys.GRANT_PERCENT_FMT, 2);
-        formData.put(InputFieldKeys.NUM_GRANTS, "2");
-        formData.put(newGrantName, "black_hole");
-        formData.put(newGrantPercent, "0");
+        testFormData.put(InputFieldKeys.NUM_GRANTS, "2");
+        testFormData.put(newGrantName, "black_hole");
+        testFormData.put(newGrantPercent, "0");
 
-        this.saveFormData(formData, formId);
-        submitFormData(formId);
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * Test that two invalid grants get rejected.
+     * 
+     * @throws TRAPException When form submission fails
+     */
     @Test
     public void twoInvalid() throws TRAPException
     {
@@ -90,12 +106,11 @@ public class OneOrMoreGrantsAllValidTest extends TrapTestFramework
         String newGrantName = String.format(InputFieldKeys.GRANT_ACCOUNT_FMT, 2);
         String newGrantPercent = String.format(InputFieldKeys.GRANT_PERCENT_FMT, 2);
 
-        formData.put(InputFieldKeys.NUM_GRANTS, "2");
-        formData.put(firstGrantName, "rabbit_hole");
-        formData.put(newGrantName, "black_hole");
-        formData.put(newGrantPercent, "0");
+        testFormData.put(InputFieldKeys.NUM_GRANTS, "2");
+        testFormData.put(firstGrantName, "rabbit_hole");
+        testFormData.put(newGrantName, "black_hole");
+        testFormData.put(newGrantPercent, "0");
 
-        this.saveFormData(formData, formId);
-        submitFormData(formId);
+        saveAndSubmitTestForm();
     }
 }

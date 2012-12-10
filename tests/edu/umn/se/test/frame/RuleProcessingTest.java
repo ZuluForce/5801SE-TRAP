@@ -29,6 +29,10 @@ import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 import edu.umn.se.trap.util.PrettyPrint;
 
 /**
+ * This test does a full processing test of both of the sample forms (domestic1 and international1).
+ * These sample forms are used in many other places and are assumed to be valid forms so if they are
+ * failing here something is wrong.
+ * 
  * @author andrewh
  * 
  */
@@ -72,6 +76,9 @@ public class RuleProcessingTest extends TrapTestFramework
         }
     }
 
+    /**
+     * Test the international1 sample form.
+     */
     @Test
     public void fullInternationalFormProcessTest()
     {

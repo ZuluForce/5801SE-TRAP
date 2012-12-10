@@ -22,21 +22,37 @@ import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 public class ValidUserOnFormTest extends TrapTestFramework
 {
 
+    /**
+     * Load a sample form.
+     * 
+     * @throws TRAPException - when the form cannot be saved
+     */
     @Before
     public void setup() throws TRAPException
     {
         super.setup(SampleDataEnum.INTERNATIONAL1);
     }
 
+    /**
+     * Check that the form is correctly accepted with a valid username
+     * 
+     * @throws TRAPException - When form submission fails
+     */
     @Test
     public void validUsername() throws TRAPException
     {
         saveAndSubmitTestForm();
     }
 
+    @SuppressWarnings("javadoc")
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /**
+     * Check that an invalid username is caught.
+     * 
+     * @throws TRAPException - When form submission fails
+     */
     @Test
     public void invalidUserName() throws TRAPException
     {
@@ -46,6 +62,11 @@ public class ValidUserOnFormTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Check that a missing username is caught.
+     * 
+     * @throws TRAPException - When form submission fails
+     */
     @Test
     public void missingUserName() throws TRAPException
     {

@@ -50,10 +50,14 @@ public class TestCurrencyDB extends CurrencyDB
      */
     public static enum CURRENCY_FIELDS
     {
-        CURRENCY, /* Currency to be converted */
-        DATE, /* Date of conversion */
+        /** Currency to be converted */
+        CURRENCY,
+
+        /** Date of conversion */
+        DATE,
     };
 
+    /** Where all the currency data is held */
     Map<Currency, Double> currencyInfo = new HashMap<Currency, Double>();
 
     /**
@@ -61,11 +65,17 @@ public class TestCurrencyDB extends CurrencyDB
      */
     public class Currency implements Comparable<Currency>
     {
+        /** Code used to represent the currency (ie USD') */
         public String currencyCode;
+
+        /** Date that the currency rate applies for */
         public String date;
 
         /**
          * Constructor. Sets up the object.
+         * 
+         * @param c - The code for the currency
+         * @param d - the date for the currency rate
          */
         public Currency(String c, String d)
         {
@@ -76,7 +86,7 @@ public class TestCurrencyDB extends CurrencyDB
         /**
          * Compares equality of two Currency objects.
          * 
-         * @param object to compare to.
+         * @param o - object to compare to.
          * @return a Boolean indicating equality.
          */
         @Override
@@ -104,7 +114,7 @@ public class TestCurrencyDB extends CurrencyDB
         /**
          * Compares two Currency objects for ordering purposes
          * 
-         * @param Currency to compare to.
+         * @param c - Currency to compare to.
          * @return a negative integer, zero, or a positive integer as this object is less than,
          *         equal to, or greater than the specified object.
          */
@@ -326,12 +336,28 @@ public class TestCurrencyDB extends CurrencyDB
         currencyInfo.put(brlEntry, value);
     }
 
+    /**
+     * Add a currency conversion rate to the database.
+     * 
+     * @param currency - The currency code
+     * @param date - The date the rate applies for
+     * @param rate - The conversion rate
+     */
     public void addConversionRate(String currency, String date, Double rate)
     {
         Currency entry = new Currency(currency, date);
         currencyInfo.put(entry, rate);
     }
 
+    /**
+     * Remove a currency conversion rate from the database.
+     * 
+     * @param currency - The currency code to look for
+     * @param date - The date for the conversion rate. when put together with the currency code this
+     *            uniquely defines a rate.
+     * @throws KeyNotFoundException - When the (currency, date) pair cannot be found in the database
+     *             for removal
+     */
     public void removeConversionRate(String currency, String date) throws KeyNotFoundException
     {
         ArrayList<String> conversion = new ArrayList<String>();

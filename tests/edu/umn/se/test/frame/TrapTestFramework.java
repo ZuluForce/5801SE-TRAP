@@ -50,18 +50,31 @@ public class TrapTestFramework
     private static final Logger log = LoggerFactory.getLogger(TrapTestFramework.class);
 
     // Our versions of the databases with added information and methods to manipulate internal data
+    /** Our version of the currency DB */
     public final TestCurrencyDB currencyDB = new TestCurrencyDB();
+
+    /** Our version of the grant DB */
     public final TestGrantDB grantDB = new TestGrantDB();
+
+    /** Our version of the perDiemDB */
     public final TestPerDiemDB perDiemDB = new TestPerDiemDB();
+
+    /** Our version of the user DB */
     public final TestUserDB userDB = new TestUserDB();
+
+    /** Our version of the userGrantDB */
     public final TestUserGrantDB userGrantDB = new TestUserGrantDB();
 
     /** TRAP!! */
     private final TravelFormProcessor trapProcessor;
 
-    // When using the #setup(SampleDataEnum) method of the framework, the resulting loaded form will
+    // When using the setup(SampleDataEnum) method of the framework, the resulting loaded form will
     // be placed here along with its save id assigned by TRAP.
+
+    /** The map of data for the sample form loaded using {@link #setup(SampleDataEnum)} */
     protected LoadedSampleForm testFormData;
+
+    /** The id of the saved sample form loaded using {@link #setup(SampleDataEnum)} */
     protected Integer testFormId;
 
     /**

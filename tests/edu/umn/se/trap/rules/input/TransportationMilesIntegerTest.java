@@ -32,6 +32,11 @@ public class TransportationMilesIntegerTest extends TrapTestFramework
     Integer newTExpenseNum;
     String newTExpenseMileField;
 
+    /**
+     * Load a sample form and add a new car expense to the form.
+     * 
+     * @throws TRAPException - When form saving fails
+     */
     @Before
     public void setup() throws TRAPException
     {
@@ -65,7 +70,7 @@ public class TransportationMilesIntegerTest extends TrapTestFramework
     /**
      * Test that an integer is accepted.
      * 
-     * @throws TRAPException
+     * @throws TRAPException - When form submission fails
      */
     @Test
     public void milesTraveledInteger() throws TRAPException
@@ -77,7 +82,7 @@ public class TransportationMilesIntegerTest extends TrapTestFramework
     /**
      * Test that the 0 integer is accepted.
      * 
-     * @throws TRAPException
+     * @throws TRAPException When form submission fails
      */
     @Test
     public void milesTraveledIntegerZero() throws TRAPException
@@ -86,13 +91,14 @@ public class TransportationMilesIntegerTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    @SuppressWarnings("javadoc")
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
     /**
      * Test that a negative integer is rejected.
      * 
-     * @throws TRAPException
+     * @throws TRAPException When form submission fails
      */
     @Test
     public void milesTraveledIntegerNegative() throws TRAPException
@@ -108,7 +114,7 @@ public class TransportationMilesIntegerTest extends TrapTestFramework
      * Test that a real number is not accepted. In this case the real number could be truncated to
      * an integer without lose of precision but it should still be rejected.
      * 
-     * @throws TRAPException
+     * @throws TRAPException When form submission fails
      */
     @Test
     public void milesTraveledIntegerRealNumber() throws TRAPException
@@ -124,7 +130,7 @@ public class TransportationMilesIntegerTest extends TrapTestFramework
      * Test that a real number is not accepted. Now this number would lose precision if truncated to
      * an int and most definitely should produce an error.
      * 
-     * @throws TRAPException
+     * @throws TRAPException When form submission fails
      */
     @Test
     public void milesTraveledIntegerRealNumber2() throws TRAPException

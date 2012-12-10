@@ -31,7 +31,7 @@ public class NoProcessingOnSaveTest extends TrapTestFramework
     /**
      * Save an initial form for test cases to use.
      * 
-     * @throws TRAPException
+     * @throws TRAPException When form submission fails
      */
     @Before
     public void setup() throws TRAPException
@@ -50,10 +50,10 @@ public class NoProcessingOnSaveTest extends TrapTestFramework
      * This test specifically checks that the form status is not modified upon saving a new form
      * with a description.
      * 
-     * @throws Exception
+     * @throws TRAPException - When saving the form fails
      */
     @Test
-    public void formStillDraftAfterSaveNew() throws Exception
+    public void formStillDraftAfterSaveNew() throws TRAPException
     {
         Map<Integer, TravelFormMetadata> formMetaData = getSavedForms();
 
@@ -71,9 +71,7 @@ public class NoProcessingOnSaveTest extends TrapTestFramework
      * This test specifically checks that the form status is not modified upon saving over an
      * existing form id.
      * 
-     * @throws TRAPException
-     * 
-     * @throws Exception
+     * @throws TRAPException When saving the form fails
      */
     @Test
     public void formUnmodifiedAfterSaveOld() throws TRAPException

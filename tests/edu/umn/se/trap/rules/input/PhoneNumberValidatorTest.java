@@ -23,125 +23,167 @@ import edu.umn.se.test.frame.TrapTestFramework;
 import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.form.InputFieldKeys;
-import edu.umn.se.trap.test.generate.LoadedSampleForm;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
-import edu.umn.se.trap.util.Pair;
 
 /**
+ * TODO: Fill in proper requirement<br/>
+ * Test for requirement 1.*
+ * 
  * @author andrewh
  * 
  */
 public class PhoneNumberValidatorTest extends TrapTestFramework
 {
-
-    LoadedSampleForm formData;
-    Integer formId;
-
+    /**
+     * Load a sample form
+     * 
+     * @throws TRAPException - When saving the form fails
+     */
     @Before
     public void setup() throws TRAPException
     {
-        Pair<Integer, LoadedSampleForm> formInfo = basicTrapSetup(SampleDataEnum.DOMESTIC1);
-        formData = formInfo.getRight();
-        formId = formInfo.getLeft();
+        this.setup(SampleDataEnum.DOMESTIC1);
     }
 
+    /**
+     * Test that a valid phone number is accepted.
+     * 
+     * @throws TRAPException - When the form fails submission
+     */
     @Test
     public void validPhoneNumber() throws TRAPException
     {
         // The sample form has a valid phone number in it
-        submitFormData(formId);
+        saveAndSubmitTestForm();
     }
 
+    @SuppressWarnings("javadoc")
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /**
+     * Test that an international number with a leading 1 is not accepted.
+     * 
+     * @throws TRAPException When the form fails submission
+     */
     @Test
     public void invalidIntlNumber() throws TRAPException
     {
         exception.expect(InputValidationException.class);
         exception.expectMessage("is not formatted correctly");
-        formData.put(InputFieldKeys.EMERGENCY_PHONE, "1-952-123-4567");
-        this.saveFormData(formData, formId);
-        submitFormData(formId);
+        testFormData.put(InputFieldKeys.EMERGENCY_PHONE, "1-952-123-4567");
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * Test that a missing area code is caught.
+     * 
+     * @throws TRAPException When the form fails submission
+     */
     @Test
     public void missingAreaCode() throws TRAPException
     {
         exception.expect(InputValidationException.class);
         exception.expectMessage("is not formatted correctly");
-        formData.put(InputFieldKeys.EMERGENCY_PHONE, "123-4567");
-        this.saveFormData(formData, formId);
-        submitFormData(formId);
+        testFormData.put(InputFieldKeys.EMERGENCY_PHONE, "123-4567");
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * Test that too long of an area code is caught.
+     * 
+     * @throws TRAPException When the form fails submission
+     */
     @Test
     public void areaCodeTooLong() throws TRAPException
     {
         exception.expect(InputValidationException.class);
         exception.expectMessage("is not formatted correctly");
-        formData.put(InputFieldKeys.EMERGENCY_PHONE, "9521-123-4567");
-        this.saveFormData(formData, formId);
-        submitFormData(formId);
+        testFormData.put(InputFieldKeys.EMERGENCY_PHONE, "9521-123-4567");
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * Test that when the second set of numbers is too short it is caught.
+     * 
+     * @throws TRAPException When the form fails submission
+     */
     @Test
     public void secondSetTooShort() throws TRAPException
     {
         exception.expect(InputValidationException.class);
         exception.expectMessage("is not formatted correctly");
-        formData.put(InputFieldKeys.EMERGENCY_PHONE, "952-12-4567");
-        this.saveFormData(formData, formId);
-        submitFormData(formId);
+        testFormData.put(InputFieldKeys.EMERGENCY_PHONE, "952-12-4567");
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * Test that when the second set of numbers is too long it is caught.
+     * 
+     * @throws TRAPException When the form fails submission
+     */
     @Test
     public void secondSetTooLong() throws TRAPException
     {
         exception.expect(InputValidationException.class);
         exception.expectMessage("is not formatted correctly");
-        formData.put(InputFieldKeys.EMERGENCY_PHONE, "952-1234-4567");
-        this.saveFormData(formData, formId);
-        submitFormData(formId);
+        testFormData.put(InputFieldKeys.EMERGENCY_PHONE, "952-1234-4567");
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * Test that when the last set of numbers is missing it is caught
+     * 
+     * @throws TRAPException When the form fails submission
+     */
     @Test
     public void missingLastSet() throws TRAPException
     {
         exception.expect(InputValidationException.class);
         exception.expectMessage("is not formatted correctly");
-        formData.put(InputFieldKeys.EMERGENCY_PHONE, "952-123");
-        this.saveFormData(formData, formId);
-        submitFormData(formId);
+        testFormData.put(InputFieldKeys.EMERGENCY_PHONE, "952-123");
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * The last set of numbers is too short.
+     * 
+     * @throws TRAPException When the form fails submission
+     */
     @Test
     public void lastSetTooShort() throws TRAPException
     {
         exception.expect(InputValidationException.class);
         exception.expectMessage("is not formatted correctly");
-        formData.put(InputFieldKeys.EMERGENCY_PHONE, "952-123-456");
-        this.saveFormData(formData, formId);
-        submitFormData(formId);
+        testFormData.put(InputFieldKeys.EMERGENCY_PHONE, "952-123-456");
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * The last set of numbers is too long
+     * 
+     * @throws TRAPException When the form fails submission
+     */
     @Test
     public void lastSetTooLong() throws TRAPException
     {
         exception.expect(InputValidationException.class);
         exception.expectMessage("is not formatted correctly");
-        formData.put(InputFieldKeys.EMERGENCY_PHONE, "952-123-45678");
-        this.saveFormData(formData, formId);
-        submitFormData(formId);
+        testFormData.put(InputFieldKeys.EMERGENCY_PHONE, "952-123-45678");
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * The phone number is empty.
+     * 
+     * @throws TRAPException When the form fails submission
+     */
     @Test
     public void emptyPhoneNumber() throws TRAPException
     {
         exception.expect(InputValidationException.class);
         exception.expectMessage("is not formatted correctly");
-        formData.put(InputFieldKeys.EMERGENCY_PHONE, " ");
-        this.saveFormData(formData, formId);
-        submitFormData(formId);
+        testFormData.put(InputFieldKeys.EMERGENCY_PHONE, " ");
+        saveAndSubmitTestForm();
     }
 }

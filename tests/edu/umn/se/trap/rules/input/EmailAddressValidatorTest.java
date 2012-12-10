@@ -25,9 +25,10 @@ import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.test.generate.LoadedSampleForm;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
-import edu.umn.se.trap.util.Pair;
 
 /**
+ * TODO: Requirement<br/>
+ * 
  * @author andrewh
  * 
  */
@@ -38,37 +39,58 @@ public class EmailAddressValidatorTest extends TrapTestFramework
 
     TestUserDB.UserEntryBuilder builder;
 
+    /**
+     * Load a sample form.
+     * 
+     * @throws TRAPException when saving the form fails.
+     */
     @Before
     public void setup() throws TRAPException
     {
-        Pair<Integer, LoadedSampleForm> setupData = basicTrapSetup(SampleDataEnum.INTERNATIONAL1);
-        formData = setupData.getRight();
-        formId = setupData.getLeft();
+        this.setup(SampleDataEnum.INTERNATIONAL1);
 
         builder = userDB.fillBuilderWithUserInfo("helge206");
     }
 
+    /**
+     * Check that an email in the com domain is accepted. There aren't supposed to be any checks on
+     * the domain but this is just a check. This isn't a valid address but the format is correct.
+     * 
+     * @throws TRAPException When form submission fails
+     */
     @Test
     public void validEmailComDomain() throws TRAPException
     {
         builder.setEmail("helge206@umn.com");
         userDB.addUser(builder);
 
-        submitFormData(formId);
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * Check that an email in the edu domain is accepted. Once again, there shouldn't be any
+     * validation of the addresses or the domain.
+     * 
+     * @throws TRAPException When form submission fails
+     */
     @Test
     public void validEmailEduDomain() throws TRAPException
     {
         builder.setEmail("helge206@umn.edu");
         userDB.addUser(builder);
 
-        submitFormData(formId);
+        saveAndSubmitTestForm();
     }
 
+    @SuppressWarnings("javadoc")
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /**
+     * Verify that processing fails when the @ symbol is missing in the email.
+     * 
+     * @throws TRAPException When form submission fails
+     */
     @Test
     public void noAtSymbol() throws TRAPException
     {
@@ -77,9 +99,14 @@ public class EmailAddressValidatorTest extends TrapTestFramework
         builder.setEmail("helge206umn.edu");
         userDB.addUser(builder);
 
-        submitFormData(formId);
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * Verify that processing fails when there is no domain specified at all (tld or host).
+     * 
+     * @throws TRAPException When form submission fails
+     */
     @Test
     public void missingDomain() throws TRAPException
     {
@@ -89,9 +116,14 @@ public class EmailAddressValidatorTest extends TrapTestFramework
         builder.setEmail("helge206@");
         userDB.addUser(builder);
 
-        submitFormData(formId);
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * Verify that processing fails when the tld for an email is missing.
+     * 
+     * @throws TRAPException When form submission fails
+     */
     @Test
     public void missingTLD() throws TRAPException
     {
@@ -101,9 +133,14 @@ public class EmailAddressValidatorTest extends TrapTestFramework
         builder.setEmail("helge206@umn.");
         userDB.addUser(builder);
 
-        submitFormData(formId);
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * Verify that processing fails when the name is missing from the email.
+     * 
+     * @throws TRAPException When form submission fails
+     */
     @Test
     public void missingEmailName() throws TRAPException
     {
@@ -113,9 +150,14 @@ public class EmailAddressValidatorTest extends TrapTestFramework
         builder.setEmail("@umn.com");
         userDB.addUser(builder);
 
-        submitFormData(formId);
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * Verify that processing fails when there are bad characters in the address.
+     * 
+     * @throws TRAPException When form submission fails
+     */
     @Test
     public void invalidEmailName() throws TRAPException
     {
@@ -125,9 +167,14 @@ public class EmailAddressValidatorTest extends TrapTestFramework
         builder.setEmail("#%helge206@umn.edu");
         userDB.addUser(builder);
 
-        submitFormData(formId);
+        saveAndSubmitTestForm();
     }
 
+    /**
+     * Verify that processing fails when an empty email is provided.
+     * 
+     * @throws TRAPException When form submission fails
+     */
     @Test
     public void emptyEmail() throws TRAPException
     {
@@ -137,6 +184,6 @@ public class EmailAddressValidatorTest extends TrapTestFramework
         builder.setEmail("");
         userDB.addUser(builder);
 
-        submitFormData(formId);
+        saveAndSubmitTestForm();
     }
 }
