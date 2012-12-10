@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.umn.se.trap.data.IncidentalExpense;
+import edu.umn.se.trap.data.LodgingExpense;
 import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.data.TRAPConstants;
 import edu.umn.se.trap.data.TransportationExpense;
@@ -141,4 +142,21 @@ public class FormDataQuerier
 
         return expensesOfType;
     }
+
+    public static List<Integer> findLodgingExpenses(Map<String, String> formData)
+            throws TRAPException
+    {
+        ReimbursementApp app = FormDataConverter.formToReimbursementApp(formData);
+
+        List<Integer> blah = new ArrayList<Integer>();
+        List<LodgingExpense> lodgingExpenses = app.getLodgingExpenseList();
+        for (int i = 0; i < lodgingExpenses.size(); ++i)
+        {
+            blah.add(i + 1);
+        }
+
+        return blah;
+
+    }
+
 }

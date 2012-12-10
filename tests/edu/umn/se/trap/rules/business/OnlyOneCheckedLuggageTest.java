@@ -1,6 +1,8 @@
 // OnlyOneCheckedLuggageTest.java
 package edu.umn.se.trap.rules.business;
 
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -8,8 +10,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import edu.umn.se.test.frame.FormDataQuerier;
 import edu.umn.se.test.frame.TrapTestFramework;
-import edu.umn.se.trap.exception.InputValidationException;
+import edu.umn.se.trap.data.TransportationTypeEnum;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
@@ -19,7 +22,8 @@ import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
  */
 public class OnlyOneCheckedLuggageTest extends TrapTestFramework
 {
-    // luggage1Name =
+    int numCheckedLuggage, numAirTravel;
+    String transportationDate, transportationType, transportationAmount, transportationCurrency;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -28,33 +32,40 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
     public void setup() throws TRAPException
     {
         super.setup(SampleDataEnum.INTERNATIONAL1);
+
+        List<Integer> luggageExpenses = FormDataQuerier.findTransportExpenses(testFormData,
+                TransportationTypeEnum.BAGGAGE);
+        List<Integer> airExpenses = FormDataQuerier.findTransportExpenses(testFormData,
+                TransportationTypeEnum.AIR);
+        numCheckedLuggage = luggageExpenses.size();
+        numAirTravel = airExpenses.size();
+        if (numAirTravel == 0)
+        {
+            Assert.fail("Need air expenses in sample form for this test");
+        }
+
+        // TODO Figure out how to remove whole object
+        // test = String.format(InputFieldKeys.TRANSPORTATION_AMOUNT_FMT, luggageExpenses.get(0));
     }
 
     @Test
-    public void negativeLuggage() throws TRAPException
+    public void validCheckedLuggage() throws TRAPException
     {
-        exception.expect(InputValidationException.class);
-        exception.expectMessage("Cannot have negative luggage amount");
+        // Sample form should have correct amount of checked luggage
+        submitFormData(testFormId);
+    }
 
-        // formData.put(key, value);
+    @Test
+    public void overOneCheckedLuggage() throws TRAPException
+    {
+        // testFormData.put(key, value)
         Assert.fail();
     }
 
     @Test
-    public void zeroCheckedLuggage() throws TRAPException
+    public void underOneCheckedLuggage() throws TRAPException
     {
-        Assert.fail();
-    }
-
-    @Test
-    public void oneCheckedLuggage() throws TRAPException
-    {
-        Assert.fail();
-    }
-
-    @Test
-    public void twoCheckedLuggage() throws TRAPException
-    {
+        // testFormData.remove(key)
         Assert.fail();
     }
 

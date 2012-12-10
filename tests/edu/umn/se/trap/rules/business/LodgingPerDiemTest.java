@@ -1,18 +1,21 @@
 // LodgingPerDiemTest.java
 package edu.umn.se.trap.rules.business;
 
+import java.util.List;
+
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import edu.umn.se.test.frame.FormDataQuerier;
 import edu.umn.se.test.frame.TestPerDiemDB;
 import edu.umn.se.test.frame.TrapTestFramework;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.form.InputFieldKeys;
-import edu.umn.se.trap.test.generate.LoadedSampleForm;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
-import edu.umn.se.trap.util.Pair;
 
 /**
  * @author Dylan
@@ -20,11 +23,8 @@ import edu.umn.se.trap.util.Pair;
  */
 public class LodgingPerDiemTest extends TrapTestFramework
 {
-    Integer formId;
-    LoadedSampleForm formData;
 
-    String lodging1Name, lodging1Amount;
-    String lodging2Name, lodging2Amount;
+    String lodgingName, lodgingAmount;
 
     TestPerDiemDB.PerDiemBuilder builder;
 
@@ -34,37 +34,46 @@ public class LodgingPerDiemTest extends TrapTestFramework
     @Before
     public void setup() throws TRAPException
     {
-        Pair<Integer, LoadedSampleForm> setupData = basicTrapSetup(SampleDataEnum.INTERNATIONAL1);
-        formData = setupData.getRight();
-        formId = setupData.getLeft();
+        super.setup(SampleDataEnum.DOMESTIC1);
 
-        // builder = perDiemDB.getInternationalPerDiem(country);
+        List<Integer> lodgingExpenses = FormDataQuerier.findLodgingExpenses(testFormData);
+        if (lodgingExpenses.size() == 0)
+        {
+            Assert.fail("Needed lodging expenses in sample form for this test");
+        }
 
-        // lodging1Name = String.format(InputFieldKeys.LODGING_CURRENCY_FMT, 1);
-        lodging1Amount = String.format(InputFieldKeys.LODGING_AMOUNT_FMT, 1);
+        // builder.getRates()
 
-        lodging2Amount = String.format(InputFieldKeys.LODGING_AMOUNT_FMT, 2);
+        lodgingAmount = String.format(InputFieldKeys.LODGING_AMOUNT_FMT, lodgingExpenses.get(0));
     }
+
+    // TODO Figure out per diem amount
 
     // One day - under per diem amount
     @Test
     public void oneLodgingExpenseLessThanLimit() throws TRAPException
     {
-        // formData.put(lodging1Amount, value)
+        testFormData.put(lodgingAmount, "1");
+        this.saveFormData(testFormData, testFormId);
+        submitFormData(testFormId);
     }
 
     // One day - equal to per diem amount
     @Test
     public void oneLodgingExpenseEqualToLimit() throws TRAPException
     {
-
+        testFormData.put(lodgingAmount, "200");
+        this.saveFormData(testFormData, testFormId);
+        submitFormData(testFormId);
     }
 
     // One day - over per diem amount
     @Test
     public void oneLodgingExpenseMoreThanLimit() throws TRAPException
     {
-
+        testFormData.put(lodgingAmount, "9000");
+        this.saveFormData(testFormData, testFormId);
+        submitFormData(testFormId);
     }
 
 }
