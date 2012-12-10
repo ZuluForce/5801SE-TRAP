@@ -1,3 +1,16 @@
+/*****************************************************************************************
+ * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ ****************************************************************************************/
 // MealPerDiemTest.java
 package edu.umn.se.trap.rules.business;
 
@@ -24,12 +37,15 @@ import edu.umn.se.trap.test.generate.LoadedSampleForm;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
+ * Check for requirement 2.c and 2.m
+ * 
  * @author Dylan
  * 
  */
 public class MealPerDiemTest extends TrapTestFramework
 {
 
+    @SuppressWarnings("javadoc")
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
@@ -163,7 +179,7 @@ public class MealPerDiemTest extends TrapTestFramework
      * Verify that a per diem with an unknown location (to the db) is rejected.
      * 
      * @throws TRAPException When form processing fails
-     * @throws KeyNotFoundException
+     * @throws KeyNotFoundException When the per diem cannot be removed from the db
      */
     @Test
     public void unknownPerDiemLocation() throws TRAPException, KeyNotFoundException
