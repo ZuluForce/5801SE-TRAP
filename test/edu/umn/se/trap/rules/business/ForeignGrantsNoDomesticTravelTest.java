@@ -104,7 +104,7 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
         testFormData.put("DAY1_INCIDENTAL_COUNTRY", "Brazil");
         testFormData.put("DAY1_INCIDENTAL_JUSTIFICATION", "I dislike...unicorns");
         testFormData.put("DAY1_INCIDENTAL_AMOUNT", "5.00");
-        testFormData.put("DAY1_INCIDENTAL_CURRENCY", "BRZ");
+        testFormData.put("DAY1_INCIDENTAL_CURRENCY", "BRL");
 
         saveAndSubmitTestForm();
     }
