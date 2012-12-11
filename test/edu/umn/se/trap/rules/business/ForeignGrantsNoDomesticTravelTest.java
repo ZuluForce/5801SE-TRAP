@@ -99,7 +99,7 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
     @Test
     public void foreignGrantForeignIncidentalExpenses() throws TRAPException
     {
-        exception.expect(BusinessLogicException.class);
+        // exception.expect(BusinessLogicException.class);
 
         testFormData.put("DAY1_INCIDENTAL_COUNTRY", "Brazil");
         testFormData.put("DAY1_INCIDENTAL_JUSTIFICATION", "I dislike...unicorns");

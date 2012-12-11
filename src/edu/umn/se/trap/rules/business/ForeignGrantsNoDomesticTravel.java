@@ -192,7 +192,7 @@ public class ForeignGrantsNoDomesticTravel extends BusinessLogicRule
         // Check that there are no transportation expenses on a foreign date
         for (TransportationExpense texpense : app.getTransportationExpenseList())
         {
-            boolean domesticCurrency = (texpense.getExpenseCurrency().compareToIgnoreCase(
+            boolean domesticCurrency = (texpense.getOriginalCurrency().compareToIgnoreCase(
                     TRAPConstants.USD) == 0);
             if (domesticDates.contains(texpense.getExpenseDate()) || domesticCurrency)
             {
@@ -207,7 +207,7 @@ public class ForeignGrantsNoDomesticTravel extends BusinessLogicRule
         // Check that there are no transportation expenses on a foreign date
         for (OtherExpense otherExpense : app.getOtherExpenseList())
         {
-            boolean domesticCurrency = (otherExpense.getExpenseCurrency().compareToIgnoreCase(
+            boolean domesticCurrency = (otherExpense.getOriginalCurrency().compareToIgnoreCase(
                     TRAPConstants.USD) == 0);
 
             if (domesticDates.contains(otherExpense.getExpenseDate()) || domesticCurrency)
