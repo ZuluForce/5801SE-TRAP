@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // ForeignGrantsNoDomesticTravelTest.java
 package edu.umn.se.trap.rules.business;
@@ -99,6 +97,19 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
     }
 
     @Test
+    public void foreignGrantForeignIncidentalExpenses() throws TRAPException
+    {
+        exception.expect(BusinessLogicException.class);
+
+        testFormData.put("DAY1_INCIDENTAL_COUNTRY", "Brazil");
+        testFormData.put("DAY1_INCIDENTAL_JUSTIFICATION", "I dislike...unicorns");
+        testFormData.put("DAY1_INCIDENTAL_AMOUNT", "5.00");
+        testFormData.put("DAY1_INCIDENTAL_CURRENCY", "BRZ");
+
+        saveAndSubmitTestForm();
+    }
+
+    @Test
     public void foreignGrantLodgingExpenses() throws TRAPException
     {
         exception.expect(BusinessLogicException.class);
@@ -168,4 +179,119 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
         saveAndSubmitTestForm();
 
     }
+
+    @Test
+    public void foreignGrantNSTransportationExpenseCovered() throws TRAPException
+    {
+        testFormData.put("GRANT2_ACCOUNT", "umn_super_pac");
+        testFormData.put("GRANT2_PERCENT", "50");
+        testFormData.put("GRANT1_PERCENT", "50");
+        testFormData.put("NUM_GRANTS", "2");
+
+        testFormData.put("TRANSPORTATION1_DATE", "20121125");
+        testFormData.put("TRANSPORTATION1_TYPE", "GAS");
+        testFormData.put("TRANSPORTATION1_AMOUNT", "22.50");
+        testFormData.put("TRANSPORTATION1_CURRENCY", "USD");
+
+        testFormData.put("NUM_TRANSPORTATION", "1");
+
+        saveAndSubmitTestForm();
+    }
+
+    @Test
+    public void foreignGrantMealExpense() throws TRAPException
+    {
+        exception.expect(BusinessLogicException.class);
+
+        testFormData.put("DAY1_LUNCH_CITY", "Des Moines");
+        testFormData.put("DAY1_LUNCH_STATE", "IA");
+        testFormData.put("DAY1_LUNCH_COUNTRY", "USA");
+
+        saveAndSubmitTestForm();
+    }
+
+    @Test
+    public void foreignGrantOtherExpense() throws TRAPException
+    {
+        exception.expect(BusinessLogicException.class);
+
+        testFormData.put("OTHER1_DATE", "20121103");
+        testFormData.put("OTHER1_JUSTIFICATION", "Conference Registration");
+        testFormData.put("OTHER1_AMOUNT", "450");
+        testFormData.put("OTHER1_CURRENCY", "USD");
+
+        testFormData.put("NUM_OTHER_EXPENSES", "1");
+
+        saveAndSubmitTestForm();
+
+    }
+
+    @Test
+    public void foreignGrantSubmit() throws TRAPException
+    {
+        saveAndSubmitTestForm();
+    }
+
+    @Test
+    public void foreignGrantWithNonSponsoredGrant() throws TRAPException
+    {
+        testFormData.put("GRANT2_ACCOUNT", "umn_super_pac");
+        testFormData.put("GRANT2_PERCENT", "50");
+        testFormData.put("GRANT1_PERCENT", "50");
+        testFormData.put("NUM_GRANTS", "2");
+
+        saveAndSubmitTestForm();
+
+    }
+
+    @Test
+    public void foreignGrantNSCoveredOtherExpense() throws TRAPException
+    {
+        testFormData.put("GRANT2_ACCOUNT", "umn_super_pac");
+        testFormData.put("GRANT2_PERCENT", "50");
+        testFormData.put("GRANT1_PERCENT", "50");
+        testFormData.put("NUM_GRANTS", "2");
+
+        testFormData.put("OTHER1_DATE", "20121103");
+        testFormData.put("OTHER1_JUSTIFICATION", "Conference Registration");
+        testFormData.put("OTHER1_AMOUNT", "450");
+        testFormData.put("OTHER1_CURRENCY", "USD");
+
+        testFormData.put("NUM_OTHER_EXPENSES", "1");
+
+        saveAndSubmitTestForm();
+
+    }
+
+    @Test
+    public void noForeignGrant() throws TRAPException
+    {
+        testFormData.put("GRANT1_ACCOUNT", "umn_super_pac");
+        testFormData.put("GRANT1_PERCENT", "100");
+
+        saveAndSubmitTestForm();
+    }
+
+    @Test
+    public void foreignGrantIncidentalDomestic() throws TRAPException
+    {
+        exception.expect(BusinessLogicException.class);
+
+        testFormData.put("DAY1_INCIDENTAL_CITY", "Minneapolis");
+        testFormData.put("DAY1_INCIDENTAL_STATE", "MN");
+        testFormData.put("DAY1_INCIDENTAL_COUNTRY", "USA");
+        testFormData.put("DAY1_INCIDENTAL_JUSTIFICATION",
+                "Tipped cart person at airport to drive me to gate");
+        testFormData.put("DAY1_INCIDENTAL_AMOUNT", "5.00");
+        testFormData.put("DAY1_INCIDENTAL_CURRENCY", "USD");
+
+        testFormData.put("GRANT2_ACCOUNT", "umn_super_pac");
+        testFormData.put("GRANT2_PERCENT", "50");
+        testFormData.put("GRANT1_PERCENT", "50");
+        testFormData.put("NUM_GRANTS", "2");
+
+        saveAndSubmitTestForm();
+
+    }
+
 }
