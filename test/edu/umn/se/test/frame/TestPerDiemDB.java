@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // TestPerDiemDB.java
 /**
@@ -367,7 +365,6 @@ public class TestPerDiemDB extends PerDiemDB
         List<Double> removed = perDiemInfo.remove(location);
         if (removed == null)
         {
-            System.out.println("Location = " + location.toString());
             throw new KeyNotFoundException("Could not find location for removal");
         }
     }
@@ -451,8 +448,6 @@ public class TestPerDiemDB extends PerDiemDB
     @Override
     public List<Double> getDomesticPerDiem(String city, String state) throws KeyNotFoundException
     {
-        log.info("Request for domestic per diem. city={}, state={}", city, state);
-
         Location location = new Location(city.toLowerCase(), state.toLowerCase(), "united states");
         List<Double> rateInfo = perDiemInfo.get(location);
         if (rateInfo == null)
@@ -475,8 +470,6 @@ public class TestPerDiemDB extends PerDiemDB
     @Override
     public List<Double> getDomesticPerDiem(String state) throws KeyNotFoundException
     {
-        log.info("Request for domestic per diem. state={}", state);
-
         Location location = new Location("", state.toLowerCase(), "united states");
         List<Double> rateInfo = perDiemInfo.get(location);
         if (rateInfo == null)
@@ -502,7 +495,6 @@ public class TestPerDiemDB extends PerDiemDB
     public List<Double> getInternationalPerDiem(String city, String country)
             throws KeyNotFoundException
     {
-        log.info("Request for international per diem. city={}, country={}", city, country);
         Location location = new Location(city.toLowerCase(), "", country.toLowerCase());
         List<Double> rateInfo = perDiemInfo.get(location);
         if (rateInfo == null)
@@ -525,8 +517,6 @@ public class TestPerDiemDB extends PerDiemDB
     @Override
     public List<Double> getInternationalPerDiem(String country) throws KeyNotFoundException
     {
-        log.info("Request for international per diem. country={}", country);
-
         Location location = new Location("", "", country.toLowerCase());
         List<Double> rateInfo = perDiemInfo.get(location);
         if (rateInfo == null)

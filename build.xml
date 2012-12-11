@@ -1,22 +1,358 @@
-<project>
-
-  <target name="clean">
-    <delete dir="bin/classes" />
-    <delete dir="bin/jar" />
-  </target>
-
-  <target name="compile">
-    <mkdir dir="bin/classes" />
-    <javac srcdir="src" destdir="bin/classes"/>
-  </target>
-
-  <target name="jar">
-    <mkdir dir="bin/jar" />
-    <jar destfile="bin/jar/TRAP.jar" basedir="bin/classes">
-      <manifest>
-        <attribute name="Main-Class" value="edu.umn.se.trap.TravelFormProcessor" />
-      </manifest>
-    </jar>
-  </target>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="TRAP">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../../.eclipse"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.junit_4.8.2.v4_8_2_v20110321-1705/junit.jar"/>
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+    </path>
+    <path id="TRAP.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/log4j-1.2.17.jar"/>
+        <pathelement location="lib/slf4j-api-1.7.0.jar"/>
+        <pathelement location="lib/slf4j-log4j12-1.7.2.jar"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+        <pathelement location="lib/TRAPInterfaces.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+                <exclude name="test/"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="lib">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="test">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="config">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="src"/>
+            <exclude name="test/"/>
+            <classpath refid="TRAP.classpath"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="lib"/>
+            <classpath refid="TRAP.classpath"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="test"/>
+            <classpath refid="TRAP.classpath"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="config"/>
+            <classpath refid="TRAP.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="edu.umn.se.trap.form (1)">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="edu.umn.se.trap.form">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="TravelFormProcessorTestValidData">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.TravelFormProcessorTestValidData" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="OneOrMoreGrantsAllValidTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.rules.input.OneOrMoreGrantsAllValidTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="FamilyMemberExpensesTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.rules.business.FamilyMemberExpensesTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="EmailAddressValidatorTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.rules.input.EmailAddressValidatorTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="PhoneNumberValidatorTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.rules.input.PhoneNumberValidatorTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="GrantPercentSumTo100Test">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.rules.input.GrantPercentSumTo100Test" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="RuleProcessingTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.test.frame.RuleProcessingTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="tests">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="UnknownKeyCheckerTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.form.UnknownKeyCheckerTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="DomesticCarRentalRuleTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.rules.business.DomesticCarRentalRuleTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="InsufficientFundsTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.rules.InsufficientFundsTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="TransportationMilesIntegerTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.rules.input.TransportationMilesIntegerTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="SetUserTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.form.SetUserTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="TRAP">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.test.frame.RuleProcessingTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.data.GrantJustificationTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.data.TestPartialExpenses" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.data.TravelTypeTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.form.AllUserFormsTests" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.form.FormDataConverterTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.form.FormTests" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.form.FromContainerTests" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.form.SetUserTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.form.UnknownKeyCheckerTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.InsufficientFundsTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.AlcoholOnlyFundedByNonSponsoredGrantTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.DoDForeignExpenseRestrictionTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.DoDMealRestrictionsTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.DomesticCarRentalTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.FamilyMemberExpensesNotAllowedTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.ForeignGrantsNoDomesticTravelTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.GrantApproverNameTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.IncidentalsPerDiemTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.InternetOnlyUnderNonSponsoredGrant" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.LodgingPerDiemTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.MealPerDiemTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.NIHGrantRestrictionsTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.NoExportGrantsOnlyForUSCitizensTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.OnlyOneCheckedLuggageTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.USCarriersOnlyTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.ConferencePresentationInfoTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.CurrencyAbbreviationTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.DateValidatorTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.EmailAddressValidatorTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.GrantPercentSumTo100Test" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.NoProcessingOnSaveTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.OneOrMoreGrantsAllValidTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.PhoneNumberValidatorTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.TransportationMilesIntegerTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.ValidUserOnFormTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.output.OuputAvailableAfterProcessingTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.output.UserFullNameTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.output.VisaStatusOutputTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.util.FormDataLoaderTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="DateValidatorTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.rules.input.DateValidatorTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="test">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.test.frame.RuleProcessingTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.data.GrantJustificationTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.data.TestPartialExpenses" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.data.TravelTypeTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.form.AllUserFormsTests" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.form.FormDataConverterTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.form.FormTests" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.form.FromContainerTests" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.form.SetUserTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.form.UnknownKeyCheckerTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.InsufficientFundsTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.AlcoholOnlyFundedByNonSponsoredGrantTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.DoDForeignExpenseRestrictionTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.DoDMealRestrictionsTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.DomesticCarRentalTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.FamilyMemberExpensesNotAllowedTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.ForeignGrantsNoDomesticTravelTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.GrantApproverNameTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.IncidentalsPerDiemTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.InternetOnlyUnderNonSponsoredGrant" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.LodgingPerDiemTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.MealPerDiemTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.NIHGrantRestrictionsTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.NoExportGrantsOnlyForUSCitizensTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.OnlyOneCheckedLuggageTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.USCarriersOnlyTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.ConferencePresentationInfoTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.CurrencyAbbreviationTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.DateValidatorTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.EmailAddressValidatorTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.GrantPercentSumTo100Test" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.NoProcessingOnSaveTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.OneOrMoreGrantsAllValidTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.PhoneNumberValidatorTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.TransportationMilesIntegerTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.ValidUserOnFormTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.output.OuputAvailableAfterProcessingTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.output.UserFullNameTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.output.VisaStatusOutputTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.util.FormDataLoaderTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="FormDataConverterTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.form.FormDataConverterTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="tests (1)">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="FormDataLoaderTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.util.FormDataLoaderTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="AllUserFormTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.form.AllUserFormTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+    
+    <import file="/home/planeman/lib/junitpdf/build-junitpdfreport.xml"/>
+    <target name="testreport-pdf">
+      <junitpdfreport todir="." styledir="default"> 
+        <fileset dir="junit"> 
+          <include name="TEST-*.xml"/> 
+        </fileset> 
+      </junitpdfreport>
+    </target> 
 
 </project>

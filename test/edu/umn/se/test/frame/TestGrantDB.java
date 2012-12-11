@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // TestGrantDB.java
 package edu.umn.se.test.frame;
@@ -44,9 +42,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import edu.umn.se.trap.db.GrantDB;
 import edu.umn.se.trap.db.KeyNotFoundException;
 
@@ -58,23 +53,31 @@ import edu.umn.se.trap.db.KeyNotFoundException;
  */
 public class TestGrantDB extends GrantDB
 {
-    /** Logger for the TestGrantDB */
-    private static final Logger log = LoggerFactory.getLogger(TestGrantDB.class);
-
     /**
      * This type enumerates the fields of the {@link ArrayList} with the grant information.
      */
     public static enum GRANT_FIELDS
     {
-        ACCOUNT_NUMBER, /* Account number */
-        ACCOUNT_TYPE, /* Account type (Sponsored vs Non-sponsored) */
-        FUNDING_ORGANIZATION, /* Funding organization */
-        ORGANIZATION_TYPE, /*
-                            * Organization type (i.e., government, industry, noExport, ngo, foreign)
-                            */
-        ACCOUNT_BALANCE; /* Account balance */
+        /** Account number */
+        ACCOUNT_NUMBER,
+        /** Account type (Sponsored vs Non-sponsored) */
+        ACCOUNT_TYPE,
+        /** Funding organization */
+        FUNDING_ORGANIZATION,
+        /** Organization type (i.e., government, industry, noExport, ngo, foreign) */
+        ORGANIZATION_TYPE,
+        /** Account balance */
+        ACCOUNT_BALANCE;
     };
 
+    /**
+     * This class is used to contain information about a grant and is used in adding new grants to
+     * the db (from externally). This is simpler than having to fiddle with the enumerations and
+     * indexing into some list.
+     * 
+     * @author andrewh
+     * 
+     */
     public static class GrantBuilder
     {
         String account;
@@ -83,6 +86,10 @@ public class TestGrantDB extends GrantDB
         String funder;
         Double balance;
 
+        /**
+         * Initializes the grant builder. All strings are set to empty string and the balance is set
+         * to 0.0
+         */
         public GrantBuilder()
         {
             account = accType = orgType = funder = "";
@@ -210,6 +217,11 @@ public class TestGrantDB extends GrantDB
 
     }
 
+    /**
+     * Add a grant to the database
+     * 
+     * @param builder - Builder containing information about the grant to add.
+     */
     public void addGrant(GrantBuilder builder)
     {
         ArrayList<Object> grant = new ArrayList<Object>();
@@ -222,6 +234,12 @@ public class TestGrantDB extends GrantDB
         grantInfo.put((String) grant.get(GRANT_FIELDS.ACCOUNT_NUMBER.ordinal()), grant);
     }
 
+    /**
+     * Remove a grant from the database
+     * 
+     * @param accountName - Account name for the grant to remove
+     * @throws KeyNotFoundException When no grant by the given name is found.
+     */
     public void removeGrant(String accountName) throws KeyNotFoundException
     {
         List<Object> grantInfo = this.grantInfo.remove(accountName.toLowerCase());
@@ -232,6 +250,13 @@ public class TestGrantDB extends GrantDB
         }
     }
 
+    /**
+     * Fill a builder object with information about a particular grant.
+     * 
+     * @param accountName - The account name of the grant to get information for.
+     * @return A grant builder object filled with information about the appropriate grant.
+     * @throws KeyNotFoundException When no grant is found with the given account name.
+     */
     public GrantBuilder fillBulderWithGrantInfo(String accountName) throws KeyNotFoundException
     {
         List<Object> grantInfo = getGrantInfo(accountName);
@@ -258,8 +283,6 @@ public class TestGrantDB extends GrantDB
     public List<Object> getGrantInfo(String accountName) throws KeyNotFoundException
     {
 
-        log.info("GrantInfo request for account {}", accountName);
-
         List<Object> grantInfo = this.grantInfo.get(accountName.toLowerCase());
         if (grantInfo == null)
         {
@@ -280,8 +303,6 @@ public class TestGrantDB extends GrantDB
     public void updateAccountBalance(String accountName, Double newBalance)
             throws KeyNotFoundException
     {
-        log.info("Updating balance for account: {} to ${}", accountName, newBalance);
-
         List<Object> grantInfo = this.grantInfo.get(accountName.toLowerCase());
         if (grantInfo == null)
         {

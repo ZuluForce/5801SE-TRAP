@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // TestPartialExpenses.java
 package edu.umn.se.trap.data;
@@ -28,6 +26,9 @@ import edu.umn.se.trap.form.InputFieldKeys;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
+ * This is an extra test that isn't for a specific requirement. Theses tests verify that partially
+ * filled expenses (ie some fields are missing) are rejected by the data converter.
+ * 
  * @author andrewh
  * 
  */
@@ -36,15 +37,26 @@ public class TestPartialExpenses extends TrapTestFramework
     // This day in the international sample has all three meals, lodging and incidental
     Integer targetDay = 4;
 
+    /**
+     * Load a sample form.
+     * 
+     * @throws TRAPException When form saving fails
+     */
     @Before
     public void setup() throws TRAPException
     {
         this.setup(SampleDataEnum.INTERNATIONAL1);
     }
 
+    @SuppressWarnings("javadoc")
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /**
+     * Verify that a partial breakfast expense is detected and rejected.
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void partialBreakfast() throws TRAPException
     {
@@ -57,6 +69,11 @@ public class TestPartialExpenses extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Verify that a partial lunch expense is detected and rejected.
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void partialLunch() throws TRAPException
     {
@@ -69,6 +86,11 @@ public class TestPartialExpenses extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Verify that a partial dinner expense is detected and rejected
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void partialDinner() throws TRAPException
     {
@@ -81,6 +103,11 @@ public class TestPartialExpenses extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Verify that a partial lodging expense is detected and rejected
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void partialLodging() throws TRAPException
     {

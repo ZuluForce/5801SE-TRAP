@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // TestDataGenerator.java
 package edu.umn.se.trap.test.generate;
@@ -34,14 +32,31 @@ public class TestDataGenerator
     private static List<String> formNames;
     private static List<String> formUsers;
 
+    /**
+     * Enumeration of the various sample forms. These are used to index into lists that contain the
+     * file path and user for each form.
+     * 
+     * @author andrewh
+     * 
+     */
     public enum SampleDataEnum
     {
-        DOMESTIC1, // "sample1.properties" - Domestic trip
-        INTERNATIONAL1, // "international1.properties" - International trip to Brazil and PR
-        SHORT_INTL, // "short_international1.properties" - Only has 1 foreign expense
-        RANDOM
+        /** "sample1.properties" - Domestic trip */
+        DOMESTIC1,
+        /** "international1.properties" - International trip to Brazil and PR */
+        INTERNATIONAL1,
+        /** "short_international1.properties" - Only has 1 foreign expense */
+        SHORT_INTL,
     }
 
+    /**
+     * Initialize the metadata related to the various sample forms.
+     * 
+     * First we initialize the file paths that correspond to each of these sample forms.
+     * 
+     * Next we fill an array with the users for those forms so we know who to set as the current
+     * user in TRAP before submitting the form.
+     */
     public static void initialize()
     {
         formNames = new ArrayList<String>();
@@ -55,6 +70,13 @@ public class TestDataGenerator
         formUsers.add("linc001");
     }
 
+    /**
+     * Load the sample form from the specified source.
+     * 
+     * @param source - The source for the form. This enum corresponds to a file path setup in
+     *            {@link #initialize()}
+     * @return A sample form loaded from the filesystem.
+     */
     public static LoadedSampleForm getSampleForm(SampleDataEnum source)
     {
         String filename = formNames.get(source.ordinal());
@@ -62,11 +84,25 @@ public class TestDataGenerator
         return getSampleForm(filename);
     }
 
-    public static LoadedSampleForm getSampleForm(String filename)
+    /**
+     * Get the sample form with the specified filename.
+     * 
+     * @param path - Path on the filesystem for the form to load. This should be a file with
+     *            key:value pairs in the format of a standard Java properties file.
+     * @return The form loaded from the specified path.
+     */
+    public static LoadedSampleForm getSampleForm(String path)
     {
-        return new LoadedSampleForm(filename);
+        return new LoadedSampleForm(path);
     }
 
+    /**
+     * Get the expected output for the specified sameple form input. This takes the base path for
+     * the input form and appends .output.
+     * 
+     * @param source - The source for the sample form whose expected output you want to get.
+     * @return The expected output for the given input sample profile.
+     */
     public static LoadedSampleForm getExpectedOutput(SampleDataEnum source)
     {
         String filename = formNames.get(source.ordinal());
@@ -102,6 +138,13 @@ public class TestDataGenerator
         return new LoadedSampleForm(fileName);
     }
 
+    /**
+     * Get the user that is associated with a given form. This could also be obtained by simple
+     * looking for the username field in the form.
+     * 
+     * @param whichForm - Which sample form's user do you want to get?
+     * @return The user associated with a particular sample form
+     */
     public static String getUserForForm(SampleDataEnum whichForm)
     {
         return TestDataGenerator.formUsers.get(whichForm.ordinal());

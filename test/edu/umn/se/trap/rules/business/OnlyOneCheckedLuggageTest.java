@@ -23,8 +23,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import edu.umn.se.test.frame.FormDataQuerier;
 import edu.umn.se.test.frame.TrapTestFramework;
@@ -37,13 +35,13 @@ import edu.umn.se.trap.rules.FinalizeRule;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
+ * TODO: Requirement
+ * 
  * @author Dylan
  * 
  */
 public class OnlyOneCheckedLuggageTest extends TrapTestFramework
 {
-    private static final Logger log = LoggerFactory.getLogger(OnlyOneCheckedLuggageTest.class);
-
     int numAirTravel;
 
     int baseNumberForNewExpenses;
@@ -52,6 +50,14 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
     List<String> newCurrencyFields;
     List<String> newAmountFields;
 
+    /**
+     * Load a sample international form.
+     * 
+     * The setup also builds the fields necessary to add new transportation baggage expenses to the
+     * form.
+     * 
+     * @throws TRAPException When form saving fails
+     */
     @Before
     public void setup() throws TRAPException
     {
@@ -80,6 +86,11 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
         }
     }
 
+    /**
+     * Verify that one baggage expense is accepted.
+     * 
+     * @throws TRAPException When form processing fails.
+     */
     @Test
     public void validCheckedLuggage() throws TRAPException
     {
@@ -87,6 +98,11 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Verify that two baggage expenses are accepted.
+     * 
+     * @throws TRAPException When form processing fails.
+     */
     @Test
     public void overOneCheckedLuggage() throws TRAPException
     {
@@ -95,6 +111,11 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
 
     }
 
+    /**
+     * Verify that a form with no baggage expenses is accepted.
+     * 
+     * @throws TRAPException When form processing fails.
+     */
     @Test
     public void underOneCheckedLuggage() throws TRAPException
     {
@@ -102,9 +123,15 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    @SuppressWarnings("javadoc")
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /**
+     * Verify that the form is rejected when there are more baggage expenses than air travel.
+     * 
+     * @throws TRAPException When form processing fails.
+     */
     @Test
     public void moreLuggageThanAirTravel() throws TRAPException
     {
@@ -115,6 +142,11 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Verify that the form is rejected when the baggage expense is greater than $25.
+     * 
+     * @throws TRAPException When form processing fails.
+     */
     @Test
     public void baggageGreaterThanTwentyFive() throws TRAPException
     {
@@ -125,6 +157,14 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * This is a utility method to add new transportation expenses using the strings we built
+     * earlier. This will also update the reimbursement total and num_transportation fields
+     * according to the number of expenses added and what their expense amount is.
+     * 
+     * @param howmany - How many new baggage expenses to add.
+     * @param amounts - The amounts for each of the baggage expenses.
+     */
     private void addNewExpenses(int howmany, double... amounts)
     {
         for (int i = 0; i < howmany; ++i)
