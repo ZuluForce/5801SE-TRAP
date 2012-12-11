@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // DoDForeignExpenseRestrictionTest.java
 package edu.umn.se.trap.rules.business;
@@ -20,12 +18,16 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import edu.umn.se.test.frame.TestGrantDB;
 import edu.umn.se.test.frame.TestUserGrantDB;
 import edu.umn.se.test.frame.TrapTestFramework;
 import edu.umn.se.trap.data.ReimbursementApp;
+import edu.umn.se.trap.exception.BusinessLogicException;
+import edu.umn.se.trap.exception.FormProcessorException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
@@ -41,8 +43,11 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
     Map<String, String> noForeignExpenses = null;
     Map<String, String> foreignExpenses = null;
 
-    public DoDForeignExpenseRestrictionTest()
+    public DoDForeignExpenseRestrictionTest() throws TRAPException
     {
+
+        super.setup(SampleDataEnum.SHORT_INTL);
+
         foreignExpenses = getLoadableForm(SampleDataEnum.SHORT_INTL);
 
         TestUserGrantDB.UserGrantBuilder ugBuilder = new TestUserGrantDB.UserGrantBuilder();
@@ -65,11 +70,89 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
         noForeignExpenses.put("DAY1_LODGING_COUNTRY", "USA");
         noForeignExpenses.put("DAY1_LODGING_CURRENCY", "USD");
 
-        for (Map.Entry<String, String> entry : noForeignExpenses.entrySet())
-        {
-            System.out.println(entry.getKey() + " = " + entry.getValue());
-        }
+        testFormData.remove("DAY1_LODGING_CITY");
+        testFormData.remove("DAY1_LODGING_COUNTRY");
+        testFormData.remove("DAY1_LODGING_AMOUNT");
+        testFormData.remove("DAY1_LODGING_CURRENCY");
 
+    }
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
+    @Test
+    public void foreignExpenseTravel() throws TRAPException
+    {
+        exception.expect(BusinessLogicException.class);
+
+        testFormData.put("TRANSPORTATION1_DATE", "20121125");
+        testFormData.put("TRANSPORTATION1_TYPE", "AIR");
+        testFormData.put("TRANSPORTATION1_CARRIER", "American");
+        testFormData.put("TRANSPORTATION1_AMOUNT", "725.50");
+        testFormData.put("TRANSPORTATION1_CURRENCY", "BRL");
+
+        testFormData.put("NUM_TRANSPORTATION", "1");
+
+        testFormData.put("GRANT1_ACCOUNT", "8675309");
+        testFormData.put("GRANT1_PERCENT", "100");
+
+        saveAndSubmitTestForm();
+    }
+
+    @Test
+    public void foreignExpenseIncidental() throws TRAPException
+    {
+        exception.expect(BusinessLogicException.class);
+
+        testFormData.put("DAY1_INCIDENTAL_COUNTRY", "Brasil");
+        testFormData.put("DAY1_INCIDENTAL_JUSTIFICATION", "I dislike...unicorns");
+        testFormData.put("DAY1_INCIDENTAL_AMOUNT", "5.00");
+        testFormData.put("DAY1_INCIDENTAL_CURRENCY", "BRL");
+
+        saveAndSubmitTestForm();
+    }
+
+    @Test
+    public void foreignExpenseOther() throws TRAPException
+    {
+        exception.expect(BusinessLogicException.class);
+
+        testFormData.put("OTHER1_DATE", "20121125");
+        testFormData.put("OTHER1_JUSTIFICATION", "Conference Registration");
+        testFormData.put("OTHER1_AMOUNT", "450");
+        testFormData.put("OTHER1_CURRENCY", "BRL");
+
+        testFormData.put("NUM_OTHER_EXPENSES", "1");
+
+        testFormData.put("GRANT1_ACCOUNT", "8675309");
+        testFormData.put("GRANT1_PERCENT", "100");
+
+        saveAndSubmitTestForm();
+
+    }
+
+    @Test
+    public void foreignExpensesUnknownCity() throws TRAPException
+    {
+        exception.expect(BusinessLogicException.class);
+
+        testFormData.put("DAY1_LODGING_CITY", "Blah");
+        testFormData.put("DAY1_LODGING_COUNTRY", "Blahistan");
+        testFormData.put("DAY1_LODGING_AMOUNT", "156.10");
+        testFormData.put("DAY1_LODGING_CURRENCY", "BRL");
+
+        saveAndSubmitTestForm();
+    }
+
+    @Test
+    public void foreignExpenseMealUnknownCity() throws TRAPException
+    {
+        exception.expect(FormProcessorException.class);
+
+        testFormData.put("DAY1_BREAKFAST_CITY", "Blah");
+        testFormData.put("DAY1_BREAKFAST_COUNTRY", "Blahistan");
+
+        saveAndSubmitTestForm();
     }
 
     @Test

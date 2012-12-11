@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // InternetOnlyUnderNonSponsoredGrants.java
 package edu.umn.se.trap.rules.business;
@@ -20,10 +18,13 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import edu.umn.se.test.frame.TrapTestFramework;
 import edu.umn.se.trap.data.ReimbursementApp;
+import edu.umn.se.trap.exception.BusinessLogicException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
@@ -42,8 +43,11 @@ public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
     Map<String, String> goodInternetIncidental = null;
     Map<String, String> badInternetIncidental = null;
 
-    public InternetOnlyUnderNonSponsoredGrant()
+    public InternetOnlyUnderNonSponsoredGrant() throws TRAPException
     {
+
+        super.setup(SampleDataEnum.SHORT_INTL);
+
         goodInternetOther = getLoadableForm(SampleDataEnum.DOMESTIC1);
         goodInternetOther.put("OTHER3_DATE", "20121003");
         goodInternetOther.put("OTHER3_JUSTIFICATION", "Purchased some wifi");
@@ -71,6 +75,45 @@ public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
         badInternetIncidental.put("DAY1_INCIDENTAL_JUSTIFICATION", "Purchased some wifi");
         badInternetIncidental.put("DAY1_INCIDENTAL_AMOUNT", "4.00");
         badInternetIncidental.put("DAY1_INCIDENTAL_CURRENCY", "USD");
+
+    }
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
+    @Test
+    public void testGoodInterNetOtherExpenseReallyExpensive() throws TRAPException
+    {
+        exception.expect(BusinessLogicException.class);
+
+        testFormData.put("GRANT1_ACCOUNT", "umn_super_pac");
+        testFormData.put("GRANT1_PERCENT", "100");
+
+        testFormData.put("OTHER1_DATE", "20121103");
+        testFormData.put("OTHER1_JUSTIFICATION", "Bought some wifi");
+        testFormData.put("OTHER1_AMOUNT", "450000.00");
+        testFormData.put("OTHER1_CURRENCY", "USD");
+
+        testFormData.put("NUM_OTHER_EXPENSES", "1");
+
+        saveAndSubmitTestForm();
+    }
+
+    public void testGoodInterNetIncidentalExpenseReallyExpensive() throws TRAPException
+    {
+        exception.expect(BusinessLogicException.class);
+
+        testFormData.put("GRANT1_ACCOUNT", "umn_super_pac");
+        testFormData.put("GRANT1_PERCENT", "100");
+
+        testFormData.put("DAY1_INCIDENTAL_CITY", "Minneapolis");
+        testFormData.put("DAY1_INCIDENTAL_STATE", "MN");
+        testFormData.put("DAY1_INCIDENTAL_COUNTRY", "USA");
+        testFormData.put("DAY1_INCIDENTAL_JUSTIFICATION", "I love wifi");
+        testFormData.put("DAY1_INCIDENTAL_AMOUNT", "5.00");
+        testFormData.put("DAY1_INCIDENTAL_CURRENCY", "USD");
+
+        saveAndSubmitTestForm();
 
     }
 

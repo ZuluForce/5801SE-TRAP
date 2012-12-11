@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // DoDForeignExpenseRestriction.java
 package edu.umn.se.trap.rules.business;
@@ -206,7 +204,7 @@ public class DoDForeignExpenseRestriction extends BusinessLogicRule
         // Check that there are no transportation expenses on a foreign date
         for (TransportationExpense texpense : app.getTransportationExpenseList())
         {
-            boolean foreignCurrency = (texpense.getExpenseCurrency().compareToIgnoreCase(
+            boolean foreignCurrency = (texpense.getOriginalCurrency().compareToIgnoreCase(
                     TRAPConstants.USD) != 0);
             if (foreignDates.contains(texpense.getExpenseDate()) || foreignCurrency)
             {
@@ -221,7 +219,7 @@ public class DoDForeignExpenseRestriction extends BusinessLogicRule
         // Check that there are no transportation expenses on a foreign date
         for (OtherExpense otherExpense : app.getOtherExpenseList())
         {
-            boolean foreignCurrency = (otherExpense.getExpenseCurrency().compareToIgnoreCase(
+            boolean foreignCurrency = (otherExpense.getOriginalCurrency().compareToIgnoreCase(
                     TRAPConstants.USD) != 0);
 
             if (foreignDates.contains(otherExpense.getExpenseDate()) || foreignCurrency)
