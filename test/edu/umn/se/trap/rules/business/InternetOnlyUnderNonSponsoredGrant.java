@@ -120,7 +120,7 @@ public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
      * @throws TRAPException - Test passes on exception
      */
     @Test
-    public void testGoodInterNetIncidentalExpenseReallyExpensive() throws TRAPException
+    public void testGoodInternetIncidentalExpenseReallyExpensive() throws TRAPException
     {
         exception.expect(BusinessLogicException.class);
 
@@ -131,7 +131,7 @@ public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
         testFormData.put("DAY1_INCIDENTAL_STATE", "MN");
         testFormData.put("DAY1_INCIDENTAL_COUNTRY", "USA");
         testFormData.put("DAY1_INCIDENTAL_JUSTIFICATION", "I love wifi");
-        testFormData.put("DAY1_INCIDENTAL_AMOUNT", "5.00");
+        testFormData.put("DAY1_INCIDENTAL_AMOUNT", "500.00");
         testFormData.put("DAY1_INCIDENTAL_CURRENCY", "USD");
 
         saveAndSubmitTestForm();

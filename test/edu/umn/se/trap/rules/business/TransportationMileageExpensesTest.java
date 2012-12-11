@@ -15,11 +15,10 @@ import edu.umn.se.test.frame.FormDataQuerier;
 import edu.umn.se.test.frame.TrapTestFramework;
 import edu.umn.se.trap.data.TRAPConstants;
 import edu.umn.se.trap.data.TransportationTypeEnum;
-import edu.umn.se.trap.exception.BusinessLogicException;
+import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.form.InputFieldKeys;
 import edu.umn.se.trap.form.OutputFieldKeys;
-import edu.umn.se.trap.test.generate.LoadedSampleForm;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
@@ -72,18 +71,8 @@ public class TransportationMileageExpensesTest extends TrapTestFramework
         newCurrencyField = String.format(InputFieldKeys.TRANSPORTATION_CURRENCY_FMT, 9);
 
         newTransportationTotalExpense = String.format(OutputFieldKeys.TRANSPORTATION_TOTAL_FMT, 9);
-    }
 
-    /**
-     * Verify that it works when no personal cars are submitted
-     * 
-     * @throws TRAPException When form processing fails.
-     */
-    @Test
-    public void noPersonalCarExpenses() throws TRAPException
-    {
-        // Sample form does not have personal car expenses
-        saveAndSubmitTestForm();
+        testFormData.put(InputFieldKeys.NUMBER_TRANSPORTATION_EXPENSES, "9");
     }
 
     /**
@@ -102,14 +91,11 @@ public class TransportationMileageExpensesTest extends TrapTestFramework
         testFormData.put(newMilesTraveled, "30");
         testFormData.put(newCurrencyField, TRAPConstants.USD);
 
-        LoadedSampleForm expected = this.getExpectedOutput(testFormData);
-
-        expected.put(newTransportationTotalExpense, "16.5");
-
         saveAndSubmitTestForm();
 
         Map<String, String> result = getCompletedForm(testFormId);
-        Assert.assertTrue(doOutputsMatch(result, expected));
+        Double resultTransTotal = Double.parseDouble(result.get(newTransportationTotalExpense));
+        Assert.assertEquals(resultTransTotal, 16.5);
     }
 
     /**
@@ -118,10 +104,10 @@ public class TransportationMileageExpensesTest extends TrapTestFramework
      * @throws TRAPException When form processing fails.
      */
     @Test
-    public void invalidPersonlCarMileage() throws TRAPException
+    public void negativePersonlCarMileage() throws TRAPException
     {
-        exception.expect(BusinessLogicException.class);
-        exception.expectMessage("contains negative amount of miles traveled");
+        exception.expect(InputValidationException.class);
+        exception.expectMessage("Miles traveled must be positive for transportation expense");
 
         testFormData.put(newDateField, "20121126");
         testFormData.put(newTypeField, "CAR");
