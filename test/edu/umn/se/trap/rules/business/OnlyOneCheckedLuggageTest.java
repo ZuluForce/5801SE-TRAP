@@ -68,7 +68,7 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
         numAirTravel = airExpenses.size();
         if (numAirTravel == 0)
         {
-            Assert.fail("Need air expenses in sample form for this test");
+            Assert.fail("Need air expenses in the sample form for this test");
         }
 
         newDateFields = new ArrayList<String>();
@@ -92,7 +92,7 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
      * @throws TRAPException When form processing fails.
      */
     @Test
-    public void validCheckedLuggage() throws TRAPException
+    public void oneCheckedLuggage() throws TRAPException
     {
         addNewExpenses(1, 25.0);
         saveAndSubmitTestForm();
@@ -104,7 +104,7 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
      * @throws TRAPException When form processing fails.
      */
     @Test
-    public void overOneCheckedLuggage() throws TRAPException
+    public void twoCheckedLuggage() throws TRAPException
     {
         addNewExpenses(2, 25.0, 20.0);
         saveAndSubmitTestForm();
@@ -117,7 +117,7 @@ public class OnlyOneCheckedLuggageTest extends TrapTestFramework
      * @throws TRAPException When form processing fails.
      */
     @Test
-    public void underOneCheckedLuggage() throws TRAPException
+    public void noCheckedLuggage() throws TRAPException
     {
         // The base form has no checked luggage
         saveAndSubmitTestForm();
