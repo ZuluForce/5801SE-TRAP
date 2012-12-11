@@ -37,12 +37,14 @@ import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
  */
 public class PerDayCarExpensesTest extends TrapTestFramework
 {
-    int numCarTravel;
+    int numCarTravel, totalTransportationExpenses;
 
     String newDateField;
     String newTypeField;
-    String newCurrencyField;
-    String newAmountField;
+    String newRentalField;
+    String newMilesTravelled;
+
+    String transportationTotalField = "NUM_TRANSPORTATION";
 
     @SuppressWarnings("javadoc")
     @Rule
@@ -60,6 +62,8 @@ public class PerDayCarExpensesTest extends TrapTestFramework
     {
         super.setup(SampleDataEnum.INTERNATIONAL1);
 
+        totalTransportationExpenses = Integer.parseInt(testFormData.get(transportationTotalField));
+
         List<Integer> carExpenses = FormDataQuerier.findTransportExpenses(testFormData,
                 TransportationTypeEnum.CAR);
         numCarTravel = carExpenses.size();
@@ -70,8 +74,8 @@ public class PerDayCarExpensesTest extends TrapTestFramework
 
         newDateField = String.format(InputFieldKeys.TRANSPORTATION_DATE_FMT, 9);
         newTypeField = String.format(InputFieldKeys.TRANSPORTATION_TYPE_FMT, 9);
-        newCurrencyField = String.format(InputFieldKeys.TRANSPORTATION_CURRENCY_FMT, 9);
-        newAmountField = String.format(InputFieldKeys.TRANSPORTATION_AMOUNT_FMT, 9);
+        newRentalField = String.format(InputFieldKeys.TRANSPORTATION_RENTAL_FMT, 9);
+        newMilesTravelled = String.format(InputFieldKeys.TRANSPORTATION_MILES_FMT, 9);
     }
 
     /**
@@ -100,11 +104,14 @@ public class PerDayCarExpensesTest extends TrapTestFramework
 
         testFormData.put(newDateField, "20121125");
         testFormData.put(newTypeField, "CAR");
-        testFormData.put(newCurrencyField, "BRL");
-        testFormData.put(newAmountField, "100.00");
+        testFormData.put(newRentalField, "No");
+        testFormData.put(newMilesTravelled, "30.0");
+
+        ++totalTransportationExpenses;
+
+        testFormData.put(transportationTotalField, Integer.toString(totalTransportationExpenses));
 
         saveAndSubmitTestForm();
 
     }
-
 }
