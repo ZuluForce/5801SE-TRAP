@@ -32,6 +32,9 @@ import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
+ * This class tests requirement 3.i. Specifically, it tests the foreign expense restrictions
+ * enforced by DoD grants.
+ * 
  * @author nagell2008
  * 
  */
@@ -43,6 +46,11 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
     Map<String, String> noForeignExpenses = null;
     Map<String, String> foreignExpenses = null;
 
+    /**
+     * Setup code for various forms.
+     * 
+     * @throws TRAPException
+     */
     public DoDForeignExpenseRestrictionTest() throws TRAPException
     {
 
@@ -77,9 +85,17 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
 
     }
 
+    /**
+     * Expected exception.
+     */
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /**
+     * Checks to see that a foreign travel expense is not refunded under a DoD grant.
+     * 
+     * @throws TRAPException
+     */
     @Test
     public void foreignExpenseTravel() throws TRAPException
     {
@@ -99,6 +115,11 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Checks that a foreign incidental expenses is not refunded.
+     * 
+     * @throws TRAPException
+     */
     @Test
     public void foreignExpenseIncidental() throws TRAPException
     {
@@ -112,6 +133,11 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Checks that a foreign other expense is not refunded.
+     * 
+     * @throws TRAPException
+     */
     @Test
     public void foreignExpenseOther() throws TRAPException
     {
@@ -131,6 +157,11 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
 
     }
 
+    /**
+     * A foreign expense with an unknown city/country.
+     * 
+     * @throws TRAPException
+     */
     @Test
     public void foreignExpensesUnknownCity() throws TRAPException
     {
@@ -144,6 +175,11 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Tests a meal expenses with an unknown city/country.
+     * 
+     * @throws TRAPException
+     */
     @Test
     public void foreignExpenseMealUnknownCity() throws TRAPException
     {
@@ -155,6 +191,9 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Tests that a DoD grant can fund non-foreign expenses.
+     */
     @Test
     public void noForeignExpenses()
     {
@@ -191,6 +230,9 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
 
     }
 
+    /**
+     * Checks that a DoD grant will not fund foreign expenses.
+     */
     @Test
     public void foreignExpenses()
     {

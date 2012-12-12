@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // AlcoholOnlyAllowedUnderNonSponsoredGrant.java
 package edu.umn.se.trap.rules.business;
@@ -31,6 +29,8 @@ import edu.umn.se.trap.form.InputFieldKeys;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
+ * This class tests the alcohol requirement 3.d.
+ * 
  * @author nagell2008
  * 
  */
@@ -48,6 +48,11 @@ public class AlcoholOnlyFundedByNonSponsoredGrantTest extends TrapTestFramework
     String otherJustField;
     String otherAmntField;
 
+    /**
+     * Some quick setup that will be used later. Specifically, and incidental and other expense.
+     * 
+     * @throws TRAPException
+     */
     @Before
     public void setup() throws TRAPException
     {
@@ -62,9 +67,17 @@ public class AlcoholOnlyFundedByNonSponsoredGrantTest extends TrapTestFramework
         otherAmntField = String.format(InputFieldKeys.OTHER_AMOUNT_FMT, 1);
     }
 
+    /**
+     * Expected exception, if any
+     */
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /**
+     * Alcohol other expense with a non-sponsored grant that has enough money to fund the expense.
+     * 
+     * @throws TRAPException
+     */
     @Test
     public void alcoholOtherEnoughFunding() throws TRAPException
     {
@@ -74,6 +87,11 @@ public class AlcoholOnlyFundedByNonSponsoredGrantTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Alcohol expense with a non-sponsored grant, but the expense is too high and cannot be funded.
+     * 
+     * @throws TRAPException
+     */
     @Test
     public void alcoholOtherLowFunding() throws TRAPException
     {
@@ -86,6 +104,11 @@ public class AlcoholOnlyFundedByNonSponsoredGrantTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Alcohol expense charged as an incidental. The non-sponsored grant does not have enough money.
+     * 
+     * @throws TRAPException
+     */
     @Test
     public void alcoholIncidentalLowFunding() throws TRAPException
     {
@@ -99,6 +122,11 @@ public class AlcoholOnlyFundedByNonSponsoredGrantTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Alcohol expense charged as an incidental. The non-sponsored grant does have enough money.
+     * 
+     * @throws TRAPException
+     */
     @Test
     public void alcoholIncidentalEnoughFunding() throws TRAPException
     {
