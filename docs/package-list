@@ -1,2 +1,12 @@
+edu.umn.se.test.frame
 edu.umn.se.trap
+edu.umn.se.trap.data
 edu.umn.se.trap.db
+edu.umn.se.trap.exception
+edu.umn.se.trap.form
+edu.umn.se.trap.rules
+edu.umn.se.trap.rules.business
+edu.umn.se.trap.rules.input
+edu.umn.se.trap.rules.output
+edu.umn.se.trap.test.generate
+edu.umn.se.trap.util

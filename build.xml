@@ -109,6 +109,14 @@
             <classpath refid="TRAP.classpath"/>
         </junit>
     </target>
+    <target name="AllUserFormsTests">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.form.AllUserFormsTests" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
     <target name="OneOrMoreGrantsAllValidTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -130,6 +138,14 @@
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="edu.umn.se.trap.rules.input.EmailAddressValidatorTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="OtherExpenseDateTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.rules.input.OtherExpenseDateTest" todir="${junit.output.dir}"/>
             <classpath refid="TRAP.classpath"/>
         </junit>
     </target>
@@ -164,6 +180,14 @@
             <classpath refid="TRAP.classpath"/>
         </junit>
     </target>
+    <target name="PerDayCarExpensesTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.rules.business.PerDayCarExpensesTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
     <target name="UnknownKeyCheckerTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -193,6 +217,14 @@
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="edu.umn.se.trap.rules.input.TransportationMilesIntegerTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="TravelTypeTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.data.TravelTypeTest" todir="${junit.output.dir}"/>
             <classpath refid="TRAP.classpath"/>
         </junit>
     </target>
@@ -233,6 +265,8 @@
             <test name="edu.umn.se.trap.rules.business.NIHGrantRestrictionsTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.business.NoExportGrantsOnlyForUSCitizensTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.business.OnlyOneCheckedLuggageTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.PerDayCarExpensesTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.TransportationMileageExpensesTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.business.USCarriersOnlyTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.ConferencePresentationInfoTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.CurrencyAbbreviationTest" todir="${junit.output.dir}"/>
@@ -241,13 +275,14 @@
             <test name="edu.umn.se.trap.rules.input.GrantPercentSumTo100Test" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.NoProcessingOnSaveTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.OneOrMoreGrantsAllValidTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.OtherExpenseDateTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.PhoneNumberValidatorTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.TransportationDatesTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.TransportationMilesIntegerTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.ValidUserOnFormTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.output.OuputAvailableAfterProcessingTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.output.UserFullNameTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.output.VisaStatusOutputTest" todir="${junit.output.dir}"/>
-            <test name="edu.umn.se.trap.util.FormDataLoaderTest" todir="${junit.output.dir}"/>
             <classpath refid="TRAP.classpath"/>
         </junit>
     </target>
@@ -256,6 +291,14 @@
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="edu.umn.se.trap.rules.input.DateValidatorTest" todir="${junit.output.dir}"/>
+            <classpath refid="TRAP.classpath"/>
+        </junit>
+    </target>
+    <target name="TransportationDatesTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="edu.umn.se.trap.rules.input.TransportationDatesTest" todir="${junit.output.dir}"/>
             <classpath refid="TRAP.classpath"/>
         </junit>
     </target>
@@ -288,6 +331,8 @@
             <test name="edu.umn.se.trap.rules.business.NIHGrantRestrictionsTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.business.NoExportGrantsOnlyForUSCitizensTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.business.OnlyOneCheckedLuggageTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.PerDayCarExpensesTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.business.TransportationMileageExpensesTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.business.USCarriersOnlyTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.ConferencePresentationInfoTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.CurrencyAbbreviationTest" todir="${junit.output.dir}"/>
@@ -296,13 +341,14 @@
             <test name="edu.umn.se.trap.rules.input.GrantPercentSumTo100Test" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.NoProcessingOnSaveTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.OneOrMoreGrantsAllValidTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.OtherExpenseDateTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.PhoneNumberValidatorTest" todir="${junit.output.dir}"/>
+            <test name="edu.umn.se.trap.rules.input.TransportationDatesTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.TransportationMilesIntegerTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.input.ValidUserOnFormTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.output.OuputAvailableAfterProcessingTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.output.UserFullNameTest" todir="${junit.output.dir}"/>
             <test name="edu.umn.se.trap.rules.output.VisaStatusOutputTest" todir="${junit.output.dir}"/>
-            <test name="edu.umn.se.trap.util.FormDataLoaderTest" todir="${junit.output.dir}"/>
             <classpath refid="TRAP.classpath"/>
         </junit>
     </target>
@@ -318,14 +364,6 @@
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
-            <classpath refid="TRAP.classpath"/>
-        </junit>
-    </target>
-    <target name="FormDataLoaderTest">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="edu.umn.se.trap.util.FormDataLoaderTest" todir="${junit.output.dir}"/>
             <classpath refid="TRAP.classpath"/>
         </junit>
     </target>
@@ -345,14 +383,4 @@
             <report format="frames" todir="${junit.output.dir}"/>
         </junitreport>
     </target>
-    
-    <import file="/home/planeman/lib/junitpdf/build-junitpdfreport.xml"/>
-    <target name="testreport-pdf">
-      <junitpdfreport todir="." styledir="default"> 
-        <fileset dir="junit"> 
-          <include name="TEST-*.xml"/> 
-        </fileset> 
-      </junitpdfreport>
-    </target> 
-
 </project>

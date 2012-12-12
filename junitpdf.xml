@@ -1,0 +1,10 @@
+<project>
+    <import file="/home/planeman/lib/junitpdf/build-junitpdfreport.xml"/>
+    <target name="testreport-pdf">
+      <junitpdfreport todir="." styledir="default"> 
+        <fileset dir="junit"> 
+          <include name="TEST-*.xml"/> 
+        </fileset> 
+      </junitpdfreport>
+    </target>
+</project>

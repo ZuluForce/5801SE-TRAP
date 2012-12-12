@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umn.se.test.frame.TrapTestFramework;
 import edu.umn.se.trap.data.ReimbursementApp;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.test.generate.TestDataGenerator;
@@ -34,7 +35,7 @@ import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
  * @author andrewh
  * 
  */
-public class FormDataConverterTest
+public class FormDataConverterTest extends TrapTestFramework
 {
     private static Logger log = LoggerFactory.getLogger(FormDataConverterTest.class);
 

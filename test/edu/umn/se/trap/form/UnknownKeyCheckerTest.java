@@ -23,6 +23,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.umn.se.test.frame.TrapTestFramework;
 import edu.umn.se.trap.exception.InputValidationException;
 import edu.umn.se.trap.test.generate.TestDataGenerator;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
@@ -35,7 +36,7 @@ import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
  * @author andrewh
  * 
  */
-public class UnknownKeyCheckerTest
+public class UnknownKeyCheckerTest extends TrapTestFramework
 {
     UnknownKeyChecker checker;
 
