@@ -53,7 +53,7 @@ public class PerDayCarExpensesTest extends TrapTestFramework
     /**
      * Load a sample international form.
      * 
-     * This set up prepares a new car transportation expense to be added to the form.
+     * This set up prepares a new personal car transportation expense to be added to the form.
      * 
      * @throws TRAPException When form processing fails.
      */

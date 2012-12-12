@@ -43,9 +43,16 @@ public class LodgingPerDiemTest extends TrapTestFramework
 
     TestPerDiemDB.PerDiemBuilder builder;
 
+    @SuppressWarnings("javadoc")
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /**
+     * Load a sample form and make sure it has lodging expenses.
+     * 
+     * @throws TRAPException When form saving fails
+     * @throws KeyNotFoundException When the per diem amount is not found in the database
+     */
     @Before
     public void setup() throws TRAPException, KeyNotFoundException
     {
@@ -68,7 +75,11 @@ public class LodgingPerDiemTest extends TrapTestFramework
 
     }
 
-    // One day - under per diem amount
+    /**
+     * Verify that a single lodging expense under the per diem limit is accepted
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void oneLodgingExpenseLessThanLimit() throws TRAPException
     {
@@ -76,7 +87,11 @@ public class LodgingPerDiemTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
-    // One day - equal to per diem amount
+    /**
+     * Verify that a single lodging expense equal to the per diem limit is accepted
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void oneLodgingExpenseEqualToLimit() throws TRAPException
     {
@@ -84,7 +99,11 @@ public class LodgingPerDiemTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
-    // One day - over per diem amount
+    /**
+     * Verify that a single lodging expense that is over the per diem limit is rejected
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void oneLodgingExpenseMoreThanLimit() throws TRAPException
     {

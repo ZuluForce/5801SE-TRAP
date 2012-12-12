@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // USCarriersOnlyTest.java
 package edu.umn.se.trap.rules.business;
@@ -41,9 +39,15 @@ public class USCarriersOnlyTest extends TrapTestFramework
 {
     String airCarrier;
 
+    @SuppressWarnings("javadoc")
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /**
+     * Loads a sample form and makes sure it contains air expenses to verify.
+     * 
+     * @throws TRAPException When form saving fails
+     */
     @Before
     public void setup() throws TRAPException
     {
@@ -60,6 +64,11 @@ public class USCarriersOnlyTest extends TrapTestFramework
 
     }
 
+    /**
+     * Verify that a valid US air carrier is accepted during form processing
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void validUSCarrier() throws TRAPException
     {
@@ -68,6 +77,11 @@ public class USCarriersOnlyTest extends TrapTestFramework
         submitFormData(testFormId);
     }
 
+    /**
+     * Verify that a non-valid air carrier is not accepted during form processing
+     * 
+     * @throws TRAPException When form processing fails
+     */
     @Test
     public void invalidCarrier() throws TRAPException
     {
