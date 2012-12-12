@@ -25,6 +25,7 @@ import org.junit.rules.ExpectedException;
 
 import edu.umn.se.test.frame.FormDataQuerier;
 import edu.umn.se.test.frame.TrapTestFramework;
+import edu.umn.se.trap.data.TRAPConstants;
 import edu.umn.se.trap.data.TransportationTypeEnum;
 import edu.umn.se.trap.exception.BusinessLogicException;
 import edu.umn.se.trap.exception.TRAPException;
@@ -42,9 +43,8 @@ public class PerDayCarExpensesTest extends TrapTestFramework
     String newDateField;
     String newTypeField;
     String newRentalField;
-    String newMilesTravelled;
-
-    String transportationTotalField = "NUM_TRANSPORTATION";
+    String newMilesTraveled;
+    String newCurrencyField;
 
     @SuppressWarnings("javadoc")
     @Rule
@@ -62,7 +62,8 @@ public class PerDayCarExpensesTest extends TrapTestFramework
     {
         super.setup(SampleDataEnum.INTERNATIONAL1);
 
-        totalTransportationExpenses = Integer.parseInt(testFormData.get(transportationTotalField));
+        totalTransportationExpenses = Integer.parseInt(testFormData
+                .get(InputFieldKeys.NUMBER_TRANSPORTATION_EXPENSES));
 
         List<Integer> carExpenses = FormDataQuerier.findTransportExpenses(testFormData,
                 TransportationTypeEnum.CAR);
@@ -75,7 +76,8 @@ public class PerDayCarExpensesTest extends TrapTestFramework
         newDateField = String.format(InputFieldKeys.TRANSPORTATION_DATE_FMT, 9);
         newTypeField = String.format(InputFieldKeys.TRANSPORTATION_TYPE_FMT, 9);
         newRentalField = String.format(InputFieldKeys.TRANSPORTATION_RENTAL_FMT, 9);
-        newMilesTravelled = String.format(InputFieldKeys.TRANSPORTATION_MILES_FMT, 9);
+        newMilesTraveled = String.format(InputFieldKeys.TRANSPORTATION_MILES_FMT, 9);
+        newCurrencyField = String.format(InputFieldKeys.TRANSPORTATION_CURRENCY_FMT, 9);
     }
 
     /**
@@ -100,16 +102,18 @@ public class PerDayCarExpensesTest extends TrapTestFramework
     public void invalidCarExpenses() throws TRAPException
     {
         exception.expect(BusinessLogicException.class);
-        exception.expectMessage("has personal and rental car expenses on the same day");
+        exception.expectMessage("Not allowed to claim rental and personal car on day");
 
         testFormData.put(newDateField, "20121125");
         testFormData.put(newTypeField, "CAR");
         testFormData.put(newRentalField, "No");
-        testFormData.put(newMilesTravelled, "30.0");
+        testFormData.put(newMilesTraveled, "30");
+        testFormData.put(newCurrencyField, TRAPConstants.USD);
 
         ++totalTransportationExpenses;
 
-        testFormData.put(transportationTotalField, Integer.toString(totalTransportationExpenses));
+        testFormData.put(InputFieldKeys.NUMBER_TRANSPORTATION_EXPENSES,
+                Integer.toString(totalTransportationExpenses));
 
         saveAndSubmitTestForm();
 
