@@ -29,8 +29,9 @@ import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
- * @author nagell2008
+ * Checks that a user only appropriately claims internet expenses. Requirement 3.e
  * 
+ * @author nagell2008
  */
 public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
 {
@@ -43,6 +44,11 @@ public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
     Map<String, String> goodInternetIncidental = null;
     Map<String, String> badInternetIncidental = null;
 
+    /**
+     * Setup code for tests
+     * 
+     * @throws TRAPException - Something bad happened
+     */
     public InternetOnlyUnderNonSponsoredGrant() throws TRAPException
     {
 
@@ -78,9 +84,18 @@ public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
 
     }
 
+    /**
+     * Expected exception
+     */
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /**
+     * Checks that if a non-sponsored grant is present, but the internet cost is too high to be
+     * refunded.
+     * 
+     * @throws TRAPException - Test passes on exception
+     */
     @Test
     public void testGoodInterNetOtherExpenseReallyExpensive() throws TRAPException
     {
@@ -99,6 +114,12 @@ public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Checks that a valid internet expense will not be refunded if it costs too much.
+     * 
+     * @throws TRAPException - Test passes on exception
+     */
+    @Test
     public void testGoodInterNetIncidentalExpenseReallyExpensive() throws TRAPException
     {
         exception.expect(BusinessLogicException.class);
@@ -117,6 +138,9 @@ public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
 
     }
 
+    /**
+     * Checks that a user cannot claim an internet expense without a non-sponsored grant.
+     */
     @Test
     public void testBadInternetOtherExpense()
     {
@@ -153,6 +177,9 @@ public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
 
     }
 
+    /**
+     * Checks that a user can claim an internet expense with a non-sponsored grant present.
+     */
     @Test
     public void testGoodInternetOtherExpense()
     {
@@ -196,8 +223,12 @@ public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
 
     }
 
+    /**
+     * Checks that an incidental internet expense cannot be funded with no non-sponsored grants
+     * available.
+     */
     @Test
-    public void testBadAlcoholIncidentalExpense()
+    public void testBadInternetIncidentalExpense()
     {
         try
         {
@@ -232,6 +263,9 @@ public class InternetOnlyUnderNonSponsoredGrant extends TrapTestFramework
 
     }
 
+    /**
+     * Checks that a good internet incidental expense is refunded, non-sponsored grant present.
+     */
     @Test
     public void testGoodInternetIncidentalExpense()
     {

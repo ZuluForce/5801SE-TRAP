@@ -49,7 +49,7 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
     /**
      * Setup code for various forms.
      * 
-     * @throws TRAPException
+     * @throws TRAPException - Something bad happened during setup
      */
     public DoDForeignExpenseRestrictionTest() throws TRAPException
     {
@@ -94,7 +94,7 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
     /**
      * Checks to see that a foreign travel expense is not refunded under a DoD grant.
      * 
-     * @throws TRAPException
+     * @throws TRAPException - Test passes on when an exception is thrown
      */
     @Test
     public void foreignExpenseTravel() throws TRAPException
@@ -118,7 +118,7 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
     /**
      * Checks that a foreign incidental expenses is not refunded.
      * 
-     * @throws TRAPException
+     * @throws TRAPException - Test passes when exception is thrown
      */
     @Test
     public void foreignExpenseIncidental() throws TRAPException
@@ -136,7 +136,7 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
     /**
      * Checks that a foreign other expense is not refunded.
      * 
-     * @throws TRAPException
+     * @throws TRAPException - Test passes when exception is thrown
      */
     @Test
     public void foreignExpenseOther() throws TRAPException
@@ -160,7 +160,7 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
     /**
      * A foreign expense with an unknown city/country.
      * 
-     * @throws TRAPException
+     * @throws TRAPException - Test passes when exception is thrown
      */
     @Test
     public void foreignExpensesUnknownCity() throws TRAPException
@@ -178,7 +178,7 @@ public class DoDForeignExpenseRestrictionTest extends TrapTestFramework
     /**
      * Tests a meal expenses with an unknown city/country.
      * 
-     * @throws TRAPException
+     * @throws TRAPException - Test passes when exception is thrown
      */
     @Test
     public void foreignExpenseMealUnknownCity() throws TRAPException

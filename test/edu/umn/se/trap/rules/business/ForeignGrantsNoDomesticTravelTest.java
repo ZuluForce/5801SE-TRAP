@@ -26,8 +26,9 @@ import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
- * @author nagell2008
+ * This class tests that foreign grants do not pay for domestic things, as per requirement 3.g
  * 
+ * @author nagell2008
  */
 public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
 {
@@ -35,6 +36,11 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
     String incidentalJustField;
     String incidentalAmntField;
 
+    /**
+     * Some form setup
+     * 
+     * @throws TRAPException - Something bad happened during setup
+     */
     public ForeignGrantsNoDomesticTravelTest() throws TRAPException
     {
         super.setup(SampleDataEnum.SHORT_INTL);
@@ -62,9 +68,17 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
         testFormData.remove("DAY1_LODGING_CURRENCY");
     }
 
+    /**
+     * Rule for expected exception
+     */
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    /**
+     * Checks that a foreign grant cannot fund domestic travel
+     * 
+     * @throws TRAPException - Test passes when exception thrown
+     */
     @Test
     public void foreignGrantTravelExpenses() throws TRAPException
     {
@@ -81,6 +95,11 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Checks that a foreign grant cannot fund a domestic incidental expense.
+     * 
+     * @throws TRAPException - Test passes on exception
+     */
     @Test
     public void foreignGrantIncidentalExpenses() throws TRAPException
     {
@@ -96,6 +115,11 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Tests that a foreign incidental passes
+     * 
+     * @throws TRAPException - Test fails on exception
+     */
     @Test
     public void foreignGrantForeignIncidentalExpenses() throws TRAPException
     {
@@ -109,6 +133,11 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Checks that a foreign grant cannot fund domestic lodging
+     * 
+     * @throws TRAPException - Test passes on exception
+     */
     @Test
     public void foreignGrantLodgingExpenses() throws TRAPException
     {
@@ -123,6 +152,11 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Checks that foreign transportation costs are refunded under a foreign grant
+     * 
+     * @throws TRAPException - Test fails on exception
+     */
     @Test
     public void foreignGrantCarRentalExpenses() throws TRAPException
     {
@@ -140,6 +174,11 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Checks that a foreign grant cannot fund domestic transportation mileage expenses
+     * 
+     * @throws TRAPException - Test passes on exception
+     */
     @Test
     public void foreignGrantTransportationMileageExpenses() throws TRAPException
     {
@@ -156,6 +195,12 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
 
     }
 
+    /**
+     * Checks that a foreign grant cannot fund a personal car domestically. Does a lodging check to
+     * get to the car check.
+     * 
+     * @throws TRAPException - Test passes on exception
+     */
     @Test
     public void foreignGrantPersonalCarExpenses() throws TRAPException
     {
@@ -180,6 +225,11 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
 
     }
 
+    /**
+     * Checks that a non-sponsored grant can fund a domestic expense with a foreign grant present
+     * 
+     * @throws TRAPException - Test fails on exception
+     */
     @Test
     public void foreignGrantNSTransportationExpenseCovered() throws TRAPException
     {
@@ -198,6 +248,11 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Checks that a foreign grant cannot fund a domestic meal
+     * 
+     * @throws TRAPException - Test passes on exception
+     */
     @Test
     public void foreignGrantMealExpense() throws TRAPException
     {
@@ -210,6 +265,11 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Checks that a domestic other expense is not funded under a foreign grant
+     * 
+     * @throws TRAPException - Test passes on exception
+     */
     @Test
     public void foreignGrantOtherExpense() throws TRAPException
     {
@@ -226,12 +286,22 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
 
     }
 
+    /**
+     * Simple test of a regular, default form
+     * 
+     * @throws TRAPException - Test fails on exception
+     */
     @Test
     public void foreignGrantSubmit() throws TRAPException
     {
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Checks that two grants do not conflict
+     * 
+     * @throws TRAPException - Test fails on exception
+     */
     @Test
     public void foreignGrantWithNonSponsoredGrant() throws TRAPException
     {
@@ -244,6 +314,11 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
 
     }
 
+    /**
+     * Checks that a non-sponsored grant can cover an other expense when a foreign grant is present.
+     * 
+     * @throws TRAPException - Test fails on exception
+     */
     @Test
     public void foreignGrantNSCoveredOtherExpense() throws TRAPException
     {
@@ -263,6 +338,11 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
 
     }
 
+    /**
+     * Sample test submit
+     * 
+     * @throws TRAPException - Test fails on exception
+     */
     @Test
     public void noForeignGrant() throws TRAPException
     {
@@ -272,8 +352,14 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
         saveAndSubmitTestForm();
     }
 
+    /**
+     * Checks that a foreign grant does not refund an incidental expense with a non-sponsored grant
+     * present
+     * 
+     * @throws TRAPException - Test fails on exception
+     */
     @Test
-    public void foreignGrantIncidentalDomestic() throws TRAPException
+    public void foreignGrantIncidentalDomesticNS() throws TRAPException
     {
         // exception.expect(BusinessLogicException.class);
 
@@ -289,6 +375,28 @@ public class ForeignGrantsNoDomesticTravelTest extends TrapTestFramework
         testFormData.put("GRANT2_PERCENT", "50");
         testFormData.put("GRANT1_PERCENT", "50");
         testFormData.put("NUM_GRANTS", "2");
+
+        saveAndSubmitTestForm();
+
+    }
+
+    /**
+     * Checks that a foreign grant will not refund a domestic incidental expense
+     * 
+     * @throws TRAPException - Test passes on exception
+     */
+    @Test
+    public void foreignGrantIncidentalDomestic() throws TRAPException
+    {
+        exception.expect(BusinessLogicException.class);
+
+        testFormData.put("DAY1_INCIDENTAL_CITY", "Minneapolis");
+        testFormData.put("DAY1_INCIDENTAL_STATE", "MN");
+        testFormData.put("DAY1_INCIDENTAL_COUNTRY", "USA");
+        testFormData.put("DAY1_INCIDENTAL_JUSTIFICATION",
+                "Tipped cart person at airport to drive me to gate");
+        testFormData.put("DAY1_INCIDENTAL_AMOUNT", "5.00");
+        testFormData.put("DAY1_INCIDENTAL_CURRENCY", "USD");
 
         saveAndSubmitTestForm();
 

@@ -51,7 +51,7 @@ public class AlcoholOnlyFundedByNonSponsoredGrantTest extends TrapTestFramework
     /**
      * Some quick setup that will be used later. Specifically, and incidental and other expense.
      * 
-     * @throws TRAPException
+     * @throws TRAPException - Something bad happened during setup
      */
     @Before
     public void setup() throws TRAPException
@@ -76,7 +76,7 @@ public class AlcoholOnlyFundedByNonSponsoredGrantTest extends TrapTestFramework
     /**
      * Alcohol other expense with a non-sponsored grant that has enough money to fund the expense.
      * 
-     * @throws TRAPException
+     * @throws TRAPException - Test fails if exception is thrown
      */
     @Test
     public void alcoholOtherEnoughFunding() throws TRAPException
@@ -90,7 +90,7 @@ public class AlcoholOnlyFundedByNonSponsoredGrantTest extends TrapTestFramework
     /**
      * Alcohol expense with a non-sponsored grant, but the expense is too high and cannot be funded.
      * 
-     * @throws TRAPException
+     * @throws TRAPException - Test passes if exception is thrown
      */
     @Test
     public void alcoholOtherLowFunding() throws TRAPException
@@ -107,7 +107,7 @@ public class AlcoholOnlyFundedByNonSponsoredGrantTest extends TrapTestFramework
     /**
      * Alcohol expense charged as an incidental. The non-sponsored grant does not have enough money.
      * 
-     * @throws TRAPException
+     * @throws TRAPException - Test passes if exception is thrown with a specific message
      */
     @Test
     public void alcoholIncidentalLowFunding() throws TRAPException
@@ -125,7 +125,7 @@ public class AlcoholOnlyFundedByNonSponsoredGrantTest extends TrapTestFramework
     /**
      * Alcohol expense charged as an incidental. The non-sponsored grant does have enough money.
      * 
-     * @throws TRAPException
+     * @throws TRAPException - - Test fails if exception is thrown
      */
     @Test
     public void alcoholIncidentalEnoughFunding() throws TRAPException

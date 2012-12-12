@@ -1,17 +1,15 @@
 /*****************************************************************************************
  * Copyright (c) 2012 Dylan Bettermann, Andrew Helgeson, Brian Maurer, Ethan Waytas
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  ****************************************************************************************/
 // NIHGrantRestrictionsTest.java
 package edu.umn.se.trap.rules.business;
@@ -30,8 +28,9 @@ import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
 
 /**
- * @author nagell2008
+ * Class checks that the NIH restrictions are met. Requirement 3.h
  * 
+ * @author nagell2008
  */
 public class NIHGrantRestrictionsTest extends TrapTestFramework
 {
@@ -44,6 +43,9 @@ public class NIHGrantRestrictionsTest extends TrapTestFramework
     Map<String, String> allowedTravelNIHGrant = null;
     Map<String, String> unallowedTravelNIHGrant = null;
 
+    /**
+     * Setup code for later tests.
+     */
     public NIHGrantRestrictionsTest()
     {
         foodOnlyNIHGrant = getLoadableForm(SampleDataEnum.DOMESTIC1);
@@ -113,6 +115,9 @@ public class NIHGrantRestrictionsTest extends TrapTestFramework
         unallowedTravelNIHGrant.remove("DAY6_BREAKFAST_COUNTRY");
     }
 
+    /**
+     * Tests that a NIH grant will not fund meal expenses
+     */
     @Test
     public void foodOnlyNIHGrant()
     {
@@ -148,6 +153,9 @@ public class NIHGrantRestrictionsTest extends TrapTestFramework
         }
     }
 
+    /**
+     * Checks that meal expenses are reimbursed when a NIH grant and non-NIH grant are present
+     */
     @Test
     public void foodNIHAndNonNIHGrant()
     {
@@ -185,6 +193,9 @@ public class NIHGrantRestrictionsTest extends TrapTestFramework
         Assert.assertEquals(true, true);
     }
 
+    /**
+     * Checks that only air and public transportation expenses are allowed under a NIH grant
+     */
     @Test
     public void allowedTravelNIHGrant()
     {
@@ -223,6 +234,9 @@ public class NIHGrantRestrictionsTest extends TrapTestFramework
 
     }
 
+    /**
+     * Checks that non-air or non-public transportation costs are not reimbursed.
+     */
     @Test
     public void unallowedTravelNIHGrant()
     {
