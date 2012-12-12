@@ -21,6 +21,7 @@ import org.junit.rules.ExpectedException;
 
 import edu.umn.se.test.frame.TrapTestFramework;
 import edu.umn.se.trap.exception.InputValidationException;
+import edu.umn.se.trap.exception.MissingFieldException;
 import edu.umn.se.trap.exception.TRAPException;
 import edu.umn.se.trap.form.InputFieldKeys;
 import edu.umn.se.trap.test.generate.TestDataGenerator.SampleDataEnum;
@@ -83,7 +84,7 @@ public class GrantJustificationTest extends TrapTestFramework
     @Test
     public void sponsoredWithNoJust() throws TRAPException
     {
-        exception.expect(InputValidationException.class);
+        exception.expect(MissingFieldException.class);
         exception
                 .expectMessage("Grant justfication field. Must have at least one depending on the grants used.");
 
