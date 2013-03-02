@@ -1,4 +1,7 @@
 CSci-5801---TRAP
 ================
 
-For the horrible 5801 TRAP project -_- (indifferent face)
+The Travel Reimbursement Application Processing (TRAP) was a class
+project for 5801 Software Engineering at the University of Minnesota.
+
+For more information look in docs/specs.
